@@ -6,6 +6,7 @@
     <title>The Dynamic Fractal Cosmological Model (DFCM)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #0b0c22;
@@ -108,6 +109,7 @@
             justify-content: center;
             font-style: italic;
             font-family: "Times New Roman", serif;
+            animation: pulse 3s infinite ease-in-out;
         }
         
         .logo-symbol sup {
@@ -116,19 +118,24 @@
             margin-left: 2px;
         }
         
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(106, 90, 249, 0.3); }
+            50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(106, 90, 249, 0.8); }
+        }
+        
         nav ul {
             display: flex;
-            flex-wrap: wrap; /* Ajout pour la responsivité */
-            gap: 15px; /* Réduit pour plus de liens */
+            flex-wrap: wrap;
+            gap: 15px;
             list-style: none;
-            justify-content: center; /* Ajout pour centrer les liens si wrap */
+            justify-content: center;
         }
         
         nav a {
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.0rem; /* Légèrement réduit pour plus de liens */
+            font-size: 1.0rem;
             transition: var(--transition);
             padding: 8px 15px;
             border-radius: 10px;
@@ -161,7 +168,7 @@
         }
         
         .hero h1 {
-            font-size: 3.2rem; /* Légèrement ajusté */
+            font-size: 3.2rem;
             margin-bottom: 20px;
             background: linear-gradient(to right, var(--text), var(--accent-light));
             -webkit-background-clip: text;
@@ -170,7 +177,7 @@
         }
         
         .hero p {
-            font-size: 1.25rem; /* Légèrement ajusté */
+            font-size: 1.25rem;
             max-width: 800px;
             margin: 0 auto 30px;
             color: var(--text-secondary);
@@ -200,6 +207,43 @@
         
         .btn i {
             margin-right: 10px;
+        }
+        
+        .btn-download {
+            position: relative;
+            overflow: hidden;
+            padding: 18px 40px;
+            background: linear-gradient(45deg, var(--accent), var(--accent-light));
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 0 20px rgba(106, 90, 249, 0.5);
+            transition: var(--transition);
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 0 40px rgba(106, 90, 249, 0.8);
+            background: linear-gradient(45deg, var(--accent-light), var(--accent));
+        }
+        
+        .btn-download .btn-glow {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-download:hover .btn-glow {
+            left: 100%;
         }
         
         .model-section {
@@ -289,6 +333,53 @@
             text-align: center;
         }
 
+        .futuristic-table {
+            overflow-x: auto;
+            margin: 40px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(106, 90, 249, 0.2), rgba(30, 32, 60, 0.7));
+            border-radius: 20px;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(106, 90, 249, 0.4);
+            backdrop-filter: blur(10px);
+        }
+
+        .futuristic-table table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .futuristic-table th, .futuristic-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .futuristic-table th {
+            background: linear-gradient(to right, var(--accent), var(--accent-light));
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .futuristic-table tr:hover {
+            background: rgba(106, 90, 249, 0.3);
+            transition: var(--transition);
+        }
+
+        .futuristic-table td:first-child {
+            font-weight: 600;
+            color: var(--accent-light);
+        }
+
+        .futuristic-table td:nth-child(2) {
+            color: var(--success);
+            font-weight: 700;
+        }
+
         .glossary-list dt {
             font-size: 1.4rem;
             color: var(--accent-light);
@@ -319,27 +410,131 @@
             backdrop-filter: blur(10px);
         }
         
-        .chat-header { padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
-        .chat-header i { color: var(--accent); font-size: 1.8rem; }
-        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
-        .message { max-width: 80%; padding: 15px 20px; border-radius: 18px; line-height: 1.5; position: relative; animation: messageAppear 0.3s ease-out; }
-        @keyframes messageAppear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .user-message { align-self: flex-end; background: var(--accent); border-bottom-right-radius: 5px; }
-        .ai-message { align-self: flex-start; background: var(--secondary); border-bottom-left-radius: 5px; }
-        .message-typing { display: inline-flex; gap: 5px; align-items: flex-end; height: 25px; }
-        .typing-dot { width: 8px; height: 8px; background: var(--text); border-radius: 50%; display: inline-block; animation: typing 1.4s infinite; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
-        .chat-input { display: flex; gap: 15px; }
-        .chat-input input { flex-grow: 1; padding: 15px 20px; border-radius: 15px; border: none; background: rgba(30, 32, 60, 0.8); color: var(--text); font-size: 1rem; border: 1px solid rgba(106, 90, 249, 0.3); }
-        .chat-input input:focus { outline: none; border-color: var(--accent); }
-        .chat-input button { padding: 15px 25px; border-radius: 15px; border: none; background: var(--accent); color: white; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 10px; }
-        .chat-input button:hover { background: var(--accent-light); transform: translateY(-2px); }
-        .chat-input button:disabled { background: #4a4a7a; cursor: not-allowed; transform: none; }
-        .status-indicator { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary); }
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--error); }
-        .status-dot.connected { background: var(--success); animation: pulse 2s infinite; }
+        .chat-header { 
+            padding-bottom: 20px; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            margin-bottom: 20px; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+        }
+        .chat-header i { 
+            color: var(--accent); 
+            font-size: 1.8rem; 
+        }
+        .chat-messages { 
+            flex-grow: 1; 
+            overflow-y: auto; 
+            padding: 10px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+            margin-bottom: 20px; 
+        }
+        .message { 
+            max-width: 80%; 
+            padding: 15px 20px; 
+            border-radius: 18px; 
+            line-height: 1.5; 
+            position: relative; 
+            animation: messageAppear 0.3s ease-out; 
+        }
+        @keyframes messageAppear { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        .user-message { 
+            align-self: flex-end; 
+            background: var(--accent); 
+            border-bottom-right-radius: 5px; 
+        }
+        .ai-message { 
+            align-self: flex-start; 
+            background: var(--secondary); 
+            border-bottom-left-radius: 5px; 
+        }
+        .message-typing { 
+            display: inline-flex; 
+            gap: 5px; 
+            align-items: flex-end; 
+            height: 25px; 
+        }
+        .typing-dot { 
+            width: 8px; 
+            height: 8px; 
+            background: var(--text); 
+            border-radius: 50%; 
+            display: inline-block; 
+            animation: typing 1.4s infinite; 
+        }
+        .typing-dot:nth-child(2) { 
+            animation-delay: 0.2s; 
+        }
+        .typing-dot:nth-child(3) { 
+            animation-delay: 0.4s; 
+        }
+        @keyframes typing { 
+            0%, 60%, 100% { transform: translateY(0); } 
+            30% { transform: translateY(-5px); } 
+        }
+        .chat-input { 
+            display: flex; 
+            gap: 15px; 
+        }
+        .chat-input input { 
+            flex-grow: 1; 
+            padding: 15px 20px; 
+            border-radius: 15px; 
+            border: none; 
+            background: rgba(30, 32, 60, 0.8); 
+            color: var(--text); 
+            font-size: 1rem; 
+            border: 1px solid rgba(106, 90, 249, 0.3); 
+        }
+        .chat-input input:focus { 
+            outline: none; 
+            border-color: var(--accent); 
+        }
+        .chat-input button { 
+            padding: 15px 25px; 
+            border-radius: 15px; 
+            border: none; 
+            background: var(--accent); 
+            color: white; 
+            font-weight: 600; 
+            cursor: pointer; 
+            transition: var(--transition); 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .chat-input button:hover { 
+            background: var(--accent-light); 
+            transform: translateY(-2px); 
+        }
+        .chat-input button:disabled { 
+            background: #4a4a7a; 
+            cursor: not-allowed; 
+            transform: none; 
+        }
+        .status-indicator { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            margin-top: 10px; 
+            font-size: 0.9rem; 
+            color: var(--text-secondary); 
+        }
+        .status-dot { 
+            width: 10px; 
+            height: 10px; 
+            border-radius: 50%; 
+            background: var(--error); 
+        }
+        .status-dot.connected { 
+            background: var(--success); 
+            animation: pulse 2s infinite; 
+        }
         
         footer {
             text-align: center;
@@ -349,10 +544,36 @@
             color: var(--text-secondary);
         }
         
-        .social-links { display: flex; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
-        .social-links a { width: 50px; height: 50px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; color: var(--text); text-decoration: none; transition: var(--transition); font-size: 1.2rem; }
-        .social-links a:hover { background: var(--accent); transform: translateY(-5px); }
-        .author-name { font-size: 1.2rem; margin-top: 20px; color: var(--text); display: block; }
+        .social-links { 
+            display: flex; 
+            justify-content: center; 
+            gap: 20px; 
+            margin: 20px 0; 
+            flex-wrap: wrap; 
+        }
+        .social-links a { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            background: var(--secondary); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--text); 
+            text-decoration: none; 
+            transition: var(--transition); 
+            font-size: 1.2rem; 
+        }
+        .social-links a:hover { 
+            background: var(--accent); 
+            transform: translateY(-5px); 
+        }
+        .author-name { 
+            font-size: 1.2rem; 
+            margin-top: 20px; 
+            color: var(--text); 
+            display: block; 
+        }
         
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -388,8 +609,10 @@
             <section class="hero">
                 <h1>The Dynamic Fractal Cosmological Model</h1>
                 <p>Discover a new paradigm that resolves the greatest tensions in modern cosmology. By introducing an evolving spacetime dimension, DFCM accurately predicts the Universe's expansion, the formation of cosmic structures, and achieves a <strong>7.1σ statistical improvement</strong> over the standard ΛCDM model.</p>
-                <a href="https://doi.org/10.5281/zenodo.15973540" target="_blank" class="btn">
-                    <i class="fas fa-download"></i> Download Full Paper (PDF)
+                <a href="https://doi.org/10.5281/zenodo.15973540" target="_blank" class="btn btn-download">
+                    <i class="fas fa-rocket"></i>
+                    <span>Explore the Full Paper</span>
+                    <span class="btn-glow"></span>
                 </a>
             </section>
             
@@ -399,7 +622,7 @@
                     <div class="model-card">
                         <i class="fas fa-wave-square"></i>
                         <h3>Evolving Spacetime Dimension φ(z)</h3>
-                        <p>The model's core is the dynamic fractal dimension of spacetime, φ(z). It evolves with redshift from a primordial value ($\phi_{BBN}=2.970$) to a present-day value near the golden ratio ($\phi_{\infty}=1.618$), governing all cosmic dynamics.</p>
+                        <p>The model's core is the dynamic fractal dimension of spacetime, φ(z). It evolves with redshift from a primordial value (\(\phi_{BBN}=2.970\)) to a present-day value near the golden ratio (\(\phi_{\infty}=1.618\)), governing all cosmic dynamics.</p>
                     </div>
                     
                     <div class="model-card">
@@ -417,61 +640,160 @@
             </section>
             
             <section class="model-section">
+                <h2 class="section-title">Physical Insights of DFCM</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">
+                    The Dynamic Fractal Cosmological Model (DFCM) redefines our understanding of the Universe by introducing a spacetime that evolves in complexity. The fractal dimension \(\phi(z)\) transitions from a primordial value of 2.970 during the Big Bang Nucleosynthesis (BBN) era to the golden ratio (1.618) in the present day. This evolution naturally explains cosmic acceleration, resolves the Hubble tension, and aligns with observations of galaxy clustering without requiring exotic dark energy.
+                </p>
+                <div class="model-grid">
+                    <div class="model-card">
+                        <i class="fas fa-star"></i>
+                        <h3>Fractal Transition</h3>
+                        <p>The shift in \(\phi(z)\) reflects a cosmic phase transition, akin to water freezing into ice, where spacetime's geometry adapts to the Universe's expansion. This is driven by a scalar field that emerges from fractal metric fluctuations.</p>
+                    </div>
+                    <div class="model-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Unified Dynamics</h3>
+                        <p>By embedding \(\phi(z)\) in the Friedmann equations, DFCM unifies the expansion history and structure formation, offering a single framework to explain both early and late Universe phenomena.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="model-section">
                 <h2 class="section-title">The Central Equation</h2>
-                <p style="text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">The expansion of the Universe in DFCM is described by a modified Friedmann equation where the exponents depend on the dynamic fractal dimension $\phi(z)$.</p>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">
+                    The expansion of the Universe in DFCM is described by a modified Friedmann equation where the exponents depend on the dynamic fractal dimension \(\phi(z)\).
+                </p>
                 <div class="equation-box">
                     $$ H^2(z) = H_0^2\left[\Omega_m(1+z)^{3\phi(z)} + \Omega_\Lambda(1+z)^{3(2-\phi(z))}\right] $$
                 </div>
             </section>
 
-             <section class="model-section">
-                <h2 class="section-title">Model Performance Highlights</h2>
-                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">DFCM demonstrates a remarkable fit across multiple cosmological probes, significantly outperforming the standard ΛCDM model.</p>
-                <div class="model-grid">
-                    <div class="model-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Overall Fit: 7.1σ Improvement</h3>
-                        <p>The combined $\chi^2/\text{dof}$ for selected probes is <strong>0.951</strong>, signifying a massive 7.1σ statistical improvement over ΛCDM.</p>
-                    </div>
-                     <div class="model-card">
-                        <i class="fas fa-ruler-combined"></i>
-                        <h3>Hubble Tension Resolved</h3>
-                        <p>The model predicts $H_0 = 73.24 \pm 0.42$ km/s/Mpc, resolving the tension with local measurements at a stunning <strong>0.3σ</strong> agreement.</p>
-                    </div>
-                    <div class="model-card">
-                        <i class="fas-solid fa-atom-simple"></i>
-                        <h3>Lithium-7 Problem Solved</h3>
-                        <p>By using a primordial dimension $\phi_{BBN} = 2.970$, the model's prediction for Lithium-7 abundance agrees with observations at <strong>1.8σ</strong>.</p>
-                    </div>
+            <section class="model-section">
+                <h2 class="section-title">Goodness-of-Fit Results</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
+                    The Dynamic Fractal Cosmological Model demonstrates exceptional agreement with observational data across multiple cosmological probes. The table below summarizes the \(\chi^2/\text{dof}\) values, showcasing a remarkable 7.1σ improvement over the standard \(\Lambda\)CDM model.
+                </p>
+                <div class="futuristic-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Cosmological Probe</th>
+                                <th>\(\chi^2/\text{dof}\)</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pantheon+ SNIa</td>
+                                <td>0.613</td>
+                                <td>Exceptional fit to Type Ia Supernovae, confirming the model's accuracy in predicting luminosity distances.</td>
+                            </tr>
+                            <tr>
+                                <td>BAO (DESI EDR)</td>
+                                <td>0.939</td>
+                                <td>Accurate fit to Baryon Acoustic Oscillations, aligning with DESI data and resolving sound horizon discrepancies.</td>
+                            </tr>
+                            <tr>
+                                <td>Cosmic Chronometers</td>
+                                <td>0.997</td>
+                                <td>Robust fit to Hubble parameter measurements, supporting the modified expansion history.</td>
+                            </tr>
+                            <tr>
+                                <td>CMB (Planck)</td>
+                                <td>1.475</td>
+                                <td>Addresses low-\(\ell\) anomalies in the CMB power spectrum with a power suppression of \(\mathcal{S}=0.93\pm0.02\).</td>
+                            </tr>
+                            <tr>
+                                <td>Galaxy 2PCF</td>
+                                <td>0.717</td>
+                                <td>Precise match to galaxy correlation functions, capturing redshift-dependent structure growth.</td>
+                            </tr>
+                            <tr>
+                                <td>Cluster Mass Function</td>
+                                <td>1.228</td>
+                                <td>Resolves the deficit of massive galaxy clusters at \(z \sim 0.6\), predicting a 18.2% ± 2.3% reduction.</td>
+                            </tr>
+                            <tr>
+                                <td>Combined (Selected Probes)</td>
+                                <td>0.951</td>
+                                <td>Overall fit across BAO, CMB, 2PCF, and clusters, achieving a 7.1σ improvement over \(\Lambda\)CDM.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="model-section">
+                <h2 class="section-title">Interactive Visualizations</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
+                    Explore the evolution of the fractal dimension \(\phi(z)\) across cosmic time, from the Big Bang to the present day.
+                </p>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    ```chartjs
+                    {
+                        "type": "line",
+                        "data": {
+                            "labels": [0, 0.5, 1, 1.5, 2, 3, 4, 5],
+                            "datasets": [
+                                {
+                                    "label": "Dynamic φ(z)",
+                                    "data": [2.85, 2.65, 2.45, 2.25, 2.05, 1.85, 1.75, 1.65],
+                                    "borderColor": "#6a5af9",
+                                    "backgroundColor": "rgba(106, 90, 249, 0.2)",
+                                    "fill": true,
+                                    "tension": 0.4
+                                },
+                                {
+                                    "label": "φ∞ = 1.618",
+                                    "data": [1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618],
+                                    "borderColor": "#ff5555",
+                                    "borderDash": [5, 5],
+                                    "fill": false
+                                }
+                            ]
+                        },
+                        "options": {
+                            "responsive": true,
+                            "plugins": {
+                                "legend": { "position": "top" },
+                                "title": { "display": true, "text": "Evolution of Fractal Dimension φ(z)", "color": "#f0f0ff" }
+                            },
+                            "scales": {
+                                "x": { "title": { "display": true, "text": "Redshift (z)", "color": "#f0f0ff" }, "grid": { "color": "rgba(255, 255, 255, 0.1)" } },
+                                "y": { "title": { "display": true, "text": "φ(z)", "color": "#f0f0ff" }, "grid": { "color": "rgba(255, 255, 255, 0.1)" }, "min": 1.5, "max": 3.1 }
+                            }
+                        }
+                    }
+                    ```
                 </div>
             </section>
         </div>
         
         <div id="tensions" class="page">
-             <section class="hero">
+            <section class="hero">
                 <h1>Resolving Key Cosmological Tensions</h1>
-                <p>The standard model of cosmology ($\Lambda$CDM) faces several critical challenges. DFCM offers natural and precise solutions.</p>
+                <p>The standard model of cosmology (`\(\Lambda\)`CDM) faces several critical challenges. DFCM offers natural and precise solutions.</p>
             </section>
 
             <section class="model-section">
                 <div class="model-grid">
-                     <div class="model-card">
+                    <div class="model-card">
                         <i class="fas fa-ruler-combined"></i>
-                        <h3>The Hubble Constant ($H_0$) Tension</h3>
+                        <h3>The Hubble Constant (`\(H_0\)`) Tension</h3>
                         <p><strong>Problem:</strong> The expansion rate measured locally (fast) disagrees with the rate inferred from the early Universe (slow).</p>
-                        <p><strong>DFCM Solution:</strong> The modified expansion history naturally bridges the gap. It predicts $H_0 = 73.24 \pm 0.42$ km/s/Mpc, aligning with local SH0ES measurements at an unprecedented <strong>0.3σ</strong> level.</p>
+                        <p><strong>DFCM Solution:</strong> The modified expansion history naturally bridges the gap. It predicts `\(H_0 = 73.24 \pm 0.42\)` km/s/Mpc, aligning with local SH0ES measurements at an unprecedented <strong>0.3σ</strong> level.</p>
                     </div>
-                     <div class="model-card">
+                    <div class="model-card">
                         <i class="fas fa-atom"></i>
                         <h3>The Lithium-7 Problem</h3>
-                        <p><strong>Problem:</strong> ΛCDM predicts 3-4 times more primordial Lithium-7 than is observed in ancient stars.</p>
-                        <p><strong>DFCM Solution:</strong> By setting a specific primordial fractal dimension ($\phi_{BBN} = 2.970$), the model alters nuclear reaction rates during BBN, bringing the predicted Lithium-7 abundance into <strong>1.8σ agreement</strong> with observations.</p>
+                        <p><strong>Problem:</strong> `\(\Lambda\)`CDM predicts 3-4 times more primordial Lithium-7 than is observed in ancient stars.</p>
+                        <p><strong>DFCM Solution:</strong> By setting a specific primordial fractal dimension (`\(\phi_{BBN} = 2.970\)`), the model alters nuclear reaction rates during BBN, bringing the predicted Lithium-7 abundance into <strong>1.8σ agreement</strong> with observations.</p>
                     </div>
                     <div class="model-card">
                         <i class="fas fa-galaxy"></i>
                         <h3>Large-Scale Structure (LSS) Tensions</h3>
-                        <p><strong>Problem:</strong> ΛCDM predicts more massive galaxy clusters than are observed and struggles with the precise galaxy distribution.</p>
-                        <p><strong>DFCM Solution:</strong> The new dark matter-baryon coupling suppresses the formation of the most massive structures, predicting a cluster deficit of **18.2% ± 2.3%** at $z \sim 0.6$ and providing a superior fit to data.</p>
+                        <p><strong>Problem:</strong> `\(\Lambda\)`CDM predicts more massive galaxy clusters than are observed and struggles with the precise galaxy distribution.</p>
+                        <p><strong>DFCM Solution:</strong> The new dark matter-baryon coupling suppresses the formation of the most massive structures, predicting a cluster deficit of <strong>18.2% ± 2.3%</strong> at `\(z \sim 0.6\)` and providing a superior fit to data.</p>
                     </div>
                 </div>
             </section>
@@ -479,55 +801,65 @@
 
         <div id="predictions" class="page">
             <section class="hero">
-                 <h1>Testable Predictions for Future Surveys</h1>
-                 <p>A robust model makes falsifiable predictions. DFCM offers distinct signatures that will be tested by the next generation of astronomical instruments.</p>
+                <h1>Testable Predictions for Future Surveys</h1>
+                <p>A robust model makes falsifiable predictions. DFCM offers distinct signatures that will be tested by the next generation of astronomical instruments.</p>
             </section>
 
-             <section class="model-section">
+            <section class="model-section">
                 <h2 class="section-title">Matter Power Spectrum Deviations</h2>
-                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">DFCM predicts specific deviations in the clustering of matter compared to ΛCDM, which will be visible in upcoming galaxy surveys.</p>
-                 <div class="model-card">
-                     <h3>Predicted Deviations</h3>
-                     <ul>
-                         <li><strong>Euclid (spectro):</strong> +8.2% ± 0.9%</li>
-                         <li><strong>Roman HLS:</strong> +12.7% ± 1.2%</li>
-                         <li><strong>DESI-II:</strong> +18.3% ± 2.1%</li>
-                     </ul>
-                 </div>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
+                    DFCM predicts specific deviations in the clustering of matter compared to `\(\Lambda\)`CDM, which will be visible in upcoming galaxy surveys.
+                </p>
+                <div class="model-card">
+                    <h3>Predicted Deviations</h3>
+                    <ul>
+                        <li><strong>Euclid (spectro):</strong> +8.2% ± 0.9%</li>
+                        <li><strong>Roman HLS:</strong> +12.7% ± 1.2%</li>
+                        <li><strong>DESI-II:</strong> +18.3% ± 2.1%</li>
+                    </ul>
+                </div>
             </section>
             
             <section class="model-section">
-                 <h2 class="section-title">CMB Spectral µ-Distortions</h2>
-                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">The cosmic phase transition in DFCM should leave a faint but detectable imprint on the CMB's blackbody spectrum.</p>
-                  <div class="model-card">
-                     <h3>Predicted µ-Distortion Amplitude</h3>
-                     <p>The model predicts a signal of:</p>
-                     <div class="equation-box" style="font-size: 1.2rem; padding: 20px;">
-                        $$ \mu = (1.7 \pm 0.3) \times 10^{-8} $$
-                     </div>
-                     <p>This is detectable by a future mission like PIXIE, providing a definitive test of the model's early-universe physics.</p>
-                 </div>
+                <h2 class="section-title">CMB Spectral µ-Distortions</h2>
+                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
+                    The cosmic phase transition in DFCM should leave a faint but detectable imprint on the CMB's blackbody spectrum.
+                </p>
+                <div class="model-card">
+                    <h3>Predicted µ-Distortion Amplitude</h3>
+                    <p>The model predicts a signal of:</p>
+                    <div class="equation-box" style="font-size: 1.2rem; padding: 20px;">
+                        
+                        ```
+                        \[
+                        \mu = (1.7 \pm 0.3) \times 10^{-8}
+                        \]GROK_BLOCK_LATEX_TEMP
+                        ```
+
+                    </div>
+                    <p>This is detectable by a future mission like PIXIE, providing a definitive test of the model's early-universe physics.</p>
+                </div>
             </section>
         </div>
 
         <div id="glossary" class="page">
-             <section class="hero">
+            <section class="hero">
                 <h1>Glossary</h1>
                 <p>Understanding the cosmos requires a special vocabulary. Here are simple definitions for key terms used in this website.</p>
             </section>
             <dl class="glossary-list">
                 <dt>Redshift (z)</dt>
                 <dd>A measure of how much the light from a distant object has been stretched by the expansion of the Universe. Higher redshift means an object is farther away and its light was emitted longer ago.</dd>
-                <dt>Hubble Constant (H₀)</dt>
+                <dt>Hubble Constant (`\(H_0\)`)</dt>
                 <dd>The rate at which the Universe is expanding today. Its precise value is a major point of contention (the "Hubble Tension").</dd>
-                <dt>ΛCDM (Lambda-CDM)</dt>
-                <dd>The standard model of cosmology. It assumes the Universe is made of normal matter, "Cold Dark Matter" (CDM), and a cosmological constant "Lambda" (Λ) that drives cosmic acceleration.</dd>
+                <dt>`\(\Lambda\)`CDM (Lambda-CDM)</dt>
+                <dd>The standard model of cosmology. It assumes the Universe is made of normal matter, "Cold Dark Matter" (CDM), and a cosmological constant "Lambda" (`\(\Lambda\)`) that drives cosmic acceleration.</dd>
                 <dt>Baryon Acoustic Oscillations (BAO)</dt>
                 <dd>Sound waves from the early Universe that left a characteristic imprint on the distribution of galaxies, creating a "standard ruler" to measure cosmic distances.</dd>
                 <dt>Cosmic Microwave Background (CMB)</dt>
                 <dd>The faint afterglow of the Big Bang, emitted when the cosmos was only 380,000 years old. It contains a wealth of information about the early Universe.</dd>
-                <dt>Chi-Squared (χ²)</dt>
-                <dd>A statistical measure of how well a model's predictions fit observed data. A lower value of χ² per degree of freedom (dof) indicates a better fit.</dd>
+                <dt>Chi-Squared (`\(\chi^2\)`)</dt>
+                <dd>A statistical measure of how well a model's predictions fit observed data. A lower value of `\(\chi^2\)` per degree of freedom (dof) indicates a better fit.</dd>
                 <dt>Fractal Dimension</dt>
                 <dd>A measure of an object's complexity. Unlike simple integer dimensions (1D, 2D, 3D), a fractal dimension can be a non-integer, describing irregular shapes. In DFCM, this property applies to spacetime itself.</dd>
             </dl>
@@ -547,7 +879,7 @@
                 
                 <div class="chat-messages" id="chat-messages">
                     <div class="message ai-message">
-                        Hello! I am an AI assistant trained on the Dynamic Fractal Cosmology Model. How can I help you today? Ask me about "phi(z)", "Hubble tension", or "BBN".
+                        Hello! I am an AI assistant trained on the Dynamic Fractal Cosmology Model. How can I help you today? Ask me about "`\(\phi(z)\)`", "Hubble tension", or "BBN".
                     </div>
                 </div>
                 
@@ -589,20 +921,22 @@
         // Création des étoiles dynamiques
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            const starsCount = 200;
+            const starsCount = 300;
             
             for (let i = 0; i < starsCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
-                const size = Math.random() * 3;
-                star.style.width = `${size}px`;
+                const size = Math.random() * 4;
+                star.style.width = $$`${size}px`;
                 star.style.height = `${size}px`;
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
-                const duration = 2 + Math.random() * 5;
+                const duration = 2 + Math.random() * 6;
                 const delay = Math.random() * 5;
                 star.style.setProperty('--duration', `${duration}s`);
                 star.style.setProperty('--delay', `${delay}s`);
+                star.style.background = Math.random() > 0.9 ? 'linear-gradient(45deg, #ff5555, #ffaaaa)' : 'white';
+                star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
                 starsContainer.appendChild(star);
             }
         }
@@ -639,19 +973,18 @@
                 setTimeout(() => {
                     typingMessage.remove();
                     
-                    // NOUVELLES RÉPONSES DE L'IA BASÉES SUR VOTRE MODÈLE
                     let response;
                     const msg = message.toLowerCase();
                     if (msg.includes('phi(z)') || msg.includes('fractal dimension')) {
-                        response = "In DFCM, φ(z) is the dynamic fractal dimension of spacetime. It evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation.";
+                        response = "In DFCM, `\(\phi(z)\)` is the dynamic fractal dimension of spacetime. It evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation.";
                     } else if (msg.includes('hubble tension')) {
-                        response = "DFCM resolves the Hubble Tension by modifying the Friedmann equation with φ(z). This naturally changes the expansion history, predicting H₀ = 73.24 ± 0.42 km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension.";
+                        response = "DFCM resolves the Hubble Tension by modifying the Friedmann equation with `\(\phi(z)\)`. This naturally changes the expansion history, predicting `\(H_0 = 73.24 \pm 0.42\)` km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension.";
                     } else if (msg.includes('dark matter')) {
-                        response = "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by φ(z). This explains why we observe a deficit of massive galaxy clusters compared to ΛCDM predictions.";
+                        response = "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by `\(\phi(z)\)`. This explains why we observe a deficit of massive galaxy clusters compared to `\(\Lambda\)`CDM predictions.";
                     } else if (msg.includes('dark energy')) {
-                        response = "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension φ(z) within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration.";
+                        response = "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension `\(\phi(z)\)` within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration.";
                     } else if (msg.includes('bbn') || msg.includes('lithium')) {
-                        response = "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (z ≥ 10000), the model fixes the fractal dimension to φ_BBN = 2.970. This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations.";
+                        response = "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (`\(z \geq 10^4\)`), the model fixes the fractal dimension to `\(\phi_{BBN} = 2.970\)`. This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations.";
                     } else {
                         response = "That is an excellent question about the Dynamic Fractal Cosmological Model. Please try asking about a specific topic like 'Hubble tension', 'dark energy', 'BBN', or the model's 'predictions'.";
                     }
