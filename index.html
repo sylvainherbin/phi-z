@@ -917,45 +917,59 @@
         }
         
         // Fonction pour envoyer un message
-        function sendMessage() {
+        // MODIFICATION ICI POUR APPELER LA FONCTION SANS SERVEUR
+        async function sendMessage() { 
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
             const sendBtn = document.getElementById('send-btn');
-            
+            const statusDot = document.getElementById('status-dot');
+            const statusText = document.getElementById('status-text');
+
             if (message) {
                 addMessage(message, 'user');
+                userInput.value = ''; // Efface l'entrée immédiatement
                 sendBtn.disabled = true;
                 userInput.disabled = true;
+                statusDot.classList.remove('connected');
+                statusDot.style.backgroundColor = 'var(--warning)';
+                statusText.textContent = 'Réflexion en cours...';
                 
-                const typingMessage = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
+                const typingMessageDiv = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
                 
-                setTimeout(() => {
-                    typingMessage.remove();
-                    
-                    let response;
-                    const msg = message.toLowerCase();
-                    if (msg.includes('phi(z)') || msg.includes('fractal dimension')) {
-                        response = "In DFCM, \(\phi(z)\) is the dynamic fractal dimension of spacetime. It evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation.";
-                    } else if (msg.includes('hubble tension')) {
-                        response = "DFCM resolves the Hubble Tension by modifying the Friedmann equation with \(\phi(z)\). This naturally changes the expansion history, predicting \(H_0 = 73.24 \pm 0.42\) km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension.";
-                    } else if (msg.includes('dark matter')) {
-                        response = "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by \(\phi(z)\). This explains why we observe a deficit of massive galaxy clusters compared to \(\Lambda\)CDM predictions.";
-                    } else if (msg.includes('dark energy')) {
-                        response = "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension \(\phi(z)\) within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration.";
-                    } else if (msg.includes('bbn') || msg.includes('lithium')) {
-                        response = "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (\(z \geq 10^4\)), the model fixes the fractal dimension to \(\phi_{BBN} = 2.970\). This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations.";
-                    } else {
-                        response = "That is an excellent question about the Dynamic Fractal Cosmological Model. Please try asking about a specific topic like 'Hubble tension', 'dark energy', 'BBN', or the model's 'predictions'.";
+                try {
+                    // C'est l'URL de votre fonction sans serveur Netlify
+                    const response = await fetch('/.netlify/functions/deepseek', { // OU '/api/deepseek' si Vercel
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message: message })
+                    });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('Erreur de la fonction sans serveur :', errorData);
+                        throw new Error(errorData.error || 'Échec de la récupération de la réponse de l\'IA.');
                     }
+
+                    const data = await response.json();
+                    const aiResponse = data.reply; // Récupère la réponse de l'IA
+
+                    typingMessageDiv.remove(); // Supprime l'indicateur de saisie
+                    addMessage(aiResponse, 'ai'); // Affiche la réponse de l'IA
                     
-                    addMessage(response, 'ai');
-                    
+                } catch (error) {
+                    console.error('Échec de l\'envoi du message à l\'IA :', error);
+                    typingMessageDiv.remove(); // Supprime l'indicateur de saisie
+                    addMessage("Désolé, je rencontre un problème de connexion avec l'assistant IA. Veuillez réessayer plus tard.", 'ai');
+                } finally {
                     sendBtn.disabled = false;
                     userInput.disabled = false;
                     userInput.focus();
-                }, 1500 + Math.random() * 1000);
-                
-                userInput.value = '';
+                    statusDot.classList.add('connected');
+                    statusDot.style.backgroundColor = 'var(--success)';
+                    statusText.textContent = 'Connecté & Prêt';
+                }
             }
         }
         
