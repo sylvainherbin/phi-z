@@ -1,7 +1,8 @@
 [build]
+  command = "mkdir -p netlify/functions && echo 'Build preparation'"
   publish = "."
-  command = "echo 'Build started'"
 
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  included_files = ["netlify/functions/**"]
