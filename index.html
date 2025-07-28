@@ -961,14 +961,14 @@
                 } catch (error) {
                     console.error('Échec de l\'envoi du message à l\'IA :', error);
                     typingMessageDiv.remove(); // Supprime l'indicateur de saisie
-                    addMessage("Désolé, je rencontre un problème de connexion avec l'assistant IA. Veuillez réessayer plus tard.", 'ai');
+                    addMessage("Sorry, I'm having a connection problem with the AI assistant. Please try again later.", 'ai');
                 } finally {
                     sendBtn.disabled = false;
                     userInput.disabled = false;
                     userInput.focus();
                     statusDot.classList.add('connected');
                     statusDot.style.backgroundColor = 'var(--success)';
-                    statusText.textContent = 'Connecté & Prêt';
+                    statusText.textContent = 'connected & Ready';
                 }
             }
         }
