@@ -729,42 +729,7 @@
                     Explore the evolution of the fractal dimension \(\phi(z)\) across cosmic time, from the Big Bang to the present day.
                 </p>
                 <div style="max-width: 800px; margin: 0 auto;">
-                    ```chartjs
-                    {
-                        "type": "line",
-                        "data": {
-                            "labels": [0, 0.5, 1, 1.5, 2, 3, 4, 5],
-                            "datasets": [
-                                {
-                                    "label": "Dynamic φ(z)",
-                                    "data": [2.85, 2.65, 2.45, 2.25, 2.05, 1.85, 1.75, 1.65],
-                                    "borderColor": "#6a5af9",
-                                    "backgroundColor": "rgba(106, 90, 249, 0.2)",
-                                    "fill": true,
-                                    "tension": 0.4
-                                },
-                                {
-                                    "label": "φ∞ = 1.618",
-                                    "data": [1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618],
-                                    "borderColor": "#ff5555",
-                                    "borderDash": [5, 5],
-                                    "fill": false
-                                }
-                            ]
-                        },
-                        "options": {
-                            "responsive": true,
-                            "plugins": {
-                                "legend": { "position": "top" },
-                                "title": { "display": true, "text": "Evolution of Fractal Dimension φ(z)", "color": "#f0f0ff" }
-                            },
-                            "scales": {
-                                "x": { "title": { "display": true, "text": "Redshift (z)", "color": "#f0f0ff" }, "grid": { "color": "rgba(255, 255, 255, 0.1)" } },
-                                "y": { "title": { "display": true, "text": "φ(z)", "color": "#f0f0ff" }, "grid": { "color": "rgba(255, 255, 255, 0.1)" }, "min": 1.5, "max": 3.1 }
-                            }
-                        }
-                    }
-                    ```
+                    <canvas id="phiZChart"></canvas>
                 </div>
             </section>
         </div>
@@ -772,28 +737,28 @@
         <div id="tensions" class="page">
             <section class="hero">
                 <h1>Resolving Key Cosmological Tensions</h1>
-                <p>The standard model of cosmology (`\(\Lambda\)`CDM) faces several critical challenges. DFCM offers natural and precise solutions.</p>
+                <p>The standard model of cosmology (\(\Lambda\)CDM) faces several critical challenges. DFCM offers natural and precise solutions.</p>
             </section>
 
             <section class="model-section">
                 <div class="model-grid">
                     <div class="model-card">
                         <i class="fas fa-ruler-combined"></i>
-                        <h3>The Hubble Constant (`\(H_0\)`) Tension</h3>
+                        <h3>The Hubble Constant (\(H_0\)) Tension</h3>
                         <p><strong>Problem:</strong> The expansion rate measured locally (fast) disagrees with the rate inferred from the early Universe (slow).</p>
-                        <p><strong>DFCM Solution:</strong> The modified expansion history naturally bridges the gap. It predicts `\(H_0 = 73.24 \pm 0.42\)` km/s/Mpc, aligning with local SH0ES measurements at an unprecedented <strong>0.3σ</strong> level.</p>
+                        <p><strong>DFCM Solution:</strong> The modified expansion history naturally bridges the gap. It predicts \(H_0 = 73.24 \pm 0.42\) km/s/Mpc, aligning with local SH0ES measurements at an unprecedented <strong>0.3σ</strong> level.</p>
                     </div>
                     <div class="model-card">
                         <i class="fas fa-atom"></i>
                         <h3>The Lithium-7 Problem</h3>
-                        <p><strong>Problem:</strong> `\(\Lambda\)`CDM predicts 3-4 times more primordial Lithium-7 than is observed in ancient stars.</p>
-                        <p><strong>DFCM Solution:</strong> By setting a specific primordial fractal dimension (`\(\phi_{BBN} = 2.970\)`), the model alters nuclear reaction rates during BBN, bringing the predicted Lithium-7 abundance into <strong>1.8σ agreement</strong> with observations.</p>
+                        <p><strong>Problem:</strong> \(\Lambda\)CDM predicts 3-4 times more primordial Lithium-7 than is observed in ancient stars.</p>
+                        <p><strong>DFCM Solution:</strong> By setting a specific primordial fractal dimension (\(\phi_{BBN} = 2.970\)), the model alters nuclear reaction rates during BBN, bringing the predicted Lithium-7 abundance into <strong>1.8σ agreement</strong> with observations.</p>
                     </div>
                     <div class="model-card">
                         <i class="fas fa-galaxy"></i>
                         <h3>Large-Scale Structure (LSS) Tensions</h3>
-                        <p><strong>Problem:</strong> `\(\Lambda\)`CDM predicts more massive galaxy clusters than are observed and struggles with the precise galaxy distribution.</p>
-                        <p><strong>DFCM Solution:</strong> The new dark matter-baryon coupling suppresses the formation of the most massive structures, predicting a cluster deficit of <strong>18.2% ± 2.3%</strong> at `\(z \sim 0.6\)` and providing a superior fit to data.</p>
+                        <p><strong>Problem:</strong> \(\Lambda\)CDM predicts more massive galaxy clusters than are observed and struggles with the precise galaxy distribution.</p>
+                        <p><strong>DFCM Solution:</strong> The new dark matter-baryon coupling suppresses the formation of the most massive structures, predicting a cluster deficit of <strong>18.2% ± 2.3%</strong> at \(z \sim 0.6\) and providing a superior fit to data.</p>
                     </div>
                 </div>
             </section>
@@ -808,7 +773,7 @@
             <section class="model-section">
                 <h2 class="section-title">Matter Power Spectrum Deviations</h2>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
-                    DFCM predicts specific deviations in the clustering of matter compared to `\(\Lambda\)`CDM, which will be visible in upcoming galaxy surveys.
+                    DFCM predicts specific deviations in the clustering of matter compared to \(\Lambda\)CDM, which will be visible in upcoming galaxy surveys.
                 </p>
                 <div class="model-card">
                     <h3>Predicted Deviations</h3>
@@ -829,13 +794,7 @@
                     <h3>Predicted µ-Distortion Amplitude</h3>
                     <p>The model predicts a signal of:</p>
                     <div class="equation-box" style="font-size: 1.2rem; padding: 20px;">
-                        
-                        ```
-                        \[
-                        \mu = (1.7 \pm 0.3) \times 10^{-8}
-                        \]GROK_BLOCK_LATEX_TEMP
-                        ```
-
+                        $$ \mu = (1.7 \pm 0.3) \times 10^{-8} $$
                     </div>
                     <p>This is detectable by a future mission like PIXIE, providing a definitive test of the model's early-universe physics.</p>
                 </div>
@@ -850,16 +809,16 @@
             <dl class="glossary-list">
                 <dt>Redshift (z)</dt>
                 <dd>A measure of how much the light from a distant object has been stretched by the expansion of the Universe. Higher redshift means an object is farther away and its light was emitted longer ago.</dd>
-                <dt>Hubble Constant (`\(H_0\)`)</dt>
+                <dt>Hubble Constant (\(H_0\))</dt>
                 <dd>The rate at which the Universe is expanding today. Its precise value is a major point of contention (the "Hubble Tension").</dd>
-                <dt>`\(\Lambda\)`CDM (Lambda-CDM)</dt>
-                <dd>The standard model of cosmology. It assumes the Universe is made of normal matter, "Cold Dark Matter" (CDM), and a cosmological constant "Lambda" (`\(\Lambda\)`) that drives cosmic acceleration.</dd>
+                <dt>\(\Lambda\)CDM (Lambda-CDM)</dt>
+                <dd>The standard model of cosmology. It assumes the Universe is made of normal matter, "Cold Dark Matter" (CDM), and a cosmological constant "Lambda" (\(\Lambda\)) that drives cosmic acceleration.</dd>
                 <dt>Baryon Acoustic Oscillations (BAO)</dt>
                 <dd>Sound waves from the early Universe that left a characteristic imprint on the distribution of galaxies, creating a "standard ruler" to measure cosmic distances.</dd>
                 <dt>Cosmic Microwave Background (CMB)</dt>
                 <dd>The faint afterglow of the Big Bang, emitted when the cosmos was only 380,000 years old. It contains a wealth of information about the early Universe.</dd>
-                <dt>Chi-Squared (`\(\chi^2\)`)</dt>
-                <dd>A statistical measure of how well a model's predictions fit observed data. A lower value of `\(\chi^2\)` per degree of freedom (dof) indicates a better fit.</dd>
+                <dt>Chi-Squared (\(\chi^2\))</dt>
+                <dd>A statistical measure of how well a model's predictions fit observed data. A lower value of \(\chi^2\) per degree of freedom (dof) indicates a better fit.</dd>
                 <dt>Fractal Dimension</dt>
                 <dd>A measure of an object's complexity. Unlike simple integer dimensions (1D, 2D, 3D), a fractal dimension can be a non-integer, describing irregular shapes. In DFCM, this property applies to spacetime itself.</dd>
             </dl>
@@ -879,7 +838,7 @@
                 
                 <div class="chat-messages" id="chat-messages">
                     <div class="message ai-message">
-                        Hello! I am an AI assistant trained on the Dynamic Fractal Cosmology Model. How can I help you today? Ask me about "`\(\phi(z)\)`", "Hubble tension", or "BBN".
+                        Hello! I am an AI assistant trained on the Dynamic Fractal Cosmology Model. How can I help you today? Ask me about "\(\phi(z)\)", "Hubble tension", or "BBN".
                     </div>
                 </div>
                 
@@ -927,7 +886,7 @@
                 const star = document.createElement('div');
                 star.classList.add('star');
                 const size = Math.random() * 4;
-                star.style.width = $$`${size}px`;
+                star.style.width = `${size}px`;
                 star.style.height = `${size}px`;
                 star.style.left = `${Math.random() * 100}%`;
                 star.style.top = `${Math.random() * 100}%`;
@@ -976,15 +935,15 @@
                     let response;
                     const msg = message.toLowerCase();
                     if (msg.includes('phi(z)') || msg.includes('fractal dimension')) {
-                        response = "In DFCM, `\(\phi(z)\)` is the dynamic fractal dimension of spacetime. It evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation.";
+                        response = "In DFCM, \(\phi(z)\) is the dynamic fractal dimension of spacetime. It evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation.";
                     } else if (msg.includes('hubble tension')) {
-                        response = "DFCM resolves the Hubble Tension by modifying the Friedmann equation with `\(\phi(z)\)`. This naturally changes the expansion history, predicting `\(H_0 = 73.24 \pm 0.42\)` km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension.";
+                        response = "DFCM resolves the Hubble Tension by modifying the Friedmann equation with \(\phi(z)\). This naturally changes the expansion history, predicting \(H_0 = 73.24 \pm 0.42\) km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension.";
                     } else if (msg.includes('dark matter')) {
-                        response = "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by `\(\phi(z)\)`. This explains why we observe a deficit of massive galaxy clusters compared to `\(\Lambda\)`CDM predictions.";
+                        response = "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by \(\phi(z)\). This explains why we observe a deficit of massive galaxy clusters compared to \(\Lambda\)CDM predictions.";
                     } else if (msg.includes('dark energy')) {
-                        response = "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension `\(\phi(z)\)` within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration.";
+                        response = "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension \(\phi(z)\) within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration.";
                     } else if (msg.includes('bbn') || msg.includes('lithium')) {
-                        response = "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (`\(z \geq 10^4\)`), the model fixes the fractal dimension to `\(\phi_{BBN} = 2.970\)`. This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations.";
+                        response = "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (\(z \geq 10^4\)), the model fixes the fractal dimension to \(\phi_{BBN} = 2.970\). This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations.";
                     } else {
                         response = "That is an excellent question about the Dynamic Fractal Cosmological Model. Please try asking about a specific topic like 'Hubble tension', 'dark energy', 'BBN', or the model's 'predictions'.";
                     }
@@ -1031,6 +990,64 @@
                 setTimeout(() => {
                     document.getElementById('user-input').focus();
                 }, 500);
+            });
+
+            // Initialisation du graphique Chart.js pour phi(z)
+            const ctx = document.getElementById('phiZChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [0, 0.5, 1, 1.5, 2, 3, 4, 5],
+                    datasets: [
+                        {
+                            label: 'Dynamic φ(z)',
+                            data: [2.85, 2.65, 2.45, 2.25, 2.05, 1.85, 1.75, 1.65],
+                            borderColor: '#6a5af9',
+                            backgroundColor: 'rgba(106, 90, 249, 0.2)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'φ∞ = 1.618',
+                            data: [1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618],
+                            borderColor: '#ff5555',
+                            borderDash: [5, 5],
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'top' },
+                        title: { 
+                            display: true, 
+                            text: 'Evolution of Fractal Dimension φ(z)', 
+                            color: '#f0f0ff',
+                            font: { size: 18 }
+                        }
+                    },
+                    scales: {
+                        x: { 
+                            title: { 
+                                display: true, 
+                                text: 'Redshift (z)', 
+                                color: '#f0f0ff' 
+                            }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' } 
+                        },
+                        y: { 
+                            title: { 
+                                display: true, 
+                                text: 'φ(z)', 
+                                color: '#f0f0ff' 
+                            }, 
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
+                            min: 1.5, 
+                            max: 3.1 
+                        }
+                    }
+                }
             });
         };
     </script>
