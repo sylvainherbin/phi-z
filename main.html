@@ -1,1 +1,764 @@
-welcome !
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Nova - Votre Modèle Cosmologique</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0b0c22;
+            --secondary: #1a1c3a;
+            --accent: #6a5af9;
+            --accent-light: #8a7dfb;
+            --text: #f0f0ff;
+            --text-secondary: #c0c0e0;
+            --card-bg: rgba(30, 32, 60, 0.7);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), #000);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            background-size: cover;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(106, 90, 249, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at bottom left, rgba(86, 70, 229, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 4s) infinite var(--delay, 0s);
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        .logo i {
+            color: var(--accent);
+            background: rgba(106, 90, 249, 0.2);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 10px;
+        }
+        
+        nav a:hover, nav a.active {
+            color: var(--text);
+            background: rgba(106, 90, 249, 0.2);
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            margin-bottom: 50px;
+            position: relative;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--text), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        .model-section {
+            margin-bottom: 80px;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .model-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(106, 90, 249, 0.2);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(106, 90, 249, 0.2);
+            border-color: var(--accent-light);
+        }
+        
+        .model-card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            background: rgba(106, 90, 249, 0.1);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+        }
+        
+        .model-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text);
+        }
+        
+        .model-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        
+        .model-visualization {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 60px 0;
+            text-align: center;
+            border: 1px solid rgba(106, 90, 249, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .galaxy {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            margin: 40px 0;
+        }
+        
+        .galaxy-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--accent-light), var(--accent));
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--accent-light);
+        }
+        
+        .spiral-arm {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(138, 125, 251, 0.4);
+            transform: translate(-50%, -50%);
+        }
+        
+        .spiral-arm:nth-child(2) { width: 200px; height: 200px; }
+        .spiral-arm:nth-child(3) { width: 300px; height: 300px; }
+        .spiral-arm:nth-child(4) { width: 400px; height: 400px; }
+        .spiral-arm:nth-child(5) { width: 500px; height: 500px; }
+        
+        .ai-section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 60px 0;
+            border: 1px solid rgba(106, 90, 249, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .ai-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .ai-content {
+            flex: 1;
+        }
+        
+        .ai-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .ai-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        
+        .ai-illustration {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ai-brain {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            background: rgba(106, 90, 249, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--accent);
+        }
+        
+        .ai-core {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, var(--accent-light), var(--accent));
+            border-radius: 50%;
+            position: relative;
+            animation: pulse 3s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(138, 125, 251, 0.7); }
+            70% { box-shadow: 0 0 0 30px rgba(138, 125, 251, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(138, 125, 251, 0); }
+        }
+        
+        .ai-nodes {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-light);
+            border-radius: 50%;
+        }
+        
+        .node1 { top: 30px; left: 50%; transform: translateX(-50%); }
+        .node2 { top: 50%; right: 30px; transform: translateY(-50%); }
+        .node3 { bottom: 30px; left: 50%; transform: translateX(-50%); }
+        .node4 { top: 50%; left: 30px; transform: translateY(-50%); }
+        
+        .chat-container {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(106, 90, 249, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        
+        .chat-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .chat-header i {
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+        
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .message {
+            max-width: 80%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+        
+        .user-message {
+            align-self: flex-end;
+            background: var(--accent);
+            border-bottom-right-radius: 5px;
+        }
+        
+        .ai-message {
+            align-self: flex-start;
+            background: var(--secondary);
+            border-bottom-left-radius: 5px;
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .chat-input input {
+            flex-grow: 1;
+            padding: 15px 20px;
+            border-radius: 15px;
+            border: none;
+            background: rgba(30, 32, 60, 0.8);
+            color: var(--text);
+            font-size: 1rem;
+            border: 1px solid rgba(106, 90, 249, 0.3);
+        }
+        
+        .chat-input input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .chat-input button {
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: none;
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .chat-input button:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-content p {
+            margin: 10px 0;
+            line-height: 1.7;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .ai-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .model-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fond étoilé dynamique -->
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <header>
+            <a href="#" class="logo" onclick="showPage('home')">
+                <i class="fas fa-infinity"></i>
+                <span>Cosmos Nova</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" onclick="showPage('home')">Accueil</a></li>
+                    <li><a href="#" onclick="showPage('deepseek')">Assistant IA</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <!-- Page d'accueil -->
+        <div id="home" class="page active">
+            <section class="hero">
+                <h1>Votre Modèle Cosmologique Révolutionnaire</h1>
+                <p>Découvrez une nouvelle perspective sur la structure et l'évolution de l'univers, unifiant les forces fondamentales et expliquant les mystères cosmiques qui persistent depuis des décennies.</p>
+            </section>
+            
+            <section class="model-section">
+                <h2 class="section-title">Principes Fondamentaux</h2>
+                
+                <div class="model-grid">
+                    <div class="model-card">
+                        <i class="fas fa-atom"></i>
+                        <h3>Unification Quantique-Gravitationnelle</h3>
+                        <p>Notre modèle résout l'incompatibilité entre la mécanique quantique et la relativité générale en introduisant une nouvelle dimension d'interaction.</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <h3>Expansion Modulée</h3>
+                        <p>Contrairement au modèle standard, l'expansion de l'univers suit un rythme variable selon les régions cosmiques, influencée par les champs de matière noire.</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <i class="fas fa-cogs"></i>
+                        <h3>Mécanisme de Symétrie Dynamique</h3>
+                        <p>La brisure de symétrie ne serait pas un événement unique mais un processus continu régissant l'évolution cosmique à différentes échelles.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="model-visualization">
+                <h2 class="section-title">Représentation Graphique</h2>
+                <p>Visualisation du champ cosmique selon notre modèle montrant la distribution de matière noire et d'énergie sombre</p>
+                
+                <div class="galaxy">
+                    <div class="galaxy-core"></div>
+                    <div class="spiral-arm"></div>
+                    <div class="spiral-arm"></div>
+                    <div class="spiral-arm"></div>
+                    <div class="spiral-arm"></div>
+                </div>
+            </section>
+            
+            <section class="ai-section">
+                <div class="ai-container">
+                    <div class="ai-content">
+                        <h2>Intelligence Artificielle Cosmologique</h2>
+                        <p>Notre modèle est soutenu par un système d'intelligence artificielle avancé qui traite des téraoctets de données astronomiques pour affiner ses prédictions et découvrir de nouvelles corrélations dans la structure cosmique.</p>
+                        <p>L'IA utilise des réseaux de neurones profonds pour simuler des milliards de scénarios cosmologiques, identifiant les modèles qui correspondent le mieux aux observations réelles du télescope spatial James Webb et d'autres instruments.</p>
+                    </div>
+                    
+                    <div class="ai-illustration">
+                        <div class="ai-brain">
+                            <div class="ai-core"></div>
+                            <div class="ai-nodes node1"></div>
+                            <div class="ai-nodes node2"></div>
+                            <div class="ai-nodes node3"></div>
+                            <div class="ai-nodes node4"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- Page DeepSeek -->
+        <div id="deepseek" class="page">
+            <section class="hero">
+                <h1>Assistant Cosmologique IA</h1>
+                <p>Interrogez notre intelligence artificielle spécialisée en cosmologie pour comprendre les subtilités de notre modèle, obtenir des explications détaillées ou explorer des scénarios théoriques.</p>
+            </section>
+            
+            <div class="chat-container">
+                <div class="chat-header">
+                    <i class="fas fa-robot"></i>
+                    <h2>DeepSeek Cosmology Assistant</h2>
+                </div>
+                
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai-message">
+                        Bonjour ! Je suis votre assistant IA spécialisé en cosmologie. Comment puis-je vous aider à comprendre notre modèle cosmologique aujourd'hui ?
+                    </div>
+                </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Posez votre question sur la cosmologie...">
+                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Envoyer</button>
+                </div>
+            </div>
+            
+            <section class="model-section">
+                <h2 class="section-title">Capacités de l'Assistant</h2>
+                
+                <div class="model-grid">
+                    <div class="model-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Explications Théoriques</h3>
+                        <p>Obtenez des explications claires sur les concepts complexes de notre modèle cosmologique, adaptées à votre niveau de compréhension.</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <i class="fas fa-calculator"></i>
+                        <h3>Simulations Personnalisées</h3>
+                        <p>Demandez des simulations spécifiques de scénarios cosmologiques basés sur les paramètres de notre modèle.</p>
+                    </div>
+                    
+                    <div class="model-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Analyse de Données</h3>
+                        <p>Soumettez des données astronomiques pour une analyse comparative avec les prédictions de notre modèle.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <div class="footer-content">
+                <p>Cosmos Nova &copy; 2023 - Tous droits réservés</p>
+                <p>Un nouveau paradigme pour comprendre l'univers</p>
+                
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+                
+                <p>contact@cosmos-nova.org</p>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        // Création des étoiles dynamiques
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 200;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Taille aléatoire
+                const size = Math.random() * 3;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Position aléatoire
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                
+                // Animation aléatoire
+                const duration = 2 + Math.random() * 5;
+                const delay = Math.random() * 5;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.setProperty('--delay', `${delay}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Navigation entre les pages
+        function showPage(pageId) {
+            // Cacher toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active');
+            
+            // Mettre à jour le menu actif
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            if (pageId === 'home') {
+                document.querySelector('nav a:first-child').classList.add('active');
+            } else {
+                document.querySelector('nav a:last-child').classList.add('active');
+            }
+        }
+        
+        // Simulation de l'API DeepSeek
+        function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const message = userInput.value.trim();
+            
+            if (message) {
+                // Ajouter le message de l'utilisateur
+                addMessage(message, 'user');
+                
+                // Réponse simulée de l'IA
+                setTimeout(() => {
+                    let response;
+                    
+                    if (message.toLowerCase().includes('expansion')) {
+                        response = "Dans notre modèle, l'expansion cosmique est modulée par les fluctuations quantiques du vide intergalactique. Contrairement au modèle ΛCDM standard, nous proposons que le taux d'expansion varie spatialement en fonction de la densité locale des champs de matière noire, ce qui explique les anomalies observées dans les mesures de la constante de Hubble.";
+                    } else if (message.toLowerCase().includes('matière noire') || message.toLowerCase().includes('dark matter')) {
+                        response = "Notre modèle interprète la matière noire comme une manifestation des propriétés topologiques de l'espace-temps à grande échelle. Plutôt que des particules, il s'agirait d'une structure géométrique émergente qui interagit gravitationnellement avec la matière baryonique mais reste invisible aux détections électromagnétiques directes.";
+                    } else if (message.toLowerCase().includes('énergie sombre') || message.toLowerCase().includes('dark energy')) {
+                        response = "L'énergie sombre dans notre modèle est une conséquence de la transition de phase cosmique en cours. Comme l'univers se refroidit et se dilate, il traverse une série de transitions de symétrie qui libèrent de l'énergie dans le tissu spatial lui-même, accélérant l'expansion. Cette approche unifie l'énergie sombre avec les autres forces fondamentales.";
+                    } else {
+                        response = "Notre modèle cosmologique propose un cadre unifié pour comprendre l'évolution de l'univers. Il intègre la mécanique quantique et la relativité générale à travers une nouvelle géométrie espace-temps à 6 dimensions, où les dimensions supplémentaires se manifestent comme les effets que nous attribuons actuellement à la matière noire et à l'énergie sombre. Comment puis-je vous expliquer cela plus en détail ?";
+                    }
+                    
+                    addMessage(response, 'ai');
+                }, 1000);
+                
+                // Effacer le champ de saisie
+                userInput.value = '';
+            }
+        }
+        
+        function addMessage(text, sender) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(sender + '-message');
+            messageDiv.textContent = text;
+            
+            chatMessages.appendChild(messageDiv);
+            
+            // Faire défiler vers le bas
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Initialisation
+        window.onload = function() {
+            createStars();
+            
+            // Simuler un chargement initial pour la page DeepSeek
+            document.getElementById('user-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        };
+    </script>
+</body>
+</html>
