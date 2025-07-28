@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Dynamic Fractal Cosmological Model</title>
+    <title>The Dynamic Fractal Cosmological Model (DFCM)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --primary: #0b0c22;
@@ -21,938 +20,349 @@
             --error: #f87171;
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, var(--primary), #000);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-            background-attachment: fixed;
-            background-size: cover;
-            position: relative;
-        }
-        
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top right, rgba(106, 90, 249, 0.1) 0%, transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(86, 70, 229, 0.1) 0%, transparent 40%);
-            z-index: -1;
-        }
-        
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-        
-        .star {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration, 4s) infinite var(--delay, 0s);
-        }
-        
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 1; }
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 40px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--text);
-            text-decoration: none;
-        }
-        
-        .logo-symbol {
-            font-size: 1.8rem;
-            color: var(--accent);
-            background: rgba(106, 90, 249, 0.2);
-            padding: 12px 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-style: italic;
-            font-family: "Times New Roman", serif;
-        }
-        
-        .logo-symbol sup {
-            font-size: 0.7rem;
-            vertical-align: super;
-            margin-left: 2px;
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-        
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 1.1rem;
-            transition: var(--transition);
-            padding: 8px 15px;
-            border-radius: 10px;
-        }
-        
-        nav a:hover, nav a.active {
-            color: var(--text);
-            background: rgba(106, 90, 249, 0.2);
-        }
-        
-        .page {
-            display: none;
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        .page.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hero {
-            text-align: center;
-            padding: 60px 0;
-            margin-bottom: 50px;
-            position: relative;
-        }
-        
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, var(--text), var(--accent-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-        
-        .hero p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background: var(--accent);
-            color: white;
-            border-radius: 15px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            margin: 10px;
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-        
-        .btn:hover {
-            background: var(--accent-light);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(106, 90, 249, 0.3);
-        }
-        
-        .btn i {
-            margin-right: 10px;
-        }
-        
-        .model-section {
-            margin-bottom: 80px;
-        }
-        
-        .section-title {
-            font-size: 2.2rem;
-            margin-bottom: 30px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--accent);
-            border-radius: 2px;
-        }
-        
-        .model-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        
-        .model-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            transition: var(--transition);
-            border: 1px solid rgba(106, 90, 249, 0.2);
-            backdrop-filter: blur(10px);
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .model-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(106, 90, 249, 0.2);
-            border-color: var(--accent-light);
-        }
-        
-        .model-card i {
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin-bottom: 20px;
-            background: rgba(106, 90, 249, 0.1);
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 18px;
-        }
-        
-        .model-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--text);
-        }
-        
-        .model-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            flex-grow: 1;
-        }
-        
-        .model-visualization {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 60px 0;
-            text-align: center;
-            border: 1px solid rgba(106, 90, 249, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .galaxy {
-            width: 100%;
-            height: 400px;
-            position: relative;
-            margin: 40px 0;
-        }
-        
-        .galaxy-core {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: radial-gradient(circle, var(--accent-light), var(--accent));
-            border-radius: 50%;
-            box-shadow: 0 0 40px var(--accent-light);
-        }
-        
-        .spiral-arm {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            border-radius: 50%;
-            border: 1px solid rgba(138, 125, 251, 0.4);
-            transform: translate(-50%, -50%);
-        }
-        
-        .spiral-arm:nth-child(2) { width: 200px; height: 200px; }
-        .spiral-arm:nth-child(3) { width: 300px; height: 300px; }
-        .spiral-arm:nth-child(4) { width: 400px; height: 400px; }
-        .spiral-arm:nth-child(5) { width: 500px; height: 500px; }
-        
-        .ai-section {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 60px 0;
-            border: 1px solid rgba(106, 90, 249, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .ai-container {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-        
-        .ai-content {
-            flex: 1;
-        }
-        
-        .ai-content h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        
-        .ai-content p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 30px;
-        }
-        
-        .ai-illustration {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .ai-brain {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            background: rgba(106, 90, 249, 0.1);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 1px solid var(--accent);
-        }
-        
-        .ai-core {
-            width: 120px;
-            height: 120px;
-            background: radial-gradient(circle, var(--accent-light), var(--accent));
-            border-radius: 50%;
-            position: relative;
-            animation: pulse 3s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(138, 125, 251, 0.7); }
-            70% { box-shadow: 0 0 0 30px rgba(138, 125, 251, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(138, 125, 251, 0); }
-        }
-        
-        .ai-nodes {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--accent-light);
-            border-radius: 50%;
-        }
-        
-        .node1 { top: 30px; left: 50%; transform: translateX(-50%); }
-        .node2 { top: 50%; right: 30px; transform: translateY(-50%); }
-        .node3 { bottom: 30px; left: 50%; transform: translateX(-50%); }
-        .node4 { top: 50%; left: 30px; transform: translateY(-50%); }
-        
-        .chat-container {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
-            height: 500px;
-            display: flex;
-            flex-direction: column;
-            border: 1px solid rgba(106, 90, 249, 0.2);
-            backdrop-filter: blur(10px);
-        }
-        
-        .chat-header {
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .chat-header i {
-            color: var(--accent);
-            font-size: 1.8rem;
-        }
-        
-        .chat-messages {
-            flex-grow: 1;
-            overflow-y: auto;
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .message {
-            max-width: 80%;
-            padding: 15px 20px;
-            border-radius: 18px;
-            line-height: 1.5;
-            position: relative;
-            animation: messageAppear 0.3s ease-out;
-        }
-        
-        @keyframes messageAppear {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .user-message {
-            align-self: flex-end;
-            background: var(--accent);
-            border-bottom-right-radius: 5px;
-        }
-        
-        .ai-message {
-            align-self: flex-start;
-            background: var(--secondary);
-            border-bottom-left-radius: 5px;
-        }
-        
-        .message-typing {
-            display: inline-flex;
-            gap: 5px;
-            align-items: flex-end;
-            height: 25px;
-        }
-        
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--text);
-            border-radius: 50%;
-            display: inline-block;
-            animation: typing 1.4s infinite;
-        }
-        
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-5px); }
-        }
-        
-        .chat-input {
-            display: flex;
-            gap: 15px;
-        }
-        
-        .chat-input input {
-            flex-grow: 1;
-            padding: 15px 20px;
-            border-radius: 15px;
-            border: none;
-            background: rgba(30, 32, 60, 0.8);
-            color: var(--text);
-            font-size: 1rem;
-            border: 1px solid rgba(106, 90, 249, 0.3);
-        }
-        
-        .chat-input input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .chat-input button {
-            padding: 15px 25px;
-            border-radius: 15px;
-            border: none;
-            background: var(--accent);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chat-input button:hover {
-            background: var(--accent-light);
-            transform: translateY(-2px);
-        }
-        
-        .chat-input button:disabled {
-            background: #4a4a7a;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-        
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--error);
-        }
-        
-        .status-dot.connected {
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 60px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-secondary);
-        }
-        
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .footer-content p {
-            margin: 10px 0;
-            line-height: 1.7;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .social-links a {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 1.2rem;
-        }
-        
-        .social-links a:hover {
-            background: var(--accent);
-            transform: translateY(-5px);
-        }
-        
-        .doi-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
-            border-radius: 30px;
-            margin: 15px 0;
-            font-family: monospace;
-            border: 1px solid var(--accent-light);
-            transition: var(--transition);
-        }
-        
-        .doi-badge:hover {
-            background: rgba(106, 90, 249, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        .author-name {
-            font-size: 1.2rem;
-            margin-top: 20px;
-            color: var(--text);
-            display: block;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background: linear-gradient(135deg, var(--primary), #000); color: var(--text); min-height: 100vh; overflow-x: hidden; background-attachment: fixed; position: relative; }
+        body::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top right, rgba(106, 90, 249, 0.1) 0%, transparent S40%), radial-gradient(circle at bottom left, rgba(86, 70, 229, 0.1) 0%, transparent 40%); z-index: -1; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        .star { position: absolute; background-color: white; border-radius: 50%; animation: twinkle var(--duration, 4s) infinite var(--delay, 0s); }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 40px; }
+        .logo { display: flex; align-items: center; gap: 15px; font-size: 1.6rem; font-weight: 700; color: var(--text); text-decoration: none; }
+        .logo-symbol { font-size: 1.8rem; color: var(--accent); background: rgba(106, 90, 249, 0.2); padding: 12px 15px; border-radius: 12px; font-family: "Times New Roman", serif; }
+        nav ul { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; }
+        nav a { color: var(--text-secondary); text-decoration: none; font-weight: 500; font-size: 1rem; transition: var(--transition); padding: 10px 15px; border-radius: 10px; }
+        nav a:hover, nav a.active { color: var(--text); background: rgba(106, 90, 249, 0.2); }
+        .page { display: none; animation: fadeIn 0.6s ease-out; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .hero { text-align: center; padding: 60px 0; margin-bottom: 50px; }
+        .hero h1 { font-size: 3rem; margin-bottom: 20px; background: linear-gradient(to right, var(--text), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        .hero p { font-size: 1.25rem; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary); line-height: 1.7; }
+        .btn { display: inline-block; padding: 15px 30px; background: var(--accent); color: white; border-radius: 15px; text-decoration: none; font-weight: 600; transition: var(--transition); margin: 10px; border: none; cursor: pointer; font-size: 1.1rem; }
+        .btn:hover { background: var(--accent-light); transform: translateY(-5px); box-shadow: 0 10px 25px rgba(106, 90, 249, 0.3); }
+        .btn i { margin-right: 10px; }
+        .section-divider { border: 0; height: 1px; background-image: linear-gradient(to right, rgba(106, 90, 249, 0), rgba(106, 90, 249, 0.75), rgba(106, 90, 249, 0)); margin: 80px 0; }
+        .section-title { font-size: 2.4rem; margin-bottom: 50px; position: relative; text-align: center; }
+        .section-title::after { content: ""; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: var(--accent); border-radius: 2px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); border-radius: 20px; padding: 30px; transition: var(--transition); border: 1px solid rgba(106, 90, 249, 0.2); backdrop-filter: blur(10px); display: flex; flex-direction: column; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(106, 90, 249, 0.2); border-color: var(--accent-light); }
+        .card .icon { font-size: 2.5rem; color: var(--accent); margin-bottom: 20px; background: rgba(106, 90, 249, 0.1); width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; border-radius: 18px; }
+        .card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--text); }
+        .card p, .card ul li { color: var(--text-secondary); line-height: 1.7; flex-grow: 1; }
+        .math-section { background: var(--card-bg); border-radius: 20px; padding: 40px; margin: 60px 0; border: 1px solid rgba(106, 90, 249, 0.2); text-align: center; }
+        .math-section p { max-width: 800px; margin: 20px auto; color: var(--text-secondary); line-height: 1.7; }
+        .equation-box { background: rgba(0,0,0,0.3); padding: 30px; border-radius: 15px; margin-top: 30px; font-size: 1.3rem; overflow-x: auto; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .scorecard { background: var(--card-bg); border-radius: 20px; padding: 40px; border: 1px solid rgba(106, 90, 249, 0.2); }
+        .scorecard .grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .score-card { text-align: center; padding: 20px; }
+        .score-card .value { font-size: 2.5rem; font-weight: 700; color: var(--success); }
+        .score-card .label { font-size: 1rem; color: var(--text-secondary); margin-top: 10px; }
+        .total-score { text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); }
+        .total-score .value { font-size: 3rem; background: linear-gradient(to right, var(--success), var(--accent-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glossary-list dt { font-size: 1.3rem; color: var(--accent-light); font-weight: 600; margin-top: 30px; }
+        .glossary-list dd { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-left: 20px; margin-top: 10px; border-left: 3px solid var(--accent); padding-left: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        th { background-color: rgba(106, 90, 249, 0.1); }
+        footer { text-align: center; padding: 40px 0; margin-top: 60px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-secondary); }
+        .social-links { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+        .social-links a { width: 50px; height: 50px; border-radius: 50%; background: var(--secondary); display: flex; align-items: center; justify-content: center; color: var(--text); text-decoration: none; transition: var(--transition); font-size: 1.2rem; }
+        .social-links a:hover { background: var(--accent); transform: translateY(-5px); }
+        .author-name { font-size: 1.2rem; margin-top: 20px; color: var(--text); display: block; }
+        /* Chat styles */
+        .chat-container { background: var(--card-bg); border-radius: 20px; padding: 30px; height: 500px; display: flex; flex-direction: column; border: 1px solid rgba(106, 90, 249, 0.2); backdrop-filter: blur(10px); }
+        .chat-header { padding-bottom: 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 20px; display: flex; align-items: center; gap: 15px; }
+        .chat-header i { color: var(--accent); font-size: 1.8rem; }
+        .chat-messages { flex-grow: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
+        .message { max-width: 80%; padding: 15px 20px; border-radius: 18px; line-height: 1.5; position: relative; animation: messageAppear 0.3s ease-out; }
+        @keyframes messageAppear { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .user-message { align-self: flex-end; background: var(--accent); border-bottom-right-radius: 5px; color: white; }
+        .ai-message { align-self: flex-start; background: var(--secondary); border-bottom-left-radius: 5px; }
+        .chat-input { display: flex; gap: 15px; }
+        .chat-input input { flex-grow: 1; padding: 15px 20px; border-radius: 15px; border: none; background: rgba(30, 32, 60, 0.8); color: var(--text); font-size: 1rem; border: 1px solid rgba(106, 90, 249, 0.3); }
+        .chat-input input:focus { outline: none; border-color: var(--accent); }
+        .chat-input button { padding: 15px 25px; border-radius: 15px; border: none; background: var(--accent); color: white; font-weight: 600; cursor: pointer; transition: var(--transition); }
+        .chat-input button:hover { background: var(--accent-light); }
+        .chat-input button:disabled { background: #4a4a7a; cursor: not-allowed; }
+        .status-indicator { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 0.9rem; color: var(--text-secondary); }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(74, 222, 128, 0); } 100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); } }
         
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .ai-container {
-                flex-direction: column;
-            }
-            
-            nav ul {
-                gap: 15px;
-            }
-            
-            .model-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .galaxy {
-                height: 300px;
-            }
-            
-            .social-links a {
-                width: 45px;
-                height: 45px;
-            }
+            .hero h1 { font-size: 2.2rem; }
+            nav ul { gap: 5px; justify-content: center; }
+            nav a { font-size: 0.9rem; padding: 8px 10px; }
+            .grid { grid-template-columns: 1fr; }
         }
     </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <!-- Fond étoilé dynamique -->
     <div class="stars" id="stars"></div>
     
     <div class="container">
         <header>
             <a href="#" class="logo" onclick="showPage('home')">
-                <span class="logo-symbol">φ(z)</sup></span>
-                <span>Cosmos Nova</span>
+                <span class="logo-symbol">φ(z)</span>
+                <span>Dynamic Fractal Cosmology</span>
             </a>
             <nav>
                 <ul>
                     <li><a href="#" class="active" onclick="showPage('home')">Home</a></li>
-                    <li><a href="#" onclick="showPage('deepseek')">AI Assistant</a></li>
+                    <li><a href="#" onclick="showPage('tensions')">Tensions Solved</a></li>
+                    <li><a href="#" onclick="showPage('predictions')">Predictions</a></li>
+                    <li><a href="#" onclick="showPage('glossary')">Glossary</a></li>
+                    <li><a href="#" onclick="showPage('ai-assistant')">AI Assistant</a></li>
                 </ul>
             </nav>
         </header>
         
-        <!-- Page d'accueil -->
         <div id="home" class="page active">
             <section class="hero">
-                <h1>Your Revolutionary Cosmological Model</h1>
-                <p>Discover a new perspective on the structure and evolution of the universe, unifying fundamental forces and explaining cosmic mysteries that have persisted for decades.</p>
-                <a href="https://phi1618.space/zenedo" target="_blank" class="btn">
-                    <i class="fas fa-download"></i> Download Full Paper (PDF)
+                <h1>The Dynamic Fractal Cosmological Model</h1>
+                <p>Discover a new paradigm that resolves the greatest tensions in modern cosmology. By introducing an evolving spacetime dimension, DFCM accurately predicts the Universe's expansion, the formation of cosmic structures, and achieves a **7.1σ statistical improvement** over the standard ΛCDM model.</p>
+                <a href="#scorecard" class="btn" onclick="document.getElementById('scorecard').scrollIntoView();">
+                    <i class="fas fa-chart-line"></i> See the Results
+                </a>
+                 <a href="https://doi.org/10.5281/zenodo.15973540" target="_blank" class="btn">
+                    <i class="fas fa-file-pdf"></i> Read the Full Paper
                 </a>
             </section>
             
-            <section class="model-section">
-                <h2 class="section-title">Fundamental Principles</h2>
-                
-                <div class="model-grid">
-                    <div class="model-card">
-                        <i class="fas fa-atom"></i>
-                        <h3>Quantum-Gravitational Unification</h3>
-                        <p>Our model resolves the incompatibility between quantum mechanics and general relativity by introducing a new dimension of interaction.</p>
+            <hr class="section-divider">
+
+            <section>
+                <h2 class="section-title">Core Concepts of DFCM</h2>
+                <div class="grid">
+                    <div class="card">
+                        <div class="icon"><i class="fas fa-wave-square"></i></div>
+                        <h3>Evolving Spacetime Dimension φ(z)</h3>
+                        <p>The cornerstone of DFCM is the idea that the effective dimension of spacetime, $\phi(z)$, is not constant. It evolves with redshift, smoothly transitioning from a primordial value during the Big Bang Nucleosynthesis (BBN) to its present-day value, close to the golden ratio $\phi \approx 1.618$.</p>
                     </div>
                     
-                    <div class="model-card">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                        <h3>Modulated Expansion</h3>
-                        <p>Unlike the standard model, the expansion of the universe follows a variable rhythm depending on cosmic regions, influenced by dark matter fields.</p>
+                    <div class="card">
+                        <div class="icon"><i class="fas fa-rocket"></i></div>
+                        <h3>Modified Cosmic Dynamics</h3>
+                        <p>This dynamic dimension $\phi(z)$ is integrated directly into the Friedmann equations, fundamentally altering the Universe's expansion history. This naturally explains the observed cosmic acceleration without requiring a separate, mysterious dark energy component.</p>
                     </div>
                     
-                    <div class="model-card">
-                        <i class="fas fa-cogs"></i>
-                        <h3>Dynamic Symmetry Mechanism</h3>
-                        <p>Symmetry breaking would not be a unique event but a continuous process governing cosmic evolution at different scales.</p>
+                    <div class="card">
+                        <div class="icon"><i class="fas fa-atom"></i></div>
+                        <h3>Novel Dark Matter-Baryon Coupling</h3>
+                        <p>DFCM introduces a new coupling mechanism between dark matter and baryonic matter, governed by $\phi(z)$. This interaction modifies the growth of large-scale structures, precisely explaining the observed distribution of galaxies and the deficit of massive galaxy clusters.</p>
                     </div>
                 </div>
             </section>
-            
-            <section class="model-visualization">
-                <h2 class="section-title">Graphical Representation</h2>
-                <p>Visualization of the cosmic field according to our model showing dark matter and dark energy distribution</p>
-                
-                <div class="galaxy">
-                    <div class="galaxy-core"></div>
-                    <div class="spiral-arm"></div>
-                    <div class="spiral-arm"></div>
-                    <div class="spiral-arm"></div>
-                    <div class="spiral-arm"></div>
+
+            <hr class="section-divider">
+
+            <section class="math-section">
+                <h2 class="section-title">The Central Equation</h2>
+                <p>The expansion of the Universe in the DFCM is described by a modified Friedmann equation. The exponents governing the evolution of matter ($\Omega_m$) and the vacuum energy ($\Omega_\Lambda$) are no longer constant but depend on the dynamic fractal dimension $\phi(z)$.</p>
+                <div class="equation-box">
+                    $$ H^2(z) = H_0^2\left[\Omega_m(1+z)^{3\phi(z)} + \Omega_\Lambda(1+z)^{3(2-\phi(z))}\right] $$
                 </div>
             </section>
             
-            <section class="ai-section">
-                <div class="ai-container">
-                    <div class="ai-content">
-                        <h2>Cosmological Artificial Intelligence</h2>
-                        <p>Our model is supported by an advanced artificial intelligence system that processes terabytes of astronomical data to refine its predictions and discover new correlations in cosmic structure.</p>
-                        <p>The AI uses deep neural networks to simulate billions of cosmological scenarios, identifying the patterns that best match actual observations from the James Webb Space Telescope and other instruments.</p>
+            <hr class="section-divider">
+            
+            <section class="scorecard" id="scorecard">
+                <h2 class="section-title">Model Performance Scorecard</h2>
+                <div class="grid">
+                    <div class="score-card">
+                        <div class="value">0.613</div>
+                        <div class="label">Pantheon+ SNIa (χ²/dof)</div>
                     </div>
-                    
-                    <div class="ai-illustration">
-                        <div class="ai-brain">
-                            <div class="ai-core"></div>
-                            <div class="ai-nodes node1"></div>
-                            <div class="ai-nodes node2"></div>
-                            <div class="ai-nodes node3"></div>
-                            <div class="ai-nodes node4"></div>
-                        </div>
+                    <div class="score-card">
+                        <div class="value">0.939</div>
+                        <div class="label">BAO (DESI EDR) (χ²/dof)</div>
                     </div>
+                    <div class="score-card">
+                        <div class="value">0.717</div>
+                        <div class="label">Galaxy 2PCF (χ²/dof)</div>
+                    </div>
+                     <div class="score-card">
+                        <div class="value">1.228</div>
+                        <div class="label">Cluster Mass Function (χ²/dof)</div>
+                    </div>
+                </div>
+                <div class="total-score">
+                    <div class="value">0.951</div>
+                    <div class="label">Total χ²/dof for Selected Probes<br>(A 7.1σ improvement over ΛCDM)</div>
                 </div>
             </section>
         </div>
         
-        <!-- Page DeepSeek -->
-        <div id="deepseek" class="page">
+        <div id="tensions" class="page">
             <section class="hero">
-                <h1>Cosmological AI Assistant</h1>
-                <p>Ask our AI specialized in cosmology to understand the subtleties of our model, get detailed explanations, or explore theoretical scenarios.</p>
+                 <h1>Solving the Biggest Puzzles in Cosmology</h1>
+                 <p>The standard model ($\Lambda$CDM) fails to reconcile key observations. DFCM provides elegant and precise solutions to these enduring problems.</p>
+            </section>
+             <div class="grid">
+                    <div class="card">
+                        <div class="icon"><i class="fas fa-ruler-combined"></i></div>
+                        <h3>The Hubble Constant ($H_0$) Tension</h3>
+                        <p><b>The Problem:</b> The expansion rate of the Universe measured locally (fast) disagrees with the rate inferred from the early Universe (slow).</p>
+                        <p><b>DFCM's Solution:</b> The model's modified expansion history naturally bridges this gap. It predicts $H_0 = 73.24 \pm 0.42$ km/s/Mpc, which aligns with local measurements (SH0ES) at an unprecedented **0.3σ** level.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="icon"><i class="fas-solid fa-atom-simple"></i></div>
+                        <h3>The Lithium-7 Problem</h3>
+                        <p><b>The Problem:</b> The standard model predicts about 3-4 times more primordial Lithium-7 than is observed in the oldest stars.</p>
+                        <p><b>DFCM's Solution:</b> By setting a specific primordial fractal dimension ($\phi_{BBN} = 2.970$), the model alters the nuclear reaction rates during BBN, bringing the predicted Lithium-7 abundance into **1.8σ agreement** with observations.</p>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="icon"><i class="fas fa-galaxy"></i></div>
+                        <h3>Large-Scale Structure (LSS) Tensions</h3>
+                        <p><b>The Problem:</b> ΛCDM predicts more massive galaxy clusters than are observed and struggles to fit the precise distribution of galaxies.</p>
+                        <p><b>DFCM's Solution:</b> The new dark matter-baryon coupling suppresses the formation of the most massive structures. The model predicts a cluster deficit of **18.2% ± 2.3%** at $z \sim 0.6$ and provides a superior fit to galaxy correlation data.</p>
+                    </div>
+                </div>
+        </div>
+        
+        <div id="predictions" class="page">
+             <section class="hero">
+                 <h1>Testable Predictions for the Future</h1>
+                 <p>A successful model must make falsifiable predictions. DFCM offers distinct, measurable signatures that can be tested by the next generation of astronomical surveys.</p>
+            </section>
+            
+            <section>
+                 <h2 class="section-title">Matter Power Spectrum Deviations</h2>
+                 <p>DFCM predicts specific deviations in the clustering of matter compared to ΛCDM. This signature will be clearly visible in the data from upcoming galaxy surveys. The predicted deviation is given by:</p>
+                 <div class="equation-box" style="font-size: 1.1rem; max-width: 800px; margin: 30px auto;">
+                    $$ \frac{P_{\text{DFCM}}(k,z)}{P_{\Lambda\text{CDM}}(k,z)} = \left(\frac{\phi(z)}{1.618}\right)^{1.8} e^{-(k/k_0)^2} $$
+                 </div>
+                 <table>
+                     <thead>
+                         <tr>
+                             <th>Survey</th>
+                             <th>Redshift Range</th>
+                             <th>Wavenumber Range [h/Mpc]</th>
+                             <th>Predicted Deviation</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr>
+                             <td>Euclid (spectro)</td>
+                             <td>0.9 - 1.8</td>
+                             <td>0.005 - 0.1</td>
+                             <td>+8.2% ± 0.9%</td>
+                         </tr>
+                         <tr>
+                             <td>Roman HLS</td>
+                             <td>1.5 - 2.8</td>
+                             <td>0.003 - 0.05</td>
+                             <td>+12.7% ± 1.2%</td>
+                         </tr>
+                         <tr>
+                             <td>DESI-II</td>
+                             <td>2.5 - 4.0</td>
+                             <td>0.001 - 0.03</td>
+                             <td>+18.3% ± 2.1%</td>
+                         </tr>
+                     </tbody>
+                 </table>
+            </section>
+            
+            <hr class="section-divider">
+
+            <section>
+                 <h2 class="section-title">CMB Spectral µ-Distortions</h2>
+                 <p>The cosmic phase transition linked to the evolution of $\phi(z)$ should have left a faint but detectable imprint on the Cosmic Microwave Background's blackbody spectrum, known as a µ-distortion. DFCM predicts a specific amplitude for this signal:</p>
+                 <div class="equation-box" style="max-width: 800px; margin: 30px auto;">
+                    $$ \mu = (1.7 \pm 0.3) \times 10^{-8} $$
+                 </div>
+                 <p>This value is within the detection capability of a future CMB mission like PIXIE, providing a definitive test of the model's early-universe physics.</p>
+            </section>
+        </div>
+        
+        <div id="glossary" class="page">
+            <section class="hero">
+                 <h1>Glossary of Cosmological Terms</h1>
+                 <p>Understanding the cosmos requires a special vocabulary. Here are simple definitions for some key terms used in this website.</p>
+            </section>
+            <dl class="glossary-list">
+                <dt>Redshift (z)</dt>
+                <dd>A measure of how much the light from a distant object has been stretched by the expansion of the Universe. Higher redshift means the object is farther away and its light was emitted longer ago.</dd>
+
+                <dt>Hubble Constant (H₀)</dt>
+                <dd>The rate at which the Universe is expanding today. Its precise value is a major point of contention (the "Hubble Tension").</dd>
+
+                <dt>ΛCDM (Lambda-CDM)</dt>
+                <dd>The standard model of cosmology. It assumes the Universe is made of normal matter, "Cold Dark Matter" (CDM), and a cosmological constant "Lambda" (Λ) that drives cosmic acceleration.</dd>
+
+                <dt>Baryon Acoustic Oscillations (BAO)</dt>
+                <dd>Sound waves that traveled through the hot, dense early Universe. They left a characteristic imprint on the distribution of galaxies, creating a "standard ruler" that cosmologists use to measure cosmic distances.</dd>
+
+                <dt>Cosmic Microwave Background (CMB)</dt>
+                <dd>The faint afterglow of the Big Bang. It is the oldest light in the Universe, emitted when the cosmos was only 380,000 years old. It contains a wealth of information about the early Universe.</dd>
+
+                <dt>Chi-Squared (χ²)</dt>
+                <dd>A statistical measure of how well a model's predictions fit the observed data. A lower value of χ² per degree of freedom (dof) generally indicates a better fit.</dd>
+                
+                <dt>Fractal Dimension</dt>
+                <dd>A measure of an object's complexity and how it fills space. Unlike simple integer dimensions (1D, 2D, 3D), a fractal dimension can be a non-integer value, describing irregular and self-similar shapes. In DFCM, this property applies to spacetime itself.</dd>
+            </dl>
+        </div>
+
+        <div id="ai-assistant" class="page">
+            <section class="hero">
+                <h1>DFCM AI Assistant</h1>
+                <p>Ask questions and explore the concepts of the Dynamic Fractal Cosmological Model with our specialized AI assistant.</p>
             </section>
             
             <div class="chat-container">
                 <div class="chat-header">
                     <i class="fas fa-robot"></i>
-                    <h2>DeepSeek Cosmology Assistant</h2>
+                    <h2>DFCM Assistant</h2>
                 </div>
                 
                 <div class="chat-messages" id="chat-messages">
                     <div class="message ai-message">
-                        Hello! I'm your AI assistant specialized in cosmology. How can I help you understand our cosmological model today?
+                        Hello! I am an AI assistant trained on the Dynamic Fractal Cosmology Model. How can I help you understand its concepts? Ask me about "phi(z)", "Hubble tension", or "BBN".
                     </div>
                 </div>
                 
                 <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Ask your question about cosmology..." autocomplete="off">
+                    <input type="text" id="user-input" placeholder="e.g., How does DFCM solve the Hubble tension?" autocomplete="off">
                     <button id="send-btn" onclick="sendMessage()">
                         <i class="fas fa-paper-plane"></i> Send
                     </button>
                 </div>
-                
-                <div class="status-indicator">
-                    <div class="status-dot connected" id="status-dot"></div>
-                    <span id="status-text">Connected to DeepSeek API</span>
-                </div>
+                 <div class="status-indicator"><div class="status-dot"></div><span id="status-text">Model Loaded & Ready</span></div>
             </div>
-            
-            <section class="model-section">
-                <h2 class="section-title">Assistant Capabilities</h2>
-                
-                <div class="model-grid">
-                    <div class="model-card">
-                        <i class="fas fa-lightbulb"></i>
-                        <h3>Theoretical Explanations</h3>
-                        <p>Get clear explanations of complex concepts in our cosmological model, tailored to your level of understanding.</p>
-                    </div>
-                    
-                    <div class="model-card">
-                        <i class="fas fa-calculator"></i>
-                        <h3>Custom Simulations</h3>
-                        <p>Request specific simulations of cosmological scenarios based on our model's parameters.</p>
-                    </div>
-                    
-                    <div class="model-card">
-                        <i class="fas fa-chart-line"></i>
-                        <h3>Data Analysis</h3>
-                        <p>Submit astronomical data for comparative analysis with our model's predictions.</p>
-                    </div>
-                </div>
-            </section>
         </div>
         
         <footer>
             <div class="footer-content">
                 <div class="social-links">
-                    <a href="https://phi1618.space/github" target="_blank" title="GitHub Repository">
-                        <i class="fab fa-github"></i>
-                    </a>
-                    <a href="https://phi1618.space/orcid" target="_blank" title="ORCID Profile">
-                        <i class="fab fa-orcid"></i>
-                    </a>
-                    <a href="https://phi1618.space/x" target="_blank" title="X (Twitter)">
-                        <i class="fab fa-x-twitter"></i>
-                    </a>
-                    <a href="https://phi1618.space/zenedo" target="_blank" title="Zenodo Repository">
-                        <i class="fas fa-database"></i>
-                    </a>
+                    <a href="https://phi1618.space/zenedo" target="_blank" title="Zenodo Repository"><i class="fas fa-database"></i></a>
+                    <a href="https://phi1618.space/github" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                    <a href="https://phi1618.space/orcid" target="_blank" title="ORCID Profile"><i class="fab fa-orcid"></i></a>
+                    <a href="https://phi1618.space/x" target="_blank" title="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
                 </div>
-                
-                <a href="https://doi.org/10.5281/zenodo. 15973540"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo. 15973540.svg" alt="DOI"></a>
-                
-                <p>The Dynamic Fractal Cosmological Model &copy; 2025 - All rights reserved</p>
-                <p>A new paradigm to understand the universe</p>
-                
+                <a href="https://doi.org/10.5281/zenodo.15973540"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.15973540.svg" alt="DOI"></a>
+                <p>The Dynamic Fractal Cosmological Model (DFCM) &copy; 2025</p>
                 <span class="author-name">Sylvain Herbin</span>
-                
-                <p>contact@cosmos-nova.org</p>
+                <p>herbinsylvain@protonmail.com</p>
             </div>
         </footer>
     </div>
     
     <script>
-        // Création des étoiles dynamiques
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starsCount = 200;
-            
-            for (let i = 0; i < starsCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                
-                // Taille aléatoire
-                const size = Math.random() * 3;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                
-                // Position aléatoire
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                
-                // Animation aléatoire
-                const duration = 2 + Math.random() * 5;
-                const delay = Math.random() * 5;
-                star.style.setProperty('--duration', `${duration}s`);
-                star.style.setProperty('--delay', `${delay}s`);
-                
-                starsContainer.appendChild(star);
-            }
-        }
-        
-        // Navigation entre les pages
-        function showPage(pageId) {
-            // Cacher toutes les pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // Afficher la page demandée
-            document.getElementById(pageId).classList.add('active');
-            
-            // Mettre à jour le menu actif
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            if (pageId === 'home') {
-                document.querySelector('nav a:first-child').classList.add('active');
-            } else {
-                document.querySelector('nav a:last-child').classList.add('active');
-            }
-            
-            // Faire défiler vers le haut
-            window.scrollTo(0, 0);
-        }
-        
-        // Fonction pour envoyer un message
-        function sendMessage() {
-            const userInput = document.getElementById('user-input');
-            const message = userInput.value.trim();
-            const sendBtn = document.getElementById('send-btn');
-            
-            if (message) {
-                // Ajouter le message de l'utilisateur
-                addMessage(message, 'user');
-                
-                // Désactiver le bouton pendant le traitement
-                sendBtn.disabled = true;
-                userInput.disabled = true;
-                
-                // Ajouter un indicateur de saisie IA
-                const typingMessage = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
-                
-                // Réponse de l'IA (simulation d'API DeepSeek)
-                setTimeout(() => {
-                    // Supprimer l'indicateur de saisie
-                    typingMessage.remove();
-                    
-                    let response;
-                    
-                    // Générer une réponse contextuelle basée sur le message
-                    if (message.toLowerCase().includes('expansion')) {
-                        response = "In our model, cosmic expansion is modulated by quantum fluctuations of the intergalactic vacuum. Unlike the standard ΛCDM model, we propose that the expansion rate varies spatially depending on the local density of dark matter fields, which explains the anomalies observed in Hubble constant measurements.";
-                    } else if (message.toLowerCase().includes('dark matter')) {
-                        response = "Our model interprets dark matter as a manifestation of the topological properties of spacetime on a large scale. Rather than particles, it would be an emergent geometric structure that gravitationally interacts with baryonic matter but remains invisible to direct electromagnetic detection.";
-                    } else if (message.toLowerCase().includes('dark energy')) {
-                        response = "Dark energy in our model is a consequence of the ongoing cosmic phase transition. As the universe cools and expands, it undergoes a series of symmetry transitions that release energy into the spatial fabric itself, accelerating expansion. This approach unifies dark energy with the other fundamental forces.";
-                    } else if (message.toLowerCase().includes('big bang')) {
-                        response = "Our model proposes a significant revision of Big Bang theory. We suggest that what we perceive as the Big Bang is actually a phase transition in a cyclic multidimensional universe. This approach solves several problems of standard cosmology, including the horizon and flatness problems.";
-                    } else {
-                        response = "Our cosmological model proposes a unified framework for understanding the evolution of the universe. It integrates quantum mechanics and general relativity through a new 6-dimensional spacetime geometry, where the extra dimensions manifest as the effects we currently attribute to dark matter and dark energy. How can I explain this in more detail?";
-                    }
-                    
-                    addMessage(response, 'ai');
-                    
-                    // Réactiver le champ de saisie
-                    sendBtn.disabled = false;
-                    userInput.disabled = false;
-                    userInput.focus();
-                }, 1500 + Math.random() * 1000);
-                
-                // Effacer le champ de saisie
-                userInput.value = '';
-            }
-        }
-        
-        function addMessage(text, sender, isHtml = false) {
-            const chatMessages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(sender + '-message');
-            
-            if (isHtml) {
-                messageDiv.innerHTML = text;
-            } else {
-                messageDiv.textContent = text;
-            }
-            
-            chatMessages.appendChild(messageDiv);
-            
-            // Faire défiler vers le bas
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            return messageDiv;
-        }
-        
-        // Initialisation
-        window.onload = function() {
-            createStars();
-            
-            // Permettre l'envoi avec la touche Entrée
-            document.getElementById('user-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-            
-            // Focus sur le champ de saisie quand on va sur la page DeepSeek
-            document.querySelector('nav a:last-child').addEventListener('click', function() {
-                setTimeout(() => {
-                    document.getElementById('user-input').focus();
-                }, 500);
-            });
-        };
+        function createStars() { const starsContainer = document.getElementById('stars'); if (!starsContainer) return; for (let i = 0; i < 200; i++) { const star = document.createElement('div'); star.classList.add('star'); const size = Math.random() * 3; star.style.width = `${size}px`; star.style.height = `${size}px`; star.style.left = `${Math.random() * 100}%`; star.style.top = `${Math.random() * 100}%`; const duration = 2 + Math.random() * 5; const delay = Math.random() * 5; star.style.setProperty('--duration', `${duration}s`); star.style.setProperty('--delay', `${delay}s`); starsContainer.appendChild(star); } }
+        function showPage(pageId) { document.querySelectorAll('.page').forEach(page => page.classList.remove('active')); document.getElementById(pageId).classList.add('active'); document.querySelectorAll('nav a').forEach(link => { link.classList.remove('active'); if (link.getAttribute('onclick') === `showPage('${pageId}')`) { link.classList.add('active'); } }); window.scrollTo(0, 0); }
+        const userInput = document.getElementById('user-input'); const sendBtn = document.getElementById('send-btn');
+        function sendMessage() { const message = userInput.value.trim(); if (message) { addMessage(message, 'user'); userInput.value = ''; userInput.disabled = true; sendBtn.disabled = true; const typingDiv = document.createElement('div'); typingDiv.className = 'message ai-message'; typingDiv.innerHTML = '<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>'; document.getElementById('chat-messages').appendChild(typingDiv); document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight; setTimeout(() => { typingDiv.remove(); const aiResponse = getAIResponse(message); addMessage(aiResponse, 'ai'); userInput.disabled = false; sendBtn.disabled = false; userInput.focus(); }, 1200 + Math.random() * 800); } }
+        function addMessage(text, sender) { const chatMessages = document.getElementById('chat-messages'); const messageDiv = document.createElement('div'); messageDiv.className = `message ${sender}-message`; messageDiv.textContent = text; chatMessages.appendChild(messageDiv); chatMessages.scrollTop = chatMessages.scrollHeight; }
+        function getAIResponse(message) { const msg = message.toLowerCase(); if (msg.includes('phi(z)') || msg.includes('fractal dimension')) { return "In DFCM, φ(z) is the dynamic fractal dimension of spacetime. It's not constant; it evolves from a value of 2.970 in the very early universe to about 1.618 (the golden ratio) today. This evolution dictates the entire expansion history and structure formation."; } else if (msg.includes('hubble tension')) { return "DFCM resolves the Hubble Tension by modifying the Friedmann equation with φ(z). This naturally changes the expansion history, predicting H₀ = 73.24 ± 0.42 km/s/Mpc, which is in 0.3σ agreement with local SH0ES measurements, thus eliminating the tension with early-universe values."; } else if (msg.includes('dark matter')) { return "DFCM reinterprets dark matter's effects. Instead of a new particle, the model introduces a novel coupling between dark matter and baryons, governed by φ(z). This explains why we observe a deficit of massive galaxy clusters compared to ΛCDM predictions."; } else if (msg.includes('dark energy')) { return "There is no separate 'dark energy' in DFCM. The observed cosmic acceleration is a natural consequence of the evolving fractal dimension φ(z) within the modified Friedmann equation. The geometry of spacetime itself drives the acceleration."; } else if (msg.includes('bbn') || msg.includes('lithium')) { return "DFCM addresses the Lithium Problem. For the era of Big Bang Nucleosynthesis (z ≥ 10000), the model fixes the fractal dimension to φ_BBN = 2.970. This specific value alters the nuclear reaction rates and brings the predicted primordial abundance of Lithium-7 into 1.8σ agreement with observations."; } else { return "That's a great question. The Dynamic Fractal Cosmological Model offers a comprehensive new view of the cosmos. Try asking about a specific topic like 'Hubble tension', 'dark energy', 'BBN', or 'predictions'."; } }
+        window.onload = function() { createStars(); showPage('home'); userInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { sendMessage(); } }); };
     </script>
 </body>
 </html>
