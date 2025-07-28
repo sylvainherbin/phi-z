@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmos Nova - Votre Modèle Cosmologique</title>
+    <title>Cosmos Nova - Your Cosmological Model</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --primary: #0b0c22;
@@ -96,11 +97,23 @@
             text-decoration: none;
         }
         
-        .logo i {
+        .logo-symbol {
+            font-size: 1.8rem;
             color: var(--accent);
             background: rgba(106, 90, 249, 0.2);
-            padding: 10px;
+            padding: 12px 15px;
             border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            font-family: "Times New Roman", serif;
+        }
+        
+        .logo-symbol sup {
+            font-size: 0.7rem;
+            vertical-align: super;
+            margin-left: 2px;
         }
         
         nav ul {
@@ -160,6 +173,31 @@
             margin: 0 auto 30px;
             color: var(--text-secondary);
             line-height: 1.7;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--accent);
+            color: white;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(106, 90, 249, 0.3);
+        }
+        
+        .btn i {
+            margin-right: 10px;
         }
         
         .model-section {
@@ -514,7 +552,7 @@
         }
         
         .footer-content {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
         }
         
@@ -528,11 +566,12 @@
             justify-content: center;
             gap: 20px;
             margin: 20px 0;
+            flex-wrap: wrap;
         }
         
         .social-links a {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: var(--secondary);
             display: flex;
@@ -541,11 +580,35 @@
             color: var(--text);
             text-decoration: none;
             transition: var(--transition);
+            font-size: 1.2rem;
         }
         
         .social-links a:hover {
             background: var(--accent);
             transform: translateY(-5px);
+        }
+        
+        .doi-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            margin: 15px 0;
+            font-family: monospace;
+            border: 1px solid var(--accent-light);
+            transition: var(--transition);
+        }
+        
+        .doi-badge:hover {
+            background: rgba(106, 90, 249, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .author-name {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: var(--text);
+            display: block;
         }
         
         @media (max-width: 768px) {
@@ -568,6 +631,11 @@
             .galaxy {
                 height: 300px;
             }
+            
+            .social-links a {
+                width: 45px;
+                height: 45px;
+            }
         }
     </style>
 </head>
@@ -578,13 +646,13 @@
     <div class="container">
         <header>
             <a href="#" class="logo" onclick="showPage('home')">
-                <i class="fas fa-infinity"></i>
+                <span class="logo-symbol">φ(z)<sup>1/2</sup></span>
                 <span>Cosmos Nova</span>
             </a>
             <nav>
                 <ul>
-                    <li><a href="#" class="active" onclick="showPage('home')">Accueil</a></li>
-                    <li><a href="#" onclick="showPage('deepseek')">Assistant IA</a></li>
+                    <li><a href="#" class="active" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('deepseek')">AI Assistant</a></li>
                 </ul>
             </nav>
         </header>
@@ -592,37 +660,40 @@
         <!-- Page d'accueil -->
         <div id="home" class="page active">
             <section class="hero">
-                <h1>Votre Modèle Cosmologique Révolutionnaire</h1>
-                <p>Découvrez une nouvelle perspective sur la structure et l'évolution de l'univers, unifiant les forces fondamentales et expliquant les mystères cosmiques qui persistent depuis des décennies.</p>
+                <h1>Your Revolutionary Cosmological Model</h1>
+                <p>Discover a new perspective on the structure and evolution of the universe, unifying fundamental forces and explaining cosmic mysteries that have persisted for decades.</p>
+                <a href="https://phi1618.space/zenedo" target="_blank" class="btn">
+                    <i class="fas fa-download"></i> Download Full Paper (PDF)
+                </a>
             </section>
             
             <section class="model-section">
-                <h2 class="section-title">Principes Fondamentaux</h2>
+                <h2 class="section-title">Fundamental Principles</h2>
                 
                 <div class="model-grid">
                     <div class="model-card">
                         <i class="fas fa-atom"></i>
-                        <h3>Unification Quantique-Gravitationnelle</h3>
-                        <p>Notre modèle résout l'incompatibilité entre la mécanique quantique et la relativité générale en introduisant une nouvelle dimension d'interaction.</p>
+                        <h3>Quantum-Gravitational Unification</h3>
+                        <p>Our model resolves the incompatibility between quantum mechanics and general relativity by introducing a new dimension of interaction.</p>
                     </div>
                     
                     <div class="model-card">
                         <i class="fas fa-expand-arrows-alt"></i>
-                        <h3>Expansion Modulée</h3>
-                        <p>Contrairement au modèle standard, l'expansion de l'univers suit un rythme variable selon les régions cosmiques, influencée par les champs de matière noire.</p>
+                        <h3>Modulated Expansion</h3>
+                        <p>Unlike the standard model, the expansion of the universe follows a variable rhythm depending on cosmic regions, influenced by dark matter fields.</p>
                     </div>
                     
                     <div class="model-card">
                         <i class="fas fa-cogs"></i>
-                        <h3>Mécanisme de Symétrie Dynamique</h3>
-                        <p>La brisure de symétrie ne serait pas un événement unique mais un processus continu régissant l'évolution cosmique à différentes échelles.</p>
+                        <h3>Dynamic Symmetry Mechanism</h3>
+                        <p>Symmetry breaking would not be a unique event but a continuous process governing cosmic evolution at different scales.</p>
                     </div>
                 </div>
             </section>
             
             <section class="model-visualization">
-                <h2 class="section-title">Représentation Graphique</h2>
-                <p>Visualisation du champ cosmique selon notre modèle montrant la distribution de matière noire et d'énergie sombre</p>
+                <h2 class="section-title">Graphical Representation</h2>
+                <p>Visualization of the cosmic field according to our model showing dark matter and dark energy distribution</p>
                 
                 <div class="galaxy">
                     <div class="galaxy-core"></div>
@@ -636,9 +707,9 @@
             <section class="ai-section">
                 <div class="ai-container">
                     <div class="ai-content">
-                        <h2>Intelligence Artificielle Cosmologique</h2>
-                        <p>Notre modèle est soutenu par un système d'intelligence artificielle avancé qui traite des téraoctets de données astronomiques pour affiner ses prédictions et découvrir de nouvelles corrélations dans la structure cosmique.</p>
-                        <p>L'IA utilise des réseaux de neurones profonds pour simuler des milliards de scénarios cosmologiques, identifiant les modèles qui correspondent le mieux aux observations réelles du télescope spatial James Webb et d'autres instruments.</p>
+                        <h2>Cosmological Artificial Intelligence</h2>
+                        <p>Our model is supported by an advanced artificial intelligence system that processes terabytes of astronomical data to refine its predictions and discover new correlations in cosmic structure.</p>
+                        <p>The AI uses deep neural networks to simulate billions of cosmological scenarios, identifying the patterns that best match actual observations from the James Webb Space Telescope and other instruments.</p>
                     </div>
                     
                     <div class="ai-illustration">
@@ -657,8 +728,8 @@
         <!-- Page DeepSeek -->
         <div id="deepseek" class="page">
             <section class="hero">
-                <h1>Assistant Cosmologique IA</h1>
-                <p>Interrogez notre intelligence artificielle spécialisée en cosmologie pour comprendre les subtilités de notre modèle, obtenir des explications détaillées ou explorer des scénarios théoriques.</p>
+                <h1>Cosmological AI Assistant</h1>
+                <p>Ask our AI specialized in cosmology to understand the subtleties of our model, get detailed explanations, or explore theoretical scenarios.</p>
             </section>
             
             <div class="chat-container">
@@ -669,43 +740,43 @@
                 
                 <div class="chat-messages" id="chat-messages">
                     <div class="message ai-message">
-                        Bonjour ! Je suis votre assistant IA spécialisé en cosmologie. Comment puis-je vous aider à comprendre notre modèle cosmologique aujourd'hui ?
+                        Hello! I'm your AI assistant specialized in cosmology. How can I help you understand our cosmological model today?
                     </div>
                 </div>
                 
                 <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Posez votre question sur la cosmologie..." autocomplete="off">
+                    <input type="text" id="user-input" placeholder="Ask your question about cosmology..." autocomplete="off">
                     <button id="send-btn" onclick="sendMessage()">
-                        <i class="fas fa-paper-plane"></i> Envoyer
+                        <i class="fas fa-paper-plane"></i> Send
                     </button>
                 </div>
                 
                 <div class="status-indicator">
                     <div class="status-dot connected" id="status-dot"></div>
-                    <span id="status-text">Connecté à DeepSeek API</span>
+                    <span id="status-text">Connected to DeepSeek API</span>
                 </div>
             </div>
             
             <section class="model-section">
-                <h2 class="section-title">Capacités de l'Assistant</h2>
+                <h2 class="section-title">Assistant Capabilities</h2>
                 
                 <div class="model-grid">
                     <div class="model-card">
                         <i class="fas fa-lightbulb"></i>
-                        <h3>Explications Théoriques</h3>
-                        <p>Obtenez des explications claires sur les concepts complexes de notre modèle cosmologique, adaptées à votre niveau de compréhension.</p>
+                        <h3>Theoretical Explanations</h3>
+                        <p>Get clear explanations of complex concepts in our cosmological model, tailored to your level of understanding.</p>
                     </div>
                     
                     <div class="model-card">
                         <i class="fas fa-calculator"></i>
-                        <h3>Simulations Personnalisées</h3>
-                        <p>Demandez des simulations spécifiques de scénarios cosmologiques basés sur les paramètres de notre modèle.</p>
+                        <h3>Custom Simulations</h3>
+                        <p>Request specific simulations of cosmological scenarios based on our model's parameters.</p>
                     </div>
                     
                     <div class="model-card">
                         <i class="fas fa-chart-line"></i>
-                        <h3>Analyse de Données</h3>
-                        <p>Soumettez des données astronomiques pour une analyse comparative avec les prédictions de notre modèle.</p>
+                        <h3>Data Analysis</h3>
+                        <p>Submit astronomical data for comparative analysis with our model's predictions.</p>
                     </div>
                 </div>
             </section>
@@ -713,15 +784,29 @@
         
         <footer>
             <div class="footer-content">
-                <p>Cosmos Nova &copy; 2023 - Tous droits réservés</p>
-                <p>Un nouveau paradigme pour comprendre l'univers</p>
-                
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="https://phi1618.space/github" target="_blank" title="GitHub Repository">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://phi1618.space/orcid" target="_blank" title="ORCID Profile">
+                        <i class="fab fa-orcid"></i>
+                    </a>
+                    <a href="https://phi1618.space/x" target="_blank" title="X (Twitter)">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+                    <a href="https://phi1618.space/zenedo" target="_blank" title="Zenodo Repository">
+                        <i class="fas fa-database"></i>
+                    </a>
                 </div>
+                
+                <a href="https://doi.org/10.5281/zenodo.15973540" target="_blank" class="doi-badge">
+                    DOI: 10.5281/zenodo.15973540
+                </a>
+                
+                <p>Cosmos Nova &copy; 2025 - All rights reserved</p>
+                <p>A new paradigm to understand the universe</p>
+                
+                <span class="author-name">Sylvain Herbin</span>
                 
                 <p>contact@cosmos-nova.org</p>
             </div>
@@ -808,15 +893,15 @@
                     
                     // Générer une réponse contextuelle basée sur le message
                     if (message.toLowerCase().includes('expansion')) {
-                        response = "Dans notre modèle, l'expansion cosmique est modulée par les fluctuations quantiques du vide intergalactique. Contrairement au modèle ΛCDM standard, nous proposons que le taux d'expansion varie spatialement en fonction de la densité locale des champs de matière noire, ce qui explique les anomalies observées dans les mesures de la constante de Hubble.";
-                    } else if (message.toLowerCase().includes('matière noire') || message.toLowerCase().includes('dark matter')) {
-                        response = "Notre modèle interprète la matière noire comme une manifestation des propriétés topologiques de l'espace-temps à grande échelle. Plutôt que des particules, il s'agirait d'une structure géométrique émergente qui interagit gravitationnellement avec la matière baryonique mais reste invisible aux détections électromagnétiques directes.";
-                    } else if (message.toLowerCase().includes('énergie sombre') || message.toLowerCase().includes('dark energy')) {
-                        response = "L'énergie sombre dans notre modèle est une conséquence de la transition de phase cosmique en cours. Comme l'univers se refroidit et se dilate, il traverse une série de transitions de symétrie qui libèrent de l'énergie dans le tissu spatial lui-même, accélérant l'expansion. Cette approche unifie l'énergie sombre avec les autres forces fondamentales.";
-                    } else if (message.toLowerCase().includes('big bang') || message.toLowerCase().includes('big bang')) {
-                        response = "Notre modèle propose une révision significative de la théorie du Big Bang. Nous suggérons que ce que nous percevons comme le Big Bang est en réalité une transition de phase dans un univers cyclique multidimensionnel. Cette approche résout plusieurs problèmes de la cosmologie standard, notamment la question de l'horizon et de la platitude.";
+                        response = "In our model, cosmic expansion is modulated by quantum fluctuations of the intergalactic vacuum. Unlike the standard ΛCDM model, we propose that the expansion rate varies spatially depending on the local density of dark matter fields, which explains the anomalies observed in Hubble constant measurements.";
+                    } else if (message.toLowerCase().includes('dark matter')) {
+                        response = "Our model interprets dark matter as a manifestation of the topological properties of spacetime on a large scale. Rather than particles, it would be an emergent geometric structure that gravitationally interacts with baryonic matter but remains invisible to direct electromagnetic detection.";
+                    } else if (message.toLowerCase().includes('dark energy')) {
+                        response = "Dark energy in our model is a consequence of the ongoing cosmic phase transition. As the universe cools and expands, it undergoes a series of symmetry transitions that release energy into the spatial fabric itself, accelerating expansion. This approach unifies dark energy with the other fundamental forces.";
+                    } else if (message.toLowerCase().includes('big bang')) {
+                        response = "Our model proposes a significant revision of Big Bang theory. We suggest that what we perceive as the Big Bang is actually a phase transition in a cyclic multidimensional universe. This approach solves several problems of standard cosmology, including the horizon and flatness problems.";
                     } else {
-                        response = "Notre modèle cosmologique propose un cadre unifié pour comprendre l'évolution de l'univers. Il intègre la mécanique quantique et la relativité générale à travers une nouvelle géométrie espace-temps à 6 dimensions, où les dimensions supplémentaires se manifestent comme les effets que nous attribuons actuellement à la matière noire et à l'énergie sombre. Comment puis-je vous expliquer cela plus en détail ?";
+                        response = "Our cosmological model proposes a unified framework for understanding the evolution of the universe. It integrates quantum mechanics and general relativity through a new 6-dimensional spacetime geometry, where the extra dimensions manifest as the effects we currently attribute to dark matter and dark energy. How can I explain this in more detail?";
                     }
                     
                     addMessage(response, 'ai');
