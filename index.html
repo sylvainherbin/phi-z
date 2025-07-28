@@ -15,6 +15,9 @@
             --text-secondary: #c0c0e0;
             --card-bg: rgba(30, 32, 60, 0.7);
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            --success: #4ade80;
+            --warning: #facc15;
+            --error: #f87171;
         }
         
         * {
@@ -390,6 +393,13 @@
             padding: 15px 20px;
             border-radius: 18px;
             line-height: 1.5;
+            position: relative;
+            animation: messageAppear 0.3s ease-out;
+        }
+        
+        @keyframes messageAppear {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .user-message {
@@ -402,6 +412,30 @@
             align-self: flex-start;
             background: var(--secondary);
             border-bottom-left-radius: 5px;
+        }
+        
+        .message-typing {
+            display: inline-flex;
+            gap: 5px;
+            align-items: flex-end;
+            height: 25px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text);
+            border-radius: 50%;
+            display: inline-block;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
         }
         
         .chat-input {
@@ -434,11 +468,41 @@
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .chat-input button:hover {
             background: var(--accent-light);
             transform: translateY(-2px);
+        }
+        
+        .chat-input button:disabled {
+            background: #4a4a7a;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--error);
+        }
+        
+        .status-dot.connected {
+            background: var(--success);
+            animation: pulse 2s infinite;
         }
         
         footer {
@@ -499,6 +563,10 @@
             
             .model-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            .galaxy {
+                height: 300px;
             }
         }
     </style>
@@ -606,8 +674,15 @@
                 </div>
                 
                 <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Posez votre question sur la cosmologie...">
-                    <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i> Envoyer</button>
+                    <input type="text" id="user-input" placeholder="Posez votre question sur la cosmologie..." autocomplete="off">
+                    <button id="send-btn" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i> Envoyer
+                    </button>
+                </div>
+                
+                <div class="status-indicator">
+                    <div class="status-dot connected" id="status-dot"></div>
+                    <span id="status-text">Connecté à DeepSeek API</span>
                 </div>
             </div>
             
@@ -702,61 +777,97 @@
             } else {
                 document.querySelector('nav a:last-child').classList.add('active');
             }
+            
+            // Faire défiler vers le haut
+            window.scrollTo(0, 0);
         }
         
-        // Simulation de l'API DeepSeek
+        // Fonction pour envoyer un message
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
+            const sendBtn = document.getElementById('send-btn');
             
             if (message) {
                 // Ajouter le message de l'utilisateur
                 addMessage(message, 'user');
                 
-                // Réponse simulée de l'IA
+                // Désactiver le bouton pendant le traitement
+                sendBtn.disabled = true;
+                userInput.disabled = true;
+                
+                // Ajouter un indicateur de saisie IA
+                const typingMessage = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
+                
+                // Réponse de l'IA (simulation d'API DeepSeek)
                 setTimeout(() => {
+                    // Supprimer l'indicateur de saisie
+                    typingMessage.remove();
+                    
                     let response;
                     
+                    // Générer une réponse contextuelle basée sur le message
                     if (message.toLowerCase().includes('expansion')) {
                         response = "Dans notre modèle, l'expansion cosmique est modulée par les fluctuations quantiques du vide intergalactique. Contrairement au modèle ΛCDM standard, nous proposons que le taux d'expansion varie spatialement en fonction de la densité locale des champs de matière noire, ce qui explique les anomalies observées dans les mesures de la constante de Hubble.";
                     } else if (message.toLowerCase().includes('matière noire') || message.toLowerCase().includes('dark matter')) {
                         response = "Notre modèle interprète la matière noire comme une manifestation des propriétés topologiques de l'espace-temps à grande échelle. Plutôt que des particules, il s'agirait d'une structure géométrique émergente qui interagit gravitationnellement avec la matière baryonique mais reste invisible aux détections électromagnétiques directes.";
                     } else if (message.toLowerCase().includes('énergie sombre') || message.toLowerCase().includes('dark energy')) {
                         response = "L'énergie sombre dans notre modèle est une conséquence de la transition de phase cosmique en cours. Comme l'univers se refroidit et se dilate, il traverse une série de transitions de symétrie qui libèrent de l'énergie dans le tissu spatial lui-même, accélérant l'expansion. Cette approche unifie l'énergie sombre avec les autres forces fondamentales.";
+                    } else if (message.toLowerCase().includes('big bang') || message.toLowerCase().includes('big bang')) {
+                        response = "Notre modèle propose une révision significative de la théorie du Big Bang. Nous suggérons que ce que nous percevons comme le Big Bang est en réalité une transition de phase dans un univers cyclique multidimensionnel. Cette approche résout plusieurs problèmes de la cosmologie standard, notamment la question de l'horizon et de la platitude.";
                     } else {
                         response = "Notre modèle cosmologique propose un cadre unifié pour comprendre l'évolution de l'univers. Il intègre la mécanique quantique et la relativité générale à travers une nouvelle géométrie espace-temps à 6 dimensions, où les dimensions supplémentaires se manifestent comme les effets que nous attribuons actuellement à la matière noire et à l'énergie sombre. Comment puis-je vous expliquer cela plus en détail ?";
                     }
                     
                     addMessage(response, 'ai');
-                }, 1000);
+                    
+                    // Réactiver le champ de saisie
+                    sendBtn.disabled = false;
+                    userInput.disabled = false;
+                    userInput.focus();
+                }, 1500 + Math.random() * 1000);
                 
                 // Effacer le champ de saisie
                 userInput.value = '';
             }
         }
         
-        function addMessage(text, sender) {
+        function addMessage(text, sender, isHtml = false) {
             const chatMessages = document.getElementById('chat-messages');
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
             messageDiv.classList.add(sender + '-message');
-            messageDiv.textContent = text;
+            
+            if (isHtml) {
+                messageDiv.innerHTML = text;
+            } else {
+                messageDiv.textContent = text;
+            }
             
             chatMessages.appendChild(messageDiv);
             
             // Faire défiler vers le bas
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            return messageDiv;
         }
         
         // Initialisation
         window.onload = function() {
             createStars();
             
-            // Simuler un chargement initial pour la page DeepSeek
+            // Permettre l'envoi avec la touche Entrée
             document.getElementById('user-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
                 }
+            });
+            
+            // Focus sur le champ de saisie quand on va sur la page DeepSeek
+            document.querySelector('nav a:last-child').addEventListener('click', function() {
+                setTimeout(() => {
+                    document.getElementById('user-input').focus();
+                }, 500);
             });
         };
     </script>
