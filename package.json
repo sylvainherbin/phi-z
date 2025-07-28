@@ -1,0 +1,21 @@
+{
+  "name": "phi-z-space-website",
+  "version": "1.0.0",
+  "description": "The Dynamic Fractal Cosmological Model (DFCM) website, hosted on GitHub Pages with Netlify Functions.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cosmology",
+    "fractal",
+    "DFCM",
+    "science",
+    "physics"
+  ],
+  "author": "Sylvain Herbin",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
