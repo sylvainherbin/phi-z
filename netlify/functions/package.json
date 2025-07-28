@@ -1,9 +1,0 @@
-{
-  "name": "deepseek-function",
-  "version": "1.0.0",
-  "description": "Proxy for DeepSeek API",
-  "main": "deepseek.js",
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  }
-}
