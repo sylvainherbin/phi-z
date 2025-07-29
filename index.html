@@ -329,10 +329,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 
     <script>
-        // Create dynamic stars
+        // Create dynamic stars, supernova, and comet
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const starsCount = 300;
+
+            // Créer les étoiles existantes
             for (let i = 0; i < starsCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
@@ -349,6 +351,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
                 starsContainer.appendChild(star);
             }
+
+            // Créer une supernova
+            const supernova = document.createElement('div');
+            supernova.classList.add('supernova');
+            supernova.style.left = `${Math.random() * 80 + 10}%`; // Évite les bords
+            supernova.style.top = `${Math.random() * 80 + 10}%`;
+            supernova.style.animationDelay = `${Math.random() * 5}s`; // Délai aléatoire
+            starsContainer.appendChild(supernova);
+
+            // Créer une comète
+            const comet = document.createElement('div');
+            comet.classList.add('comet');
+            comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
+            comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
+            starsContainer.appendChild(comet);
         }
 
         // Navigate between pages
@@ -388,14 +405,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 try {
                     // Call Vercel Function
                     const response = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ message })
-});
-
-
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ message })
+                    });
 
                     if (!response.ok) {
                         const errorData = await response.json();
