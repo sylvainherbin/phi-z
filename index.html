@@ -30,7 +30,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:creator" content="@YourTwitterHandle">
     <meta name="twitter:site" content="@YourTwitterHandle">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -176,15 +175,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section class="model-section">
-                <h2 class="section-title">Interactive Visualizations</h2>
+                <h2 class="section-title">Cosmic Evolution Unveiled</h2>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
-                    Explore the evolution of the fractal dimension φ(z) across cosmic time, from the Big Bang to the present day.
+                    Explore the fascinating evolution of spacetime's fractal dimension, φ(z), from the Universe's fiery birth to its expansive present. Drag the timeline to witness geometry shift.
                 </p>
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <canvas id="phiZChart"></canvas>
+
+                <div class="cosmic-timeline-container">
+                    <div class="timeline-slider-wrapper">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="cosmicTimelineSlider">
+                        <div class="slider-labels">
+                            <span>Big Bang</span>
+                            <span>BBN</span>
+                            <span>CMB</span>
+                            <span>Present</span>
+                        </div>
+                    </div>
+
+                    <div class="visualization-area">
+                        <canvas id="cosmicVisualizationCanvas"></canvas>
+                        <div class="phi-value-display">
+                            Current φ(z): <span id="currentPhiZValue"></span>
+                        </div>
+                        <div class="era-description" id="eraDescription">
+                            Drag the timeline to explore cosmic epochs.
+                        </div>
+                    </div>
                 </div>
             </section>
-        </div>
+            </div>
 
         <div id="tensions" class="page">
             <section class="hero">
@@ -350,195 +368,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </footer>
     </div>
 
-    <script>
-        // Create dynamic stars
-        function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starsCount = 300;
-
-            // Créer les étoiles existantes
-            for (let i = 0; i < starsCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                const size = Math.random() * 4;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                const duration = 2 + Math.random() * 6;
-                const delay = Math.random() * 5;
-                star.style.setProperty('--duration', `${duration}s`);
-                star.style.setProperty('--delay', `${delay}s`);
-                star.style.background = Math.random() > 0.9 ? 'linear-gradient(45deg, #ff5555, #ffaaaa)' : 'white';
-                star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
-                starsContainer.appendChild(star);
-            }
-        }
-
-        // Navigate between pages
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            document.getElementById(pageId).classList.add('active');
-            document.querySelectorAll('nav a').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
-                    link.classList.add('active');
-                }
-            });
-            window.scrollTo(0, 0);
-        }
-
-        // Send message to Grok 3 via Vercel
-        async function sendMessage() {
-            const userInput = document.getElementById('user-input');
-            const message = userInput.value.trim();
-            const sendBtn = document.getElementById('send-btn');
-            const statusDot = document.getElementById('status-dot');
-            const statusText = document.getElementById('status-text');
-
-            if (message) {
-                addMessage(message, 'user');
-                userInput.value = '';
-                sendBtn.disabled = true;
-                userInput.disabled = true;
-                statusDot.classList.remove('connected');
-                statusDot.style.backgroundColor = 'var(--warning)';
-                statusText.textContent = 'Processing...';
-
-                const typingMessageDiv = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
-
-                try {
-                    // Call Vercel Function
-                    const response = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ message })
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        console.error('Vercel Function error:', errorData);
-                        throw new Error(errorData.error || 'Failed to get AI response.');
-                    }
-
-                    const data = await response.json();
-                    const aiResponse = data.reply;
-
-                    typingMessageDiv.remove();
-                    addMessage(aiResponse, 'ai');
-
-                } catch (error) {
-                    console.error('Failed to send message to AI:', error);
-                    typingMessageDiv.remove();
-                    // Fallback: Google Custom Search link
-                    const searchQuery = encodeURIComponent(message + ' site:arxiv.org | site:*.edu');
-                    addMessage(`Sorry, an error occurred. Try another question or check search results: <a href="https://www.google.com/search?q=${searchQuery}" target="_blank">View results</a>`, 'ai');
-                } finally {
-                    sendBtn.disabled = false;
-                    userInput.disabled = false;
-                    userInput.focus();
-                    statusDot.classList.add('connected');
-                    statusDot.style.backgroundColor = 'var(--success)';
-                    statusText.textContent = 'Connected & Ready';
-                    MathJax.typeset(); // Refresh MathJax for equations
-                }
-            }
-        }
-
-        // Add message to chat
-        function addMessage(text, sender, isHtml = false) {
-            const chatMessages = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message');
-            messageDiv.classList.add(sender + '-message');
-            if (isHtml) {
-                messageDiv.innerHTML = text;
-            } else {
-                messageDiv.textContent = text;
-            }
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            return messageDiv;
-        }
-
-        // Initialize
-        window.onload = function() {
-            createStars();
-            document.getElementById('user-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-            document.querySelector('nav a[onclick="showPage(\'ai_assistant\')"]').addEventListener('click', function() {
-                setTimeout(() => {
-                    document.getElementById('user-input').focus();
-                }, 500);
-            });
-
-            // Initialize Chart.js for φ(z)
-            const ctx = document.getElementById('phiZChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: [0, 0.5, 1, 1.5, 2, 3, 4, 5],
-                    datasets: [
-                        {
-                            label: 'Dynamic φ(z)',
-                            data: [2.85, 2.65, 2.45, 2.25, 2.05, 1.85, 1.75, 1.65],
-                            borderColor: '#6a5af9',
-                            backgroundColor: 'rgba(106, 90, 249, 0.2)',
-                            fill: true,
-                            tension: 0.4
-                        },
-                        {
-                            label: 'φ∞ = 1.618',
-                            data: [1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618],
-                            borderColor: '#ff5555',
-                            borderDash: [5, 5],
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { position: 'top' },
-                        title: {
-                            display: true,
-                            text: 'Evolution of Fractal Dimension φ(z)',
-                            color: '#f0f0ff',
-                            font: { size: 18 }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Redshift (z)',
-                                color: '#f0f0ff'
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'φ(z)',
-                                color: '#f0f0ff'
-                            },
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                            min: 1.5,
-                            max: 3.1
-                        }
-                    }
-                }
-            });
-
-            MathJax.typeset();
-        };
-    </script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+    <script src="script.js"></script> </body>
 </html>
