@@ -1,7 +1,11 @@
 {
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" }
-  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "installCommand": "npm install",
+  "buildCommand": "echo 'No build step for static content'",
   "headers": [
     {
       "source": "/api/(.*)",
@@ -12,19 +16,10 @@
       ]
     }
   ],
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  },
-  "installCommand": "npm install",
-  "buildCommand": "echo 'No build step for static content'",
-  "outputDirectory": "static",
-  "cleanUrls": true,
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/index.html"
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
     }
   ]
 }
