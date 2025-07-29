@@ -961,13 +961,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                 try {
                     // Call Vercel Function
-                    const response = await fetch('https://dfcm-chatbot-backend.vercel.app/api/chatbot', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ message })
-                    });
+                    const response = await fetch('https://phi-z.vercel.app/api/chatbot', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message })
+});
+
 
                     if (!response.ok) {
                         const errorData = await response.json();
