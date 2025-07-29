@@ -374,7 +374,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         starsContainer.appendChild(star);
     }
 
-    
+    // Créer deux supernovae avec des délais décalés
+    for (let i = 0; i < 2; i++) {
+        const supernova = document.createElement('div');
+        supernova.classList.add('supernova');
+        supernova.style.left = `${Math.random() * 80 + 10}%`; // Évite les bords
+        supernova.style.top = `${Math.random() * 80 + 10}%`;
+        superova.style.animationDelay = `${i * 19 + Math.random() * 5}s`; // Délais décalés (0-5s, 19-24s)
+        starsContainer.appendChild(supernova);
+    }
+
+    // Créer une comète
+    const comet = document.createElement('div');
+    comet.classList.add('comet');
+    comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
+    comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
+    starsContainer.appendChild(comet);
+}
 
         // Navigate between pages
         function showPage(pageId) {
