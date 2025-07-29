@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5F2MS464');</script>
-<!-- End Google Tag Manager -->
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Dynamic Fractal Cosmological Model (DFCM)</title>
 
@@ -606,11 +604,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5F2MS464"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5F2MS464"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-    <div class="stars" id="stars"></div>
+<div class="stars" id="stars"></div>
     
     <div class="container">
         <header>
@@ -941,7 +937,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
         
         // Fonction pour envoyer un message
-        // MODIFICATION ICI POUR APPELER LA FONCTION SANS SERVEUR
         async function sendMessage() { 
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
@@ -961,8 +956,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 const typingMessageDiv = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
                 
                 try {
-                    // C'est l'URL de votre fonction sans serveur Netlify
-                    const response = await fetch('/.netlify/functions/deepseek', { // OU '/api/deepseek' si Vercel
+                    // C'est l'URL de votre fonction Cloudflare Worker
+                    const response = await fetch('https://deepseek-proxy.sylvainherbin2b.workers.dev/', { 
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -972,7 +967,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                     if (!response.ok) {
                         const errorData = await response.json();
-                        console.error('Erreur de la fonction sans serveur :', errorData);
+                        console.error('Erreur de la fonction Cloudflare Worker :', errorData);
                         throw new Error(errorData.error || 'Échec de la récupération de la réponse de l\'IA.');
                     }
 
@@ -985,14 +980,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 } catch (error) {
                     console.error('Échec de l\'envoi du message à l\'IA :', error);
                     typingMessageDiv.remove(); // Supprime l'indicateur de saisie
-                    addMessage("Sorry, I'm having a connection problem with the AI assistant. Please try again later.", 'ai');
+                    addMessage("Sorry, I’m experiencing technical issues. Ask me about the DFCM model (φ(z), Hubble tension, or BBN)!", 'ai');
                 } finally {
                     sendBtn.disabled = false;
                     userInput.disabled = false;
                     userInput.focus();
                     statusDot.classList.add('connected');
                     statusDot.style.backgroundColor = 'var(--success)';
-                    statusText.textContent = 'connected & Ready';
+                    statusText.textContent = 'Connected & Ready';
                 }
             }
         }
