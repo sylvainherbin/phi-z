@@ -1,6 +1,0 @@
-[build.environment]
-  NODE_VERSION = "22"  # Version majeure seulement
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
