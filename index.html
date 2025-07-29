@@ -384,7 +384,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         starsContainer.appendChild(supernova);
     }
 
-    
+    // Créer une comète
+    const comet = document.createElement('div');
+    comet.classList.add('comet');
+    comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
+    comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
+    starsContainer.appendChild(comet);
+}
 
         // Navigate between pages
         function showPage(pageId) {
