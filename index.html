@@ -6,7 +6,7 @@ new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-5F2MS464');</script>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Dynamic Fractal Cosmological Model (DFCM)</title>
 
@@ -14,16 +14,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="keywords" content="cosmology, fractal, cosmological model, DFCM, Hubble tension, Lithium-7 problem, dark matter, dark energy, Friedmann equations, ΛCDM, Big Bang Nucleosynthesis, cosmic acceleration, galaxy clustering, redshift, BBN, Planck, DESI, SNIa, Pantheon+, cosmic chronometers, CMB, matter power spectrum">
     <meta name="author" content="Sylvain Herbin">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://phi-z.space/"> <meta property="og:type" content="website">
-    <meta property="og:url" content="https://phi-z.space/"> <meta property="og:title" content="The Dynamic Fractal Cosmological Model (DFCM) - A New Paradigm in Cosmology">
+    <link rel="canonical" href="https://phi-z.space/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phi-z.space/">
+    <meta property="og:title" content="The Dynamic Fractal Cosmological Model (DFCM) - A New Paradigm in Cosmology">
     <meta property="og:description" content="Discover DFCM, a groundbreaking cosmological model that introduces an evolving spacetime dimension φ(z) to naturally resolve the Hubble tension, Lithium-7 problem, and large-scale structure tensions, achieving a 7.1σ improvement over ΛCDM.">
-    <meta property="og:image" content="https://phi-z.space/images/dfcm-og-image.jpg"> <meta property="og:image:alt" content="Conceptual image representing the evolving spacetime dimension in DFCM">
+    <meta property="og:image" content="https://phi-z.space/images/dfcm-og-image.jpg">
+    <meta property="og:image:alt" content="Conceptual image representing the evolving spacetime dimension in DFCM">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://phi-z.space/"> <meta name="twitter:title" content="The Dynamic Fractal Cosmological Model (DFCM)">
+    <meta name="twitter:url" content="https://phi-z.space/">
+    <meta name="twitter:title" content="The Dynamic Fractal Cosmological Model (DFCM)">
     <meta name="twitter:description" content="DFCM: A new cosmological model resolving the Hubble and Lithium-7 tensions, achieving a 7.1σ statistical improvement over ΛCDM with an evolving spacetime dimension.">
-    <meta name="twitter:image" content="https://phi-z.space/images/dfcm-twitter-image.jpg"> <meta name="twitter:creator" content="@YourTwitterHandle"> <meta name="twitter:site" content="@YourTwitterHandle"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="twitter:image" content="https://phi-z.space/images/dfcm-twitter-image.jpg">
+    <meta name="twitter:creator" content="@YourTwitterHandle">
+    <meta name="twitter:site" content="@YourTwitterHandle">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -606,7 +612,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <body>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5F2MS464"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<div class="stars" id="stars"></div>
+    <div class="stars" id="stars"></div>
     
     <div class="container">
         <header>
@@ -897,11 +903,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     
     <script>
-        // Création des étoiles dynamiques
+        // Create dynamic stars
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const starsCount = 300;
-            
             for (let i = 0; i < starsCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
@@ -919,14 +924,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 starsContainer.appendChild(star);
             }
         }
-        
-        // Navigation entre les pages
+
+        // Navigate between pages
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.remove('active');
             });
             document.getElementById(pageId).classList.add('active');
-            
             document.querySelectorAll('nav a').forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
@@ -935,9 +939,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             });
             window.scrollTo(0, 0);
         }
-        
-        // Fonction pour envoyer un message
-        async function sendMessage() { 
+
+        // Send message to Grok 3 via Vercel
+        async function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
             const sendBtn = document.getElementById('send-btn');
@@ -946,41 +950,43 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             if (message) {
                 addMessage(message, 'user');
-                userInput.value = ''; // Efface l'entrée immédiatement
+                userInput.value = '';
                 sendBtn.disabled = true;
                 userInput.disabled = true;
                 statusDot.classList.remove('connected');
                 statusDot.style.backgroundColor = 'var(--warning)';
-                statusText.textContent = 'Réflexion en cours...';
-                
+                statusText.textContent = 'Processing...';
+
                 const typingMessageDiv = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
-                
+
                 try {
-                    // C'est l'URL de votre fonction Cloudflare Worker
-                    const response = await fetch('https://gemini-dfcm-proxy.sylvainherbin2b.workers.dev/', { 
+                    // Call Vercel Function
+                    const response = await fetch('https://dfcm-chatbot-backend.vercel.app/api/chatbot', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ message: message })
+                        body: JSON.stringify({ message })
                     });
 
                     if (!response.ok) {
                         const errorData = await response.json();
-                        console.error('Erreur de la fonction Cloudflare Worker :', errorData);
-                        throw new Error(errorData.error || 'Échec de la récupération de la réponse de l\'IA.');
+                        console.error('Vercel Function error:', errorData);
+                        throw new Error(errorData.error || 'Failed to get AI response.');
                     }
 
                     const data = await response.json();
-                    const aiResponse = data.reply; // Récupère la réponse de l'IA
+                    const aiResponse = data.reply;
 
-                    typingMessageDiv.remove(); // Supprime l'indicateur de saisie
-                    addMessage(aiResponse, 'ai'); // Affiche la réponse de l'IA
-                    
+                    typingMessageDiv.remove();
+                    addMessage(aiResponse, 'ai');
+
                 } catch (error) {
-                    console.error('Échec de l\'envoi du message à l\'IA :', error);
-                    typingMessageDiv.remove(); // Supprime l'indicateur de saisie
-                    addMessage("Sorry, I’m experiencing technical issues. Ask me about the DFCM model (φ(z), Hubble tension, or BBN)!", 'ai');
+                    console.error('Failed to send message to AI:', error);
+                    typingMessageDiv.remove();
+                    // Fallback: Google Custom Search link
+                    const searchQuery = encodeURIComponent(message + ' site:arxiv.org | site:*.edu');
+                    addMessage(`Sorry, an error occurred. Try another question or check search results: <a href="https://www.google.com/search?q=${searchQuery}" target="_blank">View results</a>`, 'ai');
                 } finally {
                     sendBtn.disabled = false;
                     userInput.disabled = false;
@@ -988,44 +994,42 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     statusDot.classList.add('connected');
                     statusDot.style.backgroundColor = 'var(--success)';
                     statusText.textContent = 'Connected & Ready';
+                    MathJax.typeset(); // Refresh MathJax for equations
                 }
             }
         }
-        
+
+        // Add message to chat
         function addMessage(text, sender, isHtml = false) {
             const chatMessages = document.getElementById('chat-messages');
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
             messageDiv.classList.add(sender + '-message');
-            
             if (isHtml) {
                 messageDiv.innerHTML = text;
             } else {
                 messageDiv.textContent = text;
             }
-            
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
             return messageDiv;
         }
-        
-        // Initialisation
+
+        // Initialize
         window.onload = function() {
             createStars();
-            
             document.getElementById('user-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
                 }
             });
-            
             document.querySelector('nav a[onclick="showPage(\'ai_assistant\')"]').addEventListener('click', function() {
                 setTimeout(() => {
                     document.getElementById('user-input').focus();
                 }, 500);
             });
 
-            // Initialisation du graphique Chart.js pour phi(z)
+            // Initialize Chart.js for φ(z)
             const ctx = document.getElementById('phiZChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
@@ -1053,35 +1057,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                     responsive: true,
                     plugins: {
                         legend: { position: 'top' },
-                        title: { 
-                            display: true, 
-                            text: 'Evolution of Fractal Dimension φ(z)', 
+                        title: {
+                            display: true,
+                            text: 'Evolution of Fractal Dimension φ(z)',
                             color: '#f0f0ff',
                             font: { size: 18 }
                         }
                     },
                     scales: {
-                        x: { 
-                            title: { 
-                                display: true, 
-                                text: 'Redshift (z)', 
-                                color: '#f0f0ff' 
-                            }, 
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' } 
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Redshift (z)',
+                                color: '#f0f0ff'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' }
                         },
-                        y: { 
-                            title: { 
-                                display: true, 
-                                text: 'φ(z)', 
-                                color: '#f0f0ff' 
-                            }, 
-                            grid: { color: 'rgba(255, 255, 255, 0.1)' }, 
-                            min: 1.5, 
-                            max: 3.1 
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'φ(z)',
+                                color: '#f0f0ff'
+                            },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            min: 1.5,
+                            max: 3.1
                         }
                     }
                 }
             });
+
+            MathJax.typeset();
         };
     </script>
 </body>
