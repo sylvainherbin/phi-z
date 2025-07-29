@@ -331,42 +331,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>
         // Create dynamic stars, supernova, and comet
         function createStars() {
-            const starsContainer = document.getElementById('stars');
-            const starsCount = 300;
+    const starsContainer = document.getElementById('stars');
+    const starsCount = 300;
 
-            // Créer les étoiles existantes
-            for (let i = 0; i < starsCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                const size = Math.random() * 4;
-                star.style.width = `${size}px`;
-                star.style.height = `${size}px`;
-                star.style.left = `${Math.random() * 100}%`;
-                star.style.top = `${Math.random() * 100}%`;
-                const duration = 2 + Math.random() * 6;
-                const delay = Math.random() * 5;
-                star.style.setProperty('--duration', `${duration}s`);
-                star.style.setProperty('--delay', `${delay}s`);
-                star.style.background = Math.random() > 0.9 ? 'linear-gradient(45deg, #ff5555, #ffaaaa)' : 'white';
-                star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
-                starsContainer.appendChild(star);
-            }
+    // Créer les étoiles existantes
+    for (let i = 0; i < starsCount; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 4;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.left = `${Math.random() * 100}%`;
+        star.style.top = `${Math.random() * 100}%`;
+        const duration = 2 + Math.random() * 6;
+        const delay = Math.random() * 5;
+        star.style.setProperty('--duration', `${duration}s`);
+        star.style.setProperty('--delay', `${delay}s`);
+        star.style.background = Math.random() > 0.9 ? 'linear-gradient(45deg, #ff5555, #ffaaaa)' : 'white';
+        star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
+        starsContainer.appendChild(star);
+    }
 
-            // Créer une supernova
-            const supernova = document.createElement('div');
-            supernova.classList.add('supernova');
-            supernova.style.left = `${Math.random() * 80 + 10}%`; // Évite les bords
-            supernova.style.top = `${Math.random() * 80 + 10}%`;
-            supernova.style.animationDelay = `${Math.random() * 5}s`; // Délai aléatoire
-            starsContainer.appendChild(supernova);
+    // Créer deux supernovae avec des délais décalés
+    for (let i = 0; i < 2; i++) {
+        const supernova = document.createElement('div');
+        supernova.classList.add('supernova');
+        supernova.style.left = `${Math.random() * 80 + 10}%`; // Évite les bords
+        supernova.style.top = `${Math.random() * 80 + 10}%`;
+        supernova.style.animationDelay = `${i * 19 + Math.random() * 5}s`; // Délais décalés (0-5s, 19-24s)
+        starsContainer.appendChild(supernova);
+    }
 
-            // Créer une comète
-            const comet = document.createElement('div');
-            comet.classList.add('comet');
-            comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
-            comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
-            starsContainer.appendChild(comet);
-        }
+    // Créer une comète
+    const comet = document.createElement('div');
+    comet.classList.add('comet');
+    comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
+    comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
+    starsContainer.appendChild(comet);
+}
 
         // Navigate between pages
         function showPage(pageId) {
