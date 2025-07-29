@@ -595,3 +595,135 @@ footer {
     .social-links a { width: 45px; height: 45px; }
 }
 
+/* --- Cosmic Timeline Visualization --- */
+.cosmic-timeline-container {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(106, 90, 249, 0.2);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+    max-width: 900px;
+    margin: 40px auto;
+    box-shadow: 0 0 30px rgba(106, 90, 249, 0.1);
+}
+
+.timeline-slider-wrapper {
+    width: 90%;
+    position: relative;
+    padding-bottom: 25px; /* Space for labels */
+}
+
+.slider {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 10px;
+    background: linear-gradient(to right, var(--accent), var(--accent-light));
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.8;
+    transition: opacity .2s;
+    margin-bottom: 10px;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: var(--text);
+    border: 3px solid var(--accent);
+    border-radius: 50%;
+    cursor: grab;
+    transition: transform 0.2s;
+}
+
+.slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider-labels {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    top: 100%; /* Position below the slider */
+    transform: translateY(5px);
+}
+
+.visualization-area {
+    width: 100%;
+    background: var(--secondary);
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden; /* To contain canvas elements */
+    min-height: 450px; /* Ensure visibility before JS loads */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#cosmicVisualizationCanvas {
+    display: block; /* Remove extra space below canvas */
+    background-color: var(--secondary); /* Fallback */
+    border-radius: 15px; /* Match parent */
+}
+
+.phi-value-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0,0,0,0.4);
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#currentPhiZValue {
+    color: var(--accent-light);
+}
+
+.era-description {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.4);
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 80%;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .timeline-slider-wrapper {
+        width: 95%;
+    }
+    .slider-labels {
+        font-size: 0.7rem;
+    }
+    .phi-value-display {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+    .era-description {
+        font-size: 0.85rem;
+        padding: 8px 15px;
+    }
+}
