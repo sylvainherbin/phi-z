@@ -79,14 +79,14 @@ header {
 }
 
 /* POLICE CORRIGÉE POUR LE SYMBOLE φ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
+
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0;
     text-decoration: none;
-    font-family: 'Noto Sans Math', 'Cambria Math', serif;
+    font-family: "Noto Sans", serif;
 }
 
 .math-container {
