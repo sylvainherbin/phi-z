@@ -423,6 +423,13 @@ nav a:hover, nav a.active {
     font-size: 1.5rem;
     overflow-x: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow:
+10
+          0 0 15px rgba(134, 42, 255, .7),
+11
+          0 0 45px rgba(134, 42, 255, .7),
+12
+          0 0 105px rgba(134, 42, 255, .7);
     text-align: center;
 }
 
