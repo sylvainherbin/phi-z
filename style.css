@@ -78,102 +78,77 @@ header {
     margin-bottom: 40px;
 }
 
-/* Correction du symbole phi et ajustement du z */
+/* COMPLÈTEMENT RECOMMENCÉ - DESIGN ÉPURÉ ET MATHÉMATIQUE */
 .logo {
     display: flex;
-    align-items: baseline;
-    gap: 2px;
-    font-weight: 700;
-    color: var(--text);
+    align-items: center;
+    gap: 0;
     text-decoration: none;
+    font-family: "Cambria Math", "TeX Gyre Schola", serif;
 }
 
-.logo-symbol {
-    font-size: 2.8rem; /* Taille significativement augmentée */
-    color: var(--accent);
-    background: rgba(106, 90, 249, 0.2);
-    padding: 12px 18px 8px 18px; /* Padding augmenté */
-    border-radius: 15px;
-    display: inline-flex;
-    font-style: normal;
-    font-family: "Cambria Math", "Times New Roman", serif; /* Police mathématique */
-    animation: pulse 3s infinite ease-in-out;
+.math-container {
     position: relative;
-    line-height: 1;
-    font-weight: bold;
+    display: inline-block;
+    padding: 0 5px;
 }
 
-/* Utilisation du caractère Unicode spécifique pour phi */
-.logo-symbol::before {
-    content: "φ"; /* Caractère Unicode U+03C6 */
-    display: inline-block;
+.phi {
+    font-size: 3.5rem; /* PHI TRÈS GRAND */
+    color: var(--accent);
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 .redshift {
-    font-size: 1.1rem; /* Taille réduite */
-    vertical-align: sub;
-    position: relative;
-    top: 0.2em; /* Positionnement précis */
-    margin-left: -6px; /* Rapprochement avec le phi */
-    letter-spacing: -1px;
-    font-family: "Cambria Math", "Times New Roman", serif;
-    font-weight: normal;
+    position: absolute;
+    bottom: 0.1rem;
+    right: -0.5rem;
+    font-size: 0.9rem; /* Z TRÈS PETIT */
+    color: var(--accent-light);
+    transform: translateY(40%);
+    letter-spacing: -0.5px;
+    z-index: 3;
 }
 
-.logo-domain {
+.domain {
     font-size: 1.8rem;
     color: var(--text);
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: -0.5px;
+    position: relative;
+    top: -0.1rem;
     margin-left: 2px;
 }
 
-/* Effet de lueur cosmique renforcée */
-.logo-symbol::after {
+/* ANIMATION SUBTILE */
+.math-container::before {
     content: "";
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150%;
-    height: 150%;
-    background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
-    opacity: 0.3;
-    z-index: -1;
-    transform: translate(-50%, -50%);
+    width: 110%;
+    height: 110%;
+    background: radial-gradient(circle, rgba(106, 90, 249, 0.15) 0%, transparent 70%);
     border-radius: 50%;
-    animation: cosmic-pulse 3s infinite alternate;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-@keyframes cosmic-pulse {
-    0% { 
-        opacity: 0.2;
-        transform: translate(-50%, -50%) scale(0.95);
-    }
-    100% { 
-        opacity: 0.4;
-        transform: translate(-50%, -50%) scale(1.1);
-    }
+.logo:hover .math-container::before {
+    opacity: 1;
 }
 
-/* Animation améliorée */
-@keyframes pulse {
-    0%, 100% { 
-        transform: scale(1); 
-        box-shadow: 0 0 15px rgba(106, 90, 249, 0.4); 
-    }
-    50% { 
-        transform: scale(1.12); 
-        box-shadow: 0 0 30px rgba(106, 90, 249, 0.8); 
-    }
-}
-
-/* Effet de survol plus prononcé */
-.logo:hover .logo-symbol {
-    animation: pulse-hover 1.2s infinite ease-in-out;
-}
-
-@keyframes pulse-hover {
-    0%, 100% { transform: scale(1.05); }
-    50% { transform: scale(1.15); }
+/* EFFET DE SURVOL SUR LE PHI */
+.logo:hover .phi {
+    text-shadow: 0 0 12px rgba(106, 90, 249, 0.6);
+    transition: text-shadow 0.3s ease;
 }
 
 nav ul {
