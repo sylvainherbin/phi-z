@@ -79,7 +79,7 @@ header {
 }
 
 /* POLICE CORRIGÉE POUR LE SYMBOLE φ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 .logo {
     display: flex;
