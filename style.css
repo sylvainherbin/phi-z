@@ -78,15 +78,15 @@ header {
     margin-bottom: 40px;
 }
 
-/* POLICE GARANTIE POUR LE SYMBOLE φ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=STIX+Two+Math&display=swap');
+/* POLICE CORRIGÉE POUR LE SYMBOLE φ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0;
     text-decoration: none;
-    font-family: 'STIX Two Math', 'Noto Serif', serif; /* Polices mathématiques fiables */
+    font-family: 'Noto Sans Math', 'Cambria Math', serif;
 }
 
 .math-container {
