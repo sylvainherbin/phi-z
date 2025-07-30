@@ -78,10 +78,11 @@ header {
     margin-bottom: 40px;
 }
 
+/* Modification du logo */
 .logo {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    align-items: baseline; /* Pour aligner sur la ligne de base */
+    gap: 5px;
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--text);
@@ -89,28 +90,84 @@ header {
 }
 
 .logo-symbol {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     color: var(--accent);
     background: rgba(106, 90, 249, 0.2);
-    padding: 12px 15px;
+    padding: 12px 15px 8px 15px; /* Ajustement du padding */
     border-radius: 12px;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     font-style: italic;
     font-family: "Times New Roman", serif;
     animation: pulse 3s infinite ease-in-out;
+    position: relative;
+    line-height: 1;
 }
 
-.logo-symbol sup {
-    font-size: 0.7rem;
-    vertical-align: super;
-    margin-left: 2px;
+.logo-subscript {
+    font-size: 1.0rem;
+    vertical-align: sub;
+    position: relative;
+    top: 0.1em; /* Ajustement fin de la position verticale */
+    letter-spacing: -0.5px; /* Serrer un peu les lettres */
+    margin-left: -5px; /* Rapprocher le (z) du phi */
+    margin-right: -3px; /* Compenser l'espace après */
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(106, 90, 249, 0.3); }
-    50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(106, 90, 249, 0.8); }
+.logo-domain {
+    font-size: 1.8rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+/* Effet de particules cosmiques autour du symbole */
+.logo-symbol::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 130%;
+    height: 130%;
+    background: radial-gradient(circle, var(--accent-light) 0%, transparent 70%);
+    opacity: 0.15;
+    z-index: -1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    animation: cosmic-pulse 4s infinite alternate;
+}
+
+@keyframes cosmic-pulse {
+    0% { 
+        opacity: 0.1;
+        transform: translate(-50%, -50%) scale(0.95);
+    }
+    100% { 
+        opacity: 0.25;
+        transform: translate(-50%, -50%) scale(1.05);
+    }
+}
+
+/* Animation au survol */
+.logo:hover .logo-symbol {
+    animation: pulse-hover 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-hover {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 10px rgba(106, 90, 249, 0.3); 
+    }
+    50% { 
+        transform: scale(1.08); 
+        box-shadow: 0 0 20px rgba(106, 90, 249, 0.6); 
+    }
+}
+
+/* Effet de lueur sur le domaine au survol */
+.logo:hover .logo-domain {
+    text-shadow: 0 0 8px rgba(138, 125, 251, 0.7);
+    transition: text-shadow 0.3s ease;
 }
 
 nav ul {
