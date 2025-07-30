@@ -766,3 +766,13 @@ footer {
         font-size: 0.8rem;
     }
 }
+
+[class*="fa-"], [class*="ai-"] {
+    font-family: inherit !important;
+}
+.social-links a i {
+    font-family: inherit !important;
+    font-size: 1.2rem;
+    color: var(--text);
+    display: inline-block;
+}
