@@ -767,13 +767,3 @@ footer {
     }
 }
 
-/* Corriger les polices pour Font Awesome et Academicons */
-i[class*="fa-"], i[class*="ai-"] {
-    font-family: unset !important;
-}
-.social-links a i {
-    font-family: unset !important;
-    font-size: 1.2rem;
-    color: var(--text);
-    display: inline-block;
-}
