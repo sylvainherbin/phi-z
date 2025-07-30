@@ -180,13 +180,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
                     Explore the evolution of the fractal dimension φ(z) across cosmic time, from the Big Bang to the present day.
                 </p>
-                <div style="max-width: 800px; margin: 0 auto;">
-                    <canvas id="phiZChart"></canvas>
+                
+                <div class="cosmic-timeline-container">
+                    <div class="visualization-container">
+                        <canvas id="cosmicCanvas" class="cosmic-canvas"></canvas>
+                        <div class="info-panel">
+                            <div class="phi-value">φ(z) = 2.970</div>
+                            <div class="epoch-description">Dense fractal primordial universe</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-container">
+                        <div class="timeline">
+                            <div class="timeline-progress" id="timelineProgress"></div>
+                            <input type="range" min="0" max="100" value="0" class="timeline-slider" id="timeSlider">
+                        </div>
+                        
+                        <div class="epoch-markers">
+                            <div class="epoch">
+                                <div class="epoch-title">BBN</div>
+                                <div class="epoch-time">z ≈ 10⁹</div>
+                            </div>
+                            <div class="epoch">
+                                <div class="epoch-title">CMB</div>
+                                <div class="epoch-time">z ≈ 1100</div>
+                            </div>
+                            <div class="epoch">
+                                <div class="epoch-title">Galaxy Formation</div>
+                                <div class="epoch-time">z ≈ 10</div>
+                            </div>
+                            <div class="epoch">
+                                <div class="epoch-title">Present Era</div>
+                                <div class="epoch-time">z = 0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="controls">
+                            <button class="control-btn" id="playBtn">▶ Play</button>
+                            <button class="control-btn" id="pauseBtn">⏸ Pause</button>
+                            <button class="control-btn" id="resetBtn">↺ Reset</button>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
-
-        <div id="tensions" class="page">
+<div id="tensions" class="page">
             <section class="hero">
                 <h1>Resolving Key Cosmological Tensions</h1>
                 <p>The standard model of cosmology (ΛCDM) faces several critical challenges. DFCM offers natural and precise solutions.</p>
@@ -344,19 +382,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <p>The Dynamic Fractal Cosmological Model (DFCM) &copy; 2025 - All rights reserved</p>
                 <p>A new paradigm to understand the universe</p>
 
-                <span class="author-name">Sylvain Herbin</span>
+                <span class="author-name">Sylvain Herbin |  ORCID: 0009-0001-3390-5012</span>
                 <p>herbinsylvain@protonmail.com</p>
             </div>
         </footer>
     </div>
 
     <script>
-        // Create dynamic stars, supernova, and comet
+        // Create dynamic stars
         function createStars() {
             const starsContainer = document.getElementById('stars');
             const starsCount = 300;
 
-            // Créer les étoiles existantes
             for (let i = 0; i < starsCount; i++) {
                 const star = document.createElement('div');
                 star.classList.add('star');
@@ -373,23 +410,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 star.style.boxShadow = Math.random() > 0.8 ? '0 0 10px rgba(255, 100, 100, 0.5)' : 'none';
                 starsContainer.appendChild(star);
             }
-
-            // Créer deux supernovae avec des délais décalés
-            for (let i = 0; i < 2; i++) {
-                const supernova = document.createElement('div');
-                supernova.classList.add('supernova');
-                supernova.style.left = `${Math.random() * 80 + 10}%`; // Évite les bords
-                supernova.style.top = `${Math.random() * 80 + 10}%`;
-                supernova.style.animationDelay = `${i * 19 + Math.random() * 5}s`; // Délais décalés (0-5s, 19-24s)
-                starsContainer.appendChild(supernova);
-            }
-
-            // Créer une comète
-            const comet = document.createElement('div');
-            comet.classList.add('comet');
-            comet.style.top = `${Math.random() * 50}%`; // Départ dans la moitié supérieure
-            comet.style.animationDelay = `${Math.random() * 10}s`; // Délai aléatoire
-            starsContainer.appendChild(comet);
         }
 
         // Navigate between pages
@@ -407,10 +427,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             window.scrollTo(0, 0);
         }
 
-        // --- Chatbot Functions (Moved outside window.onload) ---
+        // --- Chatbot Functions (Moved outside window.onload for global access) ---
         async function sendMessage() {
             const userInput = document.getElementById('user-input');
-            const message = userInput ? userInput.value.trim() : ''; // Add check for userInput
+            const message = userInput ? userInput.value.trim() : '';
             const sendBtn = document.getElementById('send-btn');
             const statusDot = document.getElementById('status-dot');
             const statusText = document.getElementById('status-text');
@@ -472,7 +492,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         function addMessage(text, sender, isHtml = false) {
             const chatMessages = document.getElementById('chat-messages');
-            if (!chatMessages) { // Add a check in case chatMessages is not found
+            if (!chatMessages) {
                 console.error("Chat messages container not found.");
                 return null;
             }
@@ -490,10 +510,338 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         }
         // --- End Chatbot Functions ---
 
+        // FRISE COSMIQUE - CODE JAVASCRIPT
+        // Configuration
+        const config = {
+            epochs: [
+                { name: "BBN", z: 1e9, phi: 2.970, description: "Dense fractal primordial universe" },
+                { name: "CMB", z: 1100, phi: 2.618, description: "Cosmic Microwave Background emission" },
+                { name: "Galaxies", z: 10, phi: 2.0, description: "Formation of the first galaxies" },
+                { name: "Present", z: 0, phi: 1.618, description: "Harmonious present era" }
+            ],
+            particleCount: 300,
+            maxParticleSize: 6
+        };
+
+        // Éléments DOM
+        const canvas = document.getElementById('cosmicCanvas');
+        const ctx = canvas ? canvas.getContext('2d') : null; // Check if canvas exists
+        const timeSlider = document.getElementById('timeSlider');
+        const timelineProgress = document.getElementById('timelineProgress');
+        const phiValue = document.querySelector('.phi-value');
+        const epochDescription = document.querySelector('.epoch-description');
+        const playBtn = document.getElementById('playBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // Variables d'état
+        let currentTime = 0;
+        let animationId = null;
+        let particles = [];
+        
+        // Initialisation du canvas
+        function initCanvas() {
+            if (!canvas || !ctx) return; // Exit if canvas or context not found
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            createParticles();
+            drawVisualization();
+        }
+        
+        // Création des particules
+        function createParticles() {
+            particles = [];
+            for (let i = 0; i < config.particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * config.maxParticleSize + 1,
+                    speedX: (Math.random() - 0.5) * 0.5,
+                    speedY: (Math.random() - 0.5) * 0.5,
+                    color: getRandomParticleColor(),
+                    originalSize: Math.random() * config.maxParticleSize + 1
+                });
+            }
+        }
+        
+        function getRandomParticleColor() {
+            const colors = [
+                getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--accent-light').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--success').trim(),
+                getComputedStyle(document.documentElement).getPropertyValue('--warning').trim()
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+        
+        // Calcul de φ(z) en fonction du temps
+        function calculatePhi(timePercent) {
+            if (timePercent < 0.2) {
+                return interpolate(timePercent, 0, 0.2, 2.970, 2.618);
+            } else if (timePercent < 0.6) {
+                return interpolate(timePercent, 0.2, 0.6, 2.618, 2.0);
+            } else {
+                return interpolate(timePercent, 0.6, 1.0, 2.0, 1.618);
+            }
+        }
+        
+        function interpolate(value, inMin, inMax, outMin, outMax) {
+            return outMin + (outMax - outMin) * ((value - inMin) / (inMax - inMin));
+        }
+        
+        // Dessin de la visualisation
+        function drawVisualization() {
+            if (!ctx) return; // Exit if context not found
+            const timePercent = currentTime / 100;
+            const phi = calculatePhi(timePercent);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground(timePercent);
+            drawFractalPatterns(timePercent, phi);
+            updateInfoPanel(phi, timePercent);
+        }
+        
+        function drawBackground(timePercent) {
+            if (!ctx) return;
+            const gradient = ctx.createRadialGradient(
+                canvas.width/2, canvas.height/2, 0,
+                canvas.width/2, canvas.height/2, Math.max(canvas.width, canvas.height)/2
+            );
+            
+            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
+            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+            const accentLightColor = getComputedStyle(document.documentElement).getPropertyValue('--accent-light').trim();
+            
+            if (timePercent < 0.3) {
+                gradient.addColorStop(0, 'rgba(255, 100, 150, 0.1)');
+                gradient.addColorStop(0.5, 'rgba(150, 50, 100, 0.05)');
+                gradient.addColorStop(1, 'rgba(50, 10, 30, 0.01)');
+            } else if (timePercent < 0.7) {
+                gradient.addColorStop(0, `rgba(${hexToRgb(accentColor)}, 0.15)`);
+                gradient.addColorStop(0.5, `rgba(${hexToRgb(accentLightColor)}, 0.08)`);
+                gradient.addColorStop(1, `rgba(${hexToRgb(primaryColor)}, 0.02)`);
+            } else {
+                const successColor = getComputedStyle(document.documentElement).getPropertyValue('--success').trim();
+                gradient.addColorStop(0, `rgba(${hexToRgb(successColor)}, 0.1)`);
+                gradient.addColorStop(0.5, `rgba(${hexToRgb(accentColor)}, 0.05)`);
+                gradient.addColorStop(1, `rgba(${hexToRgb(primaryColor)}, 0.01)`);
+            }
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? 
+                `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}` 
+                : '106, 90, 249';
+        }
+        
+        function drawFractalPatterns(timePercent, phi) {
+            if (!ctx) return;
+            drawParticles(timePercent, phi);
+            
+            if (timePercent < 0.3) {
+                drawFractalClusters();
+            } else if (timePercent > 0.8) {
+                drawGoldenSpiral();
+            }
+        }
+        
+        function drawParticles(timePercent, phi) {
+            if (!ctx) return;
+            const fractalFactor = 1 - (phi - 1.618) / (2.970 - 1.618);
+            
+            particles.forEach(particle => {
+                particle.x += particle.speedX;
+                particle.y += particle.speedY;
+                
+                if (particle.x < 0) particle.x = canvas.width;
+                if (particle.x > canvas.width) particle.x = 0;
+                if (particle.y < 0) particle.y = canvas.height;
+                if (particle.y > canvas.height) particle.y = 0;
+                
+                const sizeFactor = timePercent < 0.3 ? 1.5 : 1;
+                const currentSize = particle.originalSize * sizeFactor * fractalFactor;
+                
+                ctx.beginPath();
+                ctx.arc(particle.x, particle.y, currentSize, 0, Math.PI * 2);
+                ctx.fillStyle = particle.color;
+                ctx.fill();
+                
+                if (timePercent < 0.4) {
+                    particles.forEach(other => {
+                        const dx = particle.x - other.x;
+                        const dy = particle.y - other.y;
+                        const distance = Math.sqrt(dx*dx + dy*dy);
+                        
+                        if (distance < 80) {
+                            ctx.beginPath();
+                            ctx.moveTo(particle.x, particle.y);
+                            ctx.lineTo(other.x, other.y);
+                            ctx.strokeStyle = `rgba(106, 90, 249, ${0.3 * (1 - distance/80)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    });
+                }
+            });
+        }
+        
+        function drawFractalClusters() {
+            if (!ctx) return;
+            for (let i = 0; i < 15; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = 30 + Math.random() * 70;
+                const branchCount = 5 + Math.floor(Math.random() * 8);
+                
+                ctx.save();
+                ctx.translate(x, y);
+                
+                for (let j = 0; j < branchCount; j++) {
+                    ctx.rotate((Math.PI * 2) / branchCount);
+                    drawFractalBranch(0, 0, size, 0, 5);
+                }
+                
+                ctx.restore();
+            }
+        }
+        
+        function drawFractalBranch(x, y, length, angle, depth) {
+            if (depth === 0 || !ctx) return;
+            
+            const endX = x + length * Math.cos(angle);
+            const endY = y + length * Math.sin(angle);
+            
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = `rgba(255, 121, 198, ${0.4 - depth * 0.07})`;
+            ctx.lineWidth = depth * 0.7;
+            ctx.stroke();
+            
+            const subBranches = 2 + Math.floor(Math.random() * 3);
+            for (let i = 0; i < subBranches; i++) {
+                const newAngle = angle - Math.PI/4 + Math.random() * Math.PI/2;
+                const newLength = length * (0.5 + Math.random() * 0.3);
+                drawFractalBranch(endX, endY, newLength, newAngle, depth - 1);
+            }
+        }
+        
+        function drawGoldenSpiral() {
+            if (!ctx) return;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(canvas.width, canvas.height) * 0.4;
+            let radius = 1;
+            let angle = 0;
+            
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            
+            while (radius < maxRadius) {
+                angle += 0.1;
+                radius = Math.exp(angle * 0.306);
+                
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                ctx.lineTo(x, y);
+            }
+            
+            const goldenColor = getComputedStyle(document.documentElement).getPropertyValue('--warning').trim();
+            ctx.strokeStyle = `${goldenColor}cc`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            
+            for (let i = 0; i < 100; i++) {
+                angle = i * 0.2;
+                radius = Math.exp(angle * 0.306);
+                
+                if (radius > maxRadius) break;
+                
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = goldenColor;
+                ctx.fill();
+            }
+        }
+        
+        function updateInfoPanel(phi, timePercent) {
+            if (phiValue) phiValue.textContent = `φ(z) = ${phi.toFixed(3)}`;
+            
+            if (epochDescription) {
+                if (timePercent < 0.2) {
+                    epochDescription.textContent = "Dense fractal primordial universe";
+                } else if (timePercent < 0.4) {
+                    epochDescription.textContent = "Cosmic Microwave Background emission";
+                } else if (timePercent < 0.7) {
+                    epochDescription.textContent = "Galaxy formation and structures";
+                } else {
+                    epochDescription.textContent = "Harmonious present era dominated by the golden ratio";
+                }
+            }
+        }
+        
+        // Gestion des événements
+        if (timeSlider) { // Check before adding listener
+            timeSlider.addEventListener('input', () => {
+                currentTime = parseInt(timeSlider.value);
+                if (timelineProgress) timelineProgress.style.width = `${currentTime}%`;
+                drawVisualization();
+            });
+        }
+        
+        if (playBtn) { // Check before adding listener
+            playBtn.addEventListener('click', () => {
+                if (animationId) return;
+                
+                function animate() {
+                    currentTime += 0.5;
+                    if (currentTime > 100) currentTime = 0;
+                    
+                    if (timeSlider) timeSlider.value = currentTime;
+                    if (timelineProgress) timelineProgress.style.width = `${currentTime}%`;
+                    drawVisualization();
+                    
+                    animationId = requestAnimationFrame(animate);
+                }
+                
+                animate();
+            });
+        }
+        
+        if (pauseBtn) { // Check before adding listener
+            pauseBtn.addEventListener('click', () => {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+            });
+        }
+        
+        if (resetBtn) { // Check before adding listener
+            resetBtn.addEventListener('click', () => {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+                currentTime = 0;
+                if (timeSlider) timeSlider.value = currentTime;
+                if (timelineProgress) timelineProgress.style.width = `${currentTime}%`;
+                drawVisualization();
+            });
+        }
+        
         // Initialize
         window.onload = function() {
             createStars();
-
+            
             // Event listener for user input (Enter key)
             const userInputElement = document.getElementById('user-input');
             if (userInputElement) { // Ensure element exists before adding listener
@@ -511,76 +859,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             }
 
             // Focus on input when AI Assistant page is shown
-            document.querySelector('nav a[onclick="showPage(\'ai_assistant\')"]').addEventListener('click', function() {
-                setTimeout(() => {
-                    const currentUserInput = document.getElementById('user-input');
-                    if (currentUserInput) currentUserInput.focus();
-                }, 500);
-            });
-
-
-            // Initialize Chart.js for φ(z)
-            const ctx = document.getElementById('phiZChart');
-            if (ctx) { // Check if the canvas element exists
-                new Chart(ctx.getContext('2d'), {
-                    type: 'line',
-                    data: {
-                        labels: [0, 0.5, 1, 1.5, 2, 3, 4, 5],
-                        datasets: [
-                            {
-                                label: 'Dynamic φ(z)',
-                                data: [2.85, 2.65, 2.45, 2.25, 2.05, 1.85, 1.75, 1.65],
-                                borderColor: '#6a5af9',
-                                backgroundColor: 'rgba(106, 90, 249, 0.2)',
-                                fill: true,
-                                tension: 0.4
-                            },
-                            {
-                                label: 'φ∞ = 1.618',
-                                data: [1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618, 1.618],
-                                borderColor: '#ff5555',
-                                borderDash: [5, 5],
-                                fill: false
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { position: 'top' },
-                            title: {
-                                display: true,
-                                text: 'Evolution of Fractal Dimension φ(z)',
-                                color: '#f0f0ff',
-                                font: { size: 18 }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Redshift (z)',
-                                    color: '#f0f0ff'
-                                },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                            },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'φ(z)',
-                                    color: '#f0f0ff'
-                                },
-                                grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                                min: 1.5,
-                                max: 3.1
-                            }
-                        }
-                    }
+            const aiAssistantLink = document.querySelector('nav a[onclick="showPage(\'ai_assistant\')"]');
+            if (aiAssistantLink) {
+                aiAssistantLink.addEventListener('click', function() {
+                    setTimeout(() => {
+                        const currentUserInput = document.getElementById('user-input');
+                        if (currentUserInput) currentUserInput.focus();
+                    }, 500);
                 });
-            } else {
-                console.warn("Canvas element with ID 'phiZChart' not found. Chart.js visualization will not be initialized.");
             }
 
+            // Initialiser la frise cosmique
+            initCanvas();
+            window.addEventListener('resize', initCanvas);
             MathJax.typeset();
         };
     </script>
