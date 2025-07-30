@@ -78,13 +78,15 @@ header {
     margin-bottom: 40px;
 }
 
-/* COMPLÈTEMENT RECOMMENCÉ - DESIGN ÉPURÉ ET MATHÉMATIQUE */
+/* POLICE CORRIGÉE POUR LE SYMBOLE φ */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
+
 .logo {
     display: flex;
     align-items: center;
     gap: 0;
     text-decoration: none;
-    font-family: "Cambria Math", "TeX Gyre Schola", serif;
+    font-family: 'Noto Sans Math', 'Cambria Math', serif;
 }
 
 .math-container {
@@ -94,25 +96,30 @@ header {
 }
 
 .phi {
-    font-size: 3.5rem; /* PHI TRÈS GRAND */
-    color: var(--accent);
+    font-size: 3.8rem; /* PHI ENCORE PLUS GRAND */
+    color: var(--accent); /* Couleur violette par défaut */
     font-weight: 700;
     line-height: 1;
     display: block;
     text-align: center;
     position: relative;
     z-index: 2;
+    /* Animation d'écriture */
+    animation: write-phi 4s ease-in-out forwards;
 }
 
 .redshift {
     position: absolute;
     bottom: 0.1rem;
     right: -0.5rem;
-    font-size: 0.9rem; /* Z TRÈS PETIT */
+    font-size: 0.9rem;
     color: var(--accent-light);
     transform: translateY(40%);
     letter-spacing: -0.5px;
     z-index: 3;
+    /* Animation d'écriture décalée */
+    opacity: 0;
+    animation: write-redshift 4s ease-in-out 0.5s forwards;
 }
 
 .domain {
@@ -123,32 +130,89 @@ header {
     position: relative;
     top: -0.1rem;
     margin-left: 2px;
-}
-
-/* ANIMATION SUBTILE */
-.math-container::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 110%;
-    height: 110%;
-    background: radial-gradient(circle, rgba(106, 90, 249, 0.15) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
+    /* Animation décalée pour le domaine */
     opacity: 0;
-    transition: opacity 0.3s ease;
+    animation: fade-in 1s ease-in-out 3s forwards;
 }
 
-.logo:hover .math-container::before {
-    opacity: 1;
+/* ANIMATION D'ÉCRITURE */
+@keyframes write-phi {
+    0% {
+        color: #03FCD7;
+        text-shadow: 0 0 15px #03FCD7;
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    20% {
+        opacity: 1;
+        transform: scale(1.1);
+        color: #03FCD7;
+        text-shadow: 0 0 20px #03FCD7;
+    }
+    40% {
+        color: #03FCD7;
+        text-shadow: 0 0 25px #03FCD7;
+    }
+    60% {
+        color: #03FCD7;
+        text-shadow: 0 0 15px #03FCD7;
+    }
+    80% {
+        color: #8a7dfb; /* Transition vers la couleur finale */
+    }
+    100% {
+        color: var(--accent);
+        text-shadow: none;
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-/* EFFET DE SURVOL SUR LE PHI */
+@keyframes write-redshift {
+    0% {
+        opacity: 0;
+        transform: translateY(40%) scale(0.5);
+        color: #03FCD7;
+    }
+    30% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+        color: #03FCD7;
+        text-shadow: 0 0 10px #03FCD7;
+        transform: translateY(40%) scale(1.2);
+    }
+    60% {
+        color: #03FCD7;
+        text-shadow: 0 0 8px #03FCD7;
+    }
+    80% {
+        color: var(--accent-light);
+        text-shadow: none;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(40%) scale(1);
+        color: var(--accent-light);
+    }
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* EFFET DE SURVOL */
 .logo:hover .phi {
-    text-shadow: 0 0 12px rgba(106, 90, 249, 0.6);
-    transition: text-shadow 0.3s ease;
+    color: #03FCD7;
+    text-shadow: 0 0 15px rgba(3, 252, 215, 0.6);
+    transition: all 0.4s ease;
+}
+
+.logo:hover .redshift {
+    color: #03FCD7;
+    transition: all 0.4s ease;
 }
 
 nav ul {
