@@ -79,14 +79,14 @@ header {
 }
 
 /* POLICE CORRIGÉE POUR LE SYMBOLE φ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Math&display=swap');
 
 .logo {
     display: flex;
     align-items: center;
     gap: 0;
     text-decoration: none;
-    font-family: 'Noto Sans',  serif;
+    font-family: 'Noto Sans Math', 'Cambria Math', serif;
 }
 
 .math-container {
@@ -96,38 +96,30 @@ header {
 }
 
 .phi {
-    font-size: 4rem; /* Taille augmentée */
-    color: var(--accent);
-    font-weight: 400;
-    line-height: 0.8; /* Ajustement de l'alignement */
+    font-size: 3.8rem; /* PHI ENCORE PLUS GRAND */
+    color: var(--accent); /* Couleur violette par défaut */
+    font-weight: 700;
+    line-height: 1;
     display: block;
     text-align: center;
     position: relative;
     z-index: 2;
+    /* Animation d'écriture */
     animation: write-phi 4s ease-in-out forwards;
-    font-style: normal;
-    /* Garantir le bon caractère */
-    font-family: 'STIX Two Math', 'Cambria Math', serif;
-}
-
-/* Utilisation du code Unicode explicite */
-.phi::before {
-    content: "\03C6"; /* Code Unicode pour φ */
-    display: inline-block;
 }
 
 .redshift {
     position: absolute;
-    bottom: 0.3rem; /* Position ajustée */
+    bottom: 0.1rem;
     right: -0.5rem;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: var(--accent-light);
     transform: translateY(40%);
     letter-spacing: -0.5px;
     z-index: 3;
+    /* Animation d'écriture décalée */
     opacity: 0;
     animation: write-redshift 4s ease-in-out 0.5s forwards;
-    font-family: 'STIX Two Math', 'Noto Serif', serif;
 }
 
 .domain {
@@ -138,24 +130,24 @@ header {
     position: relative;
     top: -0.1rem;
     margin-left: 2px;
+    /* Animation décalée pour le domaine */
     opacity: 0;
     animation: fade-in 1s ease-in-out 3s forwards;
-    font-family: 'Noto Serif', sans-serif; /* Police différente pour le domaine */
 }
 
-/* ANIMATION REVOUE */
+/* ANIMATION D'ÉCRITURE */
 @keyframes write-phi {
     0% {
         color: #03FCD7;
-        text-shadow: 0 0 20px #03FCD7;
+        text-shadow: 0 0 15px #03FCD7;
         opacity: 0;
-        transform: scale(0.7);
+        transform: scale(0.8);
     }
     20% {
         opacity: 1;
-        transform: scale(1.2);
+        transform: scale(1.1);
         color: #03FCD7;
-        text-shadow: 0 0 30px #03FCD7;
+        text-shadow: 0 0 20px #03FCD7;
     }
     40% {
         color: #03FCD7;
@@ -166,8 +158,7 @@ header {
         text-shadow: 0 0 15px #03FCD7;
     }
     80% {
-        color: #6a5af9; /* Transition vers violet */
-        text-shadow: 0 0 8px #6a5af9;
+        color: #8a7dfb; /* Transition vers la couleur finale */
     }
     100% {
         color: var(--accent);
@@ -180,23 +171,23 @@ header {
 @keyframes write-redshift {
     0% {
         opacity: 0;
-        transform: translateY(40%) scale(0.4);
+        transform: translateY(40%) scale(0.5);
         color: #03FCD7;
     }
-    40% {
+    30% {
         opacity: 0;
     }
-    50% {
+    40% {
         opacity: 1;
         color: #03FCD7;
-        text-shadow: 0 0 12px #03FCD7;
-        transform: translateY(40%) scale(1.3);
+        text-shadow: 0 0 10px #03FCD7;
+        transform: translateY(40%) scale(1.2);
     }
-    70% {
+    60% {
         color: #03FCD7;
         text-shadow: 0 0 8px #03FCD7;
     }
-    90% {
+    80% {
         color: var(--accent-light);
         text-shadow: none;
     }
@@ -212,18 +203,19 @@ header {
     100% { opacity: 1; }
 }
 
-/* EFFET DE SURVOL AMÉLIORÉ */
+/* EFFET DE SURVOL */
 .logo:hover .phi {
-    color: #03FCD7 !important;
-    text-shadow: 0 0 15px rgba(3, 252, 215, 0.7) !important;
-    transform: scale(1.05);
-    transition: all 0.3s ease;
+    color: #03FCD7;
+    text-shadow: 0 0 15px rgba(3, 252, 215, 0.6);
+    transition: all 0.4s ease;
 }
 
 .logo:hover .redshift {
-    color: #03FCD7 !important;
-    transition: all 0.3s ease;
+    color: #03FCD7;
+    transition: all 0.4s ease;
 }
+
+
 nav ul {
     display: flex;
     flex-wrap: wrap;
