@@ -213,8 +213,8 @@ nav a:hover, nav a.active {
 .redshift {
     position: absolute;
     bottom: 0.4rem; /* Monté légèrement de 0.1rem à 0.2rem */
-    right: -0.9rem; /* Décalé à droite de -0.5rem à -0.7rem */
-    font-size: 1.2rem; /* Taille conservée comme demandé précédemment */
+    right: -1.1rem; /* Décalé à droite de -0.5rem à -0.7rem */
+    font-size: 1.4rem; /* Taille conservée comme demandé précédemment */
     color: var(--accent-light);
     transform: translateY(40%);
     letter-spacing: -0.5px;
@@ -224,11 +224,11 @@ nav a:hover, nav a.active {
 }
 
 .domain {
-    font-size: 1.8rem;
+    font-size: 2.0rem;
     color: var(--text);
     font-weight: 400;
     letter-spacing: -0.5px;
-    margin-left: 14px; /* Décalé à droite de 2px à 4px */
+    margin-left: 16px; /* Décalé à droite de 2px à 4px */
     transform: translateY(50%); /* Descendu légèrement de 40% à 50% */
     display: inline-block; /* Conservé pour un positionnement précis */
     opacity: 0;
