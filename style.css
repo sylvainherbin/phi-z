@@ -80,8 +80,11 @@ header {
 
 /* POLICE CORRIGÉE POUR LE SYMBOLE φ */
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 
 .logo {
+    font-family: 'Roboto Flex', sans-serif;
     display: flex;
     align-items: center;
     gap: 0;
