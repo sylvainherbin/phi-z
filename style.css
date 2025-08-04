@@ -99,6 +99,7 @@ header {
 }
 
 .phi {
+    font-family: 'Roboto Flex', sans-serif;
     font-size: 3.8rem; /* PHI ENCORE PLUS GRAND */
     color: var(--accent); /* Couleur violette par défaut */
     font-weight: 700;
