@@ -229,7 +229,7 @@ nav a:hover, nav a.active {
     font-weight: 400;
     letter-spacing: -0.5px;
     position: relative;
-    top: -0.1rem;
+    transform: translateY(40%);
     margin-left: 2px;
     opacity: 0;
     animation: fade-in 1s ease-in-out 3s forwards;
