@@ -228,9 +228,9 @@ nav a:hover, nav a.active {
     color: var(--text);
     font-weight: 400;
     letter-spacing: -0.5px;
-    position: relative;
-    transform: translateY(40%);
     margin-left: 2px;
+    transform: translateY(40%); /* Aligne avec .redshift */
+    display: inline-block; /* Assure un positionnement précis */
     opacity: 0;
     animation: fade-in 1s ease-in-out 3s forwards;
 }
