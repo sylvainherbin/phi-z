@@ -1036,7 +1036,7 @@ footer {
 .futuristic-button i {
   font-size: 24px;
   transition: transform 0.3s ease;
-  color: #fff;
+  color: var(--accent;
 }
 
 .futuristic-button span {
