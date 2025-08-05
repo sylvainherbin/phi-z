@@ -341,7 +341,7 @@ nav a:hover, nav a.active {
 .hero h1 {
     font-size: 3.2rem;
     margin-bottom: 20px;
-    background: linear-gradient(to right, var(--text), var(--accent-light));
+    background: linear-gradient(to left, var(--text), var(--accent-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
