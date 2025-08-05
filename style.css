@@ -1028,6 +1028,7 @@ footer {
 
 .icon-text-wrapper {
   display: flex;
+  color: var(--accent);
   align-items: center;
   gap: 10px;
   margin-bottom: 5px;
@@ -1036,7 +1037,7 @@ footer {
 .futuristic-button i {
   font-size: 24px;
   transition: transform 0.3s ease;
-  color: var(--accent;
+  color: var(--accent);
 }
 
 .futuristic-button span {
