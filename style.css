@@ -982,7 +982,7 @@ footer {
 }
 
 .futuristic-button {
-  background: #1a1a1a;
+  background: var(--card-bg);
   border: 1px solid rgba(106, 90, 249, 0.2);
   color: #fff;
   padding: 20px 30px;
