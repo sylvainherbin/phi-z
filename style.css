@@ -499,8 +499,8 @@ nav a:hover, nav a.active {
     font-size: 1.5rem;
     overflow-x: auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    text-shadow: 0 0 15px rgba(134, 42, 255, 1.9),
-                0 0 45px rgba(134, 42, 255, .9),
+    text-shadow: 0 0 15px rgba(134, 42, 255, 3.2),
+                0 0 45px rgba(134, 42, 255, 1.9),
                 0 0 105px rgba(134, 42, 255, .9);
     text-align: center;
 }
