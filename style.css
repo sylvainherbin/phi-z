@@ -958,12 +958,11 @@ footer {
 
 .video-container {
   position: relative;
-  width: 100%;
-  padding-bottom: 56.25%; /* Ratio 16:9 (9 / 16 = 0.5625) */
+  width: 95%; /* 95% de la largeur de l'écran, pour laisser une marge */
+  padding-bottom: 53.4375%; /* Ratio 16:9 (9 / 16 = 0.5625) - ajusté pour un affichage plus large */
   height: 0;
   overflow: hidden;
   margin: 0 auto; /* Permet de centrer le conteneur */
-  max-width: 800px; /* Optionnel: limite la largeur maximale sur grand écran */
 }
 
 .video-container iframe {
