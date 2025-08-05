@@ -1,0 +1,22 @@
+<svg width="190.84375000000003" height="20" xmlns="http://www.w3.org/2000/svg" stroke="null" style="vector-effect: non-scaling-stroke;">
+
+ <mask stroke="null" style="vector-effect: non-scaling-stroke;" id="a" width="190.84375" height="20">
+  <rect stroke="null" style="vector-effect: non-scaling-stroke;" width="190.84375" height="20" rx="3" fill="#fff" id="svg_1"/>
+ </mask>
+ <g stroke="null">
+  <title stroke="null">Layer 1</title>
+  <g stroke="null" mask="url(#a)" id="svg_2">
+   <path stroke="null" fill="#6D59FF" d="m33.55552,-1.11111l25.89495,0l0,22.2222l-25.89495,0l0,-22.2222z" id="svg_3"/>
+   <path stroke="null" fill="#6D59FF" d="m59.45047,-1.11111l131.61544,0l0,22.2222l-131.61544,0l0,-22.2222z" id="svg_4"/>
+   <path stroke="null" fill="#6D59FF" d="m33.55552,-1.11111l157.51038,0l0,22.2222l-157.51038,0l0,-22.2222z" id="svg_5"/>
+  </g>
+  <rect stroke="#000" id="svg_11" height="41.33355" width="38.66687" y="82.66705" x="23.24542" fill="#864FFE"/>
+  <rect stroke="#000000" stroke-opacity="0" id="svg_12" height="21.43234" width="35.87696" y="-0.56806" x="-0.79012" fill="#707070"/>
+  <g stroke="null" fill="#fff" text-anchor="middle" font-family="DejaVu Sans,         Verdana,Geneva,sans-serif" font-size="11" id="svg_6">
+   <text stroke="null" x="17.79225" y="14.5308" fill="#010101" fill-opacity="0.3" id="svg_7">DOI</text>
+   <text stroke="null" x="17.79225" y="13.5308" id="svg_8">DOI</text>
+   <text stroke="null" x="112.21413" y="14.5308" fill="#010101" fill-opacity="0.3" id="svg_9">10.5281/zenodo.16639073</text>
+   <text stroke="null" x="112.21413" y="13.5308" id="svg_10">10.5281/zenodo.16639073</text>
+  </g>
+ </g>
+</svg>
