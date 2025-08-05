@@ -225,7 +225,9 @@ nav a:hover, nav a.active {
 
 .domain {
     font-size: 2.0rem;
-    color: var(--text);
+    background: linear-gradient(to right, var(--text), var(--accent-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-weight: 400;
     letter-spacing: -0.5px;
     margin-left: 18px; /* Décalé à droite de 2px à 4px */
