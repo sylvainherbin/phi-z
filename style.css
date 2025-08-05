@@ -983,7 +983,7 @@ footer {
 
 .futuristic-button {
   background: #1a1a1a;
-  border: 1px solid #333;
+  border: 1px solid rgba(106, 90, 249, 0.2);
   color: #fff;
   padding: 20px 30px;
   text-decoration: none;
