@@ -1,52 +1,53 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Calculateur Cosmologique</title>
+    <title>Cosmological Calculator</title>
     <style>
         body { font-family: monospace; background-color: #1c1c1c; color: white; padding: 2em; }
-        #output { white-space: pre-wrap; background-color: black; border: 1px solid grey; padding: 1em; min-height: 200px; }
-        button { font-size: 1.2em; padding: 0.5em 1em; }
+        #buttons-container button { font-size: 1em; padding: 0.5em 1em; margin: 5px; }
+        #output { white-space: pre-wrap; background-color: black; border: 1px solid grey; padding: 1em; margin-top: 20px; min-height: 300px; }
     </style>
 </head>
 <body>
 
-    <h1>Calculateur Cosmologique</h1>
-    <button id="runButton">Lancer le Script</button>
+    <h1>Cosmological Calculator</h1>
+    <p>Select a model to test:</p>
+
+    <div id="buttons-container">
+        <button onclick="runScript('test')">Run Test Script</button>
+        <button onclick="runScript('bao')">Test with BAO</button>
+    </div>
     
-    <h2>Résultat :</h2>
-    <pre id="output">Les résultats apparaîtront ici...</pre>
+    <h2>Result Console:</h2>
+    <pre id="output">Results will appear here...</pre>
 
     <script>
-        const runButton = document.getElementById('runButton');
         const outputDiv = document.getElementById('output');
-        
-        // L'URL qui fonctionne parfaitement quand on la met dans le navigateur
-        const apiUrl = 'https://phi1618.space/api/run-script/test';
 
-        runButton.addEventListener('click', function() {
-            outputDiv.textContent = 'Chargement...';
+        function runScript(scriptName) {
+            outputDiv.textContent = `Running script "${scriptName}"...`;
             
-            // On utilise une méthode différente pour faire la requête
+            const apiUrl = `https://phi1618.space/api/run-script/${scriptName}`;
+
             fetch(apiUrl)
                 .then(response => {
-                    // On vérifie si la requête a réussi
                     if (!response.ok) {
-                        // Si non, on crée une erreur avec le statut
-                        throw new Error('Erreur réseau, statut : ' + response.status);
+                        throw new Error('Network error, status: ' + response.status);
                     }
-                    // Si oui, on demande le contenu en format JSON
                     return response.json();
                 })
                 .then(data => {
-                    // Quand on reçoit le JSON, on affiche la partie "output"
-                    outputDiv.textContent = data.output;
+                    if (data.status === 'success') {
+                        outputDiv.textContent = data.output;
+                    } else {
+                        outputDiv.textContent = `--- SCRIPT ERROR ---\n${data.message}\n\n${data.output}`;
+                    }
                 })
                 .catch(error => {
-                    // Si une erreur s'est produite à n'importe quelle étape, on l'affiche
-                    outputDiv.textContent = 'Une erreur est survenue : \n' + error.toString();
+                    outputDiv.textContent = 'An error occurred: \n' + error.toString();
                 });
-        });
+        }
     </script>
 
 </body>
