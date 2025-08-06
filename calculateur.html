@@ -38,11 +38,9 @@
                     return response.json();
                 })
                 .then(data => {
-                    if (data.status === 'success') {
-                        outputDiv.textContent = data.output;
-                    } else {
-                        outputDiv.textContent = `--- SCRIPT ERROR ---\n${data.message}\n\n${data.output}`;
-                    }
+                    // ---- MODIFICATION DE DÉBOGAGE ----
+                    // Affiche la réponse JSON brute et complète
+                    outputDiv.textContent = JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
                     outputDiv.textContent = 'An error occurred: \n' + error.toString();
