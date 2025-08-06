@@ -1,0 +1,28 @@
+<svg width="190.84375000000003" height="20" xmlns="http://www.w3.org/2000/svg" stroke="null">
+ <mask stroke="null" id="a" width="190.84375" height="20">
+  <rect stroke="null" width="190.84375" height="20" rx="3" fill="#fff" id="svg_1"/>
+ </mask>
+
+ <g stroke="null">
+  <title stroke="null">Layer 1</title>
+  <g stroke="null" transform="rotate(0.07076 106.764 6.40884) matrix(1.1239 0 0 1.01308 -23.5851 -0.232714)" mask="url(#a)" id="svg_2">
+   <path stroke="null" fill="#6D59FF" d="m34.23824,20.12916l26.87673,0l0,-27.14672l-26.87673,0l0,27.14672z" id="svg_3"/>
+   <path stroke="null" fill="#6D59FF" d="m61.11498,20.12916l136.60539,0l0,-27.14672l-136.60539,0l0,27.14672z" id="svg_4"/>
+   <path stroke="null" fill="#6D59FF" d="m34.23824,20.12916l163.48213,0l0,-27.14672l-163.48213,0l0,27.14672z" id="svg_5"/>
+  </g>
+  <rect stroke="null" id="svg_11" height="41.33355" width="38.66687" y="87.55595" x="74.3566" fill="#864FFE"/>
+  <rect stroke="null" stroke-opacity="0" id="svg_12" height="22.32123" width="46.24733" y="-0.173" x="-3.45679" fill="#707070"/>
+  <g stroke="null" fill="#fff" text-anchor="middle" font-family="DejaVu Sans,         Verdana,Geneva,sans-serif" font-size="11" id="svg_6">
+   <text stroke="null" x="22.06378" y="56.92577" fill="#010101" fill-opacity="0.3" id="svg_7">DOI</text>
+   <text stroke="null" x="22.06378" y="55.92577" id="svg_8">DOI</text>
+   <text stroke="null" x="116.48566" y="56.92577" fill="#010101" fill-opacity="0.3" id="svg_9">10.5281/zenodo.16639073</text>
+   <text stroke="null" x="116.48566" y="55.92577" id="svg_10">10.5281/zenodo.16639073</text>
+  </g>
+  <text stroke="null" xml:space="preserve" text-anchor="start" font-family="Encode Sans" font-size="24" id="svg_14" y="-106.22218" x="145.91117" stroke-width="0" fill="#000000">text</text>
+  <text stroke="null" fill-opacity="0.58" transform="matrix(0.626752 0 0 0.513514 -6.24301 3.40952)" xml:space="preserve" text-anchor="start" font-family="Varta" font-size="24" id="svg_17" y="21.74791" x="12.37293" stroke-width="0" fill="#000000">ORCID</text>
+  <text stroke="null" transform="matrix(0.619719 0 0 0.513514 -6.15151 3.40952)" xml:space="preserve" text-anchor="start" font-family="Varta" font-size="24" id="svg_16" y="20.20925" x="12.6881" stroke-width="0" fill="#FFFFFF">ORCID</text>
+  <text stroke="null" transform="translate(187.243 257.812) scale(0.950308 1) translate(-187.243 -0.382546) translate(40.3328 18.125) scale(1 0.82439) translate(-40.3328 -18.125) translate(40.3328 -1.72241) scale(1 0.534227) translate(-40.3328 1.72241) translate(40.3328 33.323) scale(1 0.448609) translate(-40.3328 -33.323) translate(40.3328 -47.6935) scale(1 4.71438) translate(-40.3328 47.6935) translate(47.439 17.932) scale(1 1.16681) translate(-47.439 -17.932) translate(196.178 22.1602) scale(0.909404 0.711012) translate(-196.178 -22.1602) translate(34.4138 21.7034) scale(0.936587 0.917535) translate(-34.4138 -21.7034) matrix(0.760285 0 0 0.754025 10.3265 -0.443175)" xml:space="preserve" text-anchor="start" font-family="Glory" font-size="24" id="svg_15" y="-108.68121" x="20.25041" stroke-width="0" fill="#FFFFFF">0009-0001-3390-5012</text>
+  <text stroke="null" fill-opacity="0.46" transform="matrix(0.543826 0 0 0.500901 99.6318 51.4831)" xml:space="preserve" text-anchor="start" font-family="Glory" font-size="24" id="svg_19" y="-73.46108" x="-76.34314" stroke-width="0" fill="#000000">0009-0001-3390-5012</text>
+  <text stroke="null" transform="translate(0 -2.37037) translate(-0.444444 3.55555) translate(0 -6.66666) matrix(0.543826 0 0 0.481644 99.6318 3.02688)" xml:space="preserve" text-anchor="start" font-family="Glory" font-size="24" id="svg_18" y="33.62126" x="-75.29897" stroke-width="0" fill="#FFFFFF">0009-0001-3390-5012</text>
+ </g>
+</svg>
