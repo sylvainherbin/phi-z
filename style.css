@@ -555,10 +555,15 @@ nav a:hover, nav a.active {
     font-weight: 700;
 }
 
-.futuristic-table th.description-header,
 .futuristic-table td.description-cell {
     display: none;
 }
+
+.futuristic-table.show-descriptions td.description-cell {
+    display: table-cell;
+    animation: fadeInDescription 0.5s ease-in-out;
+}
+
 
 .futuristic-table.show-descriptions th.description-header,
 .futuristic-table.show-descriptions td.description-cell {
