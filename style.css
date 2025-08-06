@@ -555,6 +555,43 @@ nav a:hover, nav a.active {
     font-weight: 700;
 }
 
+.futuristic-table th.description-header,
+.futuristic-table td.description-cell {
+    display: none;
+}
+
+.futuristic-table.show-descriptions th.description-header,
+.futuristic-table.show-descriptions td.description-cell {
+    display: table-cell;
+    animation: fadeInDescription 0.5s ease-in-out;
+}
+
+@keyframes fadeInDescription {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.toggle-button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.toggle-button:hover {
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+
 .glossary-list dt {
     font-size: 1.4rem;
     color: var(--accent-light);
