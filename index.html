@@ -166,60 +166,65 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </section>
 
             <section class="model-section">
-                <h2 class="section-title">Goodness-of-Fit Results</h2>
-                <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
-                    The Dynamic Fractal Cosmological Model demonstrates exceptional agreement with observational data across multiple cosmological probes. The table below summarizes the $\chi^2/\text{dof}$ values, showcasing a remarkable 7.1σ improvement over the standard $\Lambda$CDM model.
-                </p>
-                <div class="futuristic-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Cosmological Probe</th>
-                               <th style="letter-spacing: 1px;"><strong>$\chi^2/\text{d o f}$</strong></th>
+    <h2 class="section-title">Goodness-of-Fit Results</h2>
+    <p style="text-align: center; max-width: 800px; margin: 0 auto 40px; color: var(--text-secondary);">
+        The Dynamic Fractal Cosmological Model demonstrates exceptional agreement with observational data across multiple cosmological probes. The table below summarizes the $\chi^2/\text{dof}$ values, showcasing a remarkable 7.1σ improvement over the standard $\Lambda$CDM model.
+    </p>
+    <div class="futuristic-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Cosmological Probe</th>
+                    <th style="letter-spacing: 1px;"><strong>$\chi^2/\text{d o f}$</strong></th>
+                    <th class="description-header">
+                        <button id="toggle-all-descriptions" class="toggle-button">
+                            <i class="fas fa-eye" aria-hidden="true"></i> Show Descriptions
+                        </button>
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="goodness-of-fit-table-body">
+                <tr>
+                    <td>Pantheon+ SNIa</td>
+                    <td>0.613</td>
+                    <td class="description-cell">Exceptional fit to Type Ia Supernovae, confirming the model's accuracy in predicting luminosity distances.</td>
+                </tr>
+                <tr>
+                    <td>BAO (DESI EDR)</td>
+                    <td>0.939</td>
+                    <td class="description-cell">Accurate fit to Baryon Acoustic Oscillations, aligning with DESI data and resolving sound horizon discrepancies.</td>
+                </tr>
+                <tr>
+                    <td>Cosmic Chronometers</td>
+                    <td>0.997</td>
+                    <td class="description-cell">Robust fit to Hubble parameter measurements, supporting the modified expansion history.</td>
+                </tr>
+                <tr>
+                    <td>CMB (Planck)</td>
+                    <td>1.475</td>
+                    <td class="description-cell">Addresses low-ℓ anomalies in the CMB power spectrum with a power suppression of S=0.93±0.02.</td>
+                </tr>
+                <tr>
+                    <td>Galaxy 2PCF</td>
+                    <td>0.717</td>
+                    <td class="description-cell">Precise match to galaxy correlation functions, capturing redshift-dependent structure growth.</td>
+                </tr>
+                <tr>
+                    <td>Cluster Mass Function</td>
+                    <td>1.228</td>
+                    <td class="description-cell">Resolves the deficit of massive galaxy clusters at $z \approx 0.6$, predicting a 18.2% ± 2.3% reduction.</td>
+                </tr>
+                <tr>
+                    <td>Combined (Selected Probes)</td>
+                    <td>0.951</td>
+                    <td class="description-cell">Overall fit across BAO, CMB, 2PCF, and clusters, achieving a 7.1σ improvement over $\Lambda$CDM.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Pantheon+ SNIa</td>
-                                <td>0.613</td>
-                                <td>Exceptional fit to Type Ia Supernovae, confirming the model's accuracy in predicting luminosity distances.</td>
-                            </tr>
-                            <tr>
-                                <td>BAO (DESI EDR)</td>
-                                <td>0.939</td>
-                                <td>Accurate fit to Baryon Acoustic Oscillations, aligning with DESI data and resolving sound horizon discrepancies.</td>
-                            </tr>
-                            <tr>
-                                <td>Cosmic Chronometers</td>
-                                <td>0.997</td>
-                                <td>Robust fit to Hubble parameter measurements, supporting the modified expansion history.</td>
-                            </tr>
-                            <tr>
-                                <td>CMB (Planck)</td>
-                                <td>1.475</td>
-                                <td>Addresses low-ℓ anomalies in the CMB power spectrum with a power suppression of S=0.93±0.02.</td>
-                            </tr>
-                            <tr>
-                                <td>Galaxy 2PCF</td>
-                                <td>0.717</td>
-                                <td>Precise match to galaxy correlation functions, capturing redshift-dependent structure growth.</td>
-                            </tr>
-                            <tr>
-                                <td>Cluster Mass Function</td>
-                                <td>1.228</td>
-                                <td>Resolves the deficit of massive galaxy clusters at $z \approx 0.6$, predicting a 18.2% ± 2.3% reduction.</td>
-                            </tr>
-                            <tr>
-                                <td>Combined (Selected Probes)</td>
-                                <td>0.951</td>
-                                <td>Overall fit across BAO, CMB, 2PCF, and clusters, achieving a 7.1σ improvement over $\Lambda$CDM.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+
 
             <section class="model-section">
                 <h2 class="section-title">Interactive Visualizations</h2>
@@ -991,6 +996,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             window.addEventListener('resize', initCanvas);
             MathJax.typeset();
         };
+        document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('toggle-all-descriptions');
+    const tableContainer = document.querySelector('.futuristic-table');
+    const toggleIcon = toggleButton.querySelector('i');
+
+    toggleButton.addEventListener('click', () => {
+        tableContainer.classList.toggle('show-descriptions');
+        if (tableContainer.classList.contains('show-descriptions')) {
+            toggleIcon.classList.remove('fa-eye');
+            toggleIcon.classList.add('fa-eye-slash');
+            toggleButton.innerHTML = `<i class="fas fa-eye-slash"></i> Hide Descriptions`;
+        } else {
+            toggleIcon.classList.remove('fa-eye-slash');
+            toggleIcon.classList.add('fa-eye');
+            toggleButton.innerHTML = `<i class="fas fa-eye"></i> Show Descriptions`;
+        }
+    });
+});
+
     </script>
 </body>
 </html>
