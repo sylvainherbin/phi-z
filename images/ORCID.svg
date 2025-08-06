@@ -1,19 +1,18 @@
-<svg width="190.84375000000003" height="20" xmlns="http://www.w3.org/2000/svg" stroke="null" style="vector-effect: non-scaling-stroke;">
+<svg width="190.84375000000003" height="20" xmlns="http://www.w3.org/2000/svg">
  <mask id="a" width="190.84375" height="20">
   <rect width="190.84375" height="20" rx="3" fill="#fff"/>
  </mask>
  <g>
   <title>Layer 1</title>
   <g mask="url(#a)">
-   <path fill="#6D59FF" d="m33.55552,-1.11111l25.89495,0l0,22.2222l-25.89495,0l0,-22.2222z"/>
-   <path fill="#6D59FF" d="m59.45047,-1.11111l131.61544,0l0,22.2222l-131.61544,0l0,-22.2222z"/>
-   <path fill="#6D59FF" d="m33.55552,-1.11111l157.51038,0l0,22.2222l-157.51038,0l0,-22.2222z"/>
+   <path fill="#555" d="m0,0l38.25,0l0,20l-38.25,0l0,-20z"/>
+   <path fill="#6D59FF" d="m38.25,0l152.59375,0l0,20l-152.59375,0l0,-20z"/>
   </g>
   <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans, Verdana, Geneva, sans-serif" font-size="11">
-   <text x="17.79225" y="14.5308" fill="#010101" fill-opacity="0.3">ORCID</text>
-   <text x="17.79225" y="13.5308">ORCID</text>
-   <text x="112.21413" y="14.5308" fill="#010101" fill-opacity="0.3">0009-0001-3390-5012</text>
-   <text x="112.21413" y="13.5308">0009-0001-3390-5012</text>
+   <text x="19.125" y="14.5" fill="#010101" fill-opacity="0.3">ORCID</text>
+   <text x="19.125" y="13.5">ORCID</text>
+   <text x="114.54688" y="14.5" fill="#010101" fill-opacity="0.3">0009-0001-3390-5012</text>
+   <text x="114.54688" y="13.5">0009-0001-3390-5012</text>
   </g>
  </g>
 </svg>
