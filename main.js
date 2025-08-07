@@ -581,12 +581,8 @@ async function runScript(scriptName) {
     addConsoleMessage(`[INFO] Starting script execution...`, 'info');
 
     try {
-        // Here, we would call an API. Since we don't have it yet, we'll simulate a response.
-        // I will provide a mock response for now.
-        // In the next step, we will create the Vercel API.
         const mockResponse = await simulateApiCall(scriptName);
         
-        // Process the response
         if (mockResponse.success) {
             addConsoleMessage(`[SUCCESS] Script executed successfully.`, 'success');
             addConsoleMessage(mockResponse.output);
@@ -599,12 +595,10 @@ async function runScript(scriptName) {
         console.error('Script execution failed:', error);
         addConsoleMessage(`[CRITICAL ERROR] Failed to connect to the execution server.`, 'error');
     } finally {
-        // Re-enable all buttons and reset console status
         allButtons.forEach(btn => btn.disabled = false);
         if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
         if (commandLoader) commandLoader.style.display = 'none';
         
-        // Ensure MathJax renders any new equations
         if (typeof MathJax !== 'undefined') {
             MathJax.typeset();
         }
@@ -613,11 +607,8 @@ async function runScript(scriptName) {
 
 // Mock API call to simulate Vercel server response
 async function simulateApiCall(scriptName) {
-    // A small delay to simulate network latency and processing time
     await new Promise(resolve => setTimeout(resolve, 2500));
 
-    // This is where you would call your Vercel Function.
-    // For now, it's just a mock-up that returns a predefined result.
     switch (scriptName) {
         case 'validate_bao_hz.py':
             return {
@@ -709,4 +700,3 @@ async function simulateApiCall(scriptName) {
             };
     }
 }
-
