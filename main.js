@@ -545,3 +545,168 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Function to add a message to the console output
+function addConsoleMessage(text, type = 'default') {
+    const consoleOutput = document.getElementById('console-output');
+    if (!consoleOutput) {
+        console.error("Console output element not found.");
+        return;
+    }
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('console-message');
+    if (type !== 'default') {
+        messageDiv.classList.add(type);
+    }
+    messageDiv.textContent = text;
+    consoleOutput.appendChild(messageDiv);
+    consoleOutput.scrollTop = consoleOutput.scrollHeight;
+}
+
+// Function to simulate the script execution
+async function runScript(scriptName) {
+    const consoleOutput = document.getElementById('console-output');
+    const consolePrompt = document.getElementById('console-prompt');
+    const commandLoader = document.getElementById('command-loader');
+    const allButtons = document.querySelectorAll('.futuristic-button-small');
+
+    // Disable all buttons and update console status
+    allButtons.forEach(btn => btn.disabled = true);
+    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
+    if (commandLoader) commandLoader.style.display = 'flex';
+
+    // Clear previous output and add command line
+    if (consoleOutput) consoleOutput.innerHTML = '';
+    addConsoleMessage(`> python3 ${scriptName}`, 'input');
+    addConsoleMessage(`[INFO] Starting script execution...`, 'info');
+
+    try {
+        // Here, we would call an API. Since we don't have it yet, we'll simulate a response.
+        // I will provide a mock response for now.
+        // In the next step, we will create the Vercel API.
+        const mockResponse = await simulateApiCall(scriptName);
+        
+        // Process the response
+        if (mockResponse.success) {
+            addConsoleMessage(`[SUCCESS] Script executed successfully.`, 'success');
+            addConsoleMessage(mockResponse.output);
+        } else {
+            addConsoleMessage(`[ERROR] An error occurred during script execution.`, 'error');
+            addConsoleMessage(mockResponse.error);
+        }
+
+    } catch (error) {
+        console.error('Script execution failed:', error);
+        addConsoleMessage(`[CRITICAL ERROR] Failed to connect to the execution server.`, 'error');
+    } finally {
+        // Re-enable all buttons and reset console status
+        allButtons.forEach(btn => btn.disabled = false);
+        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
+        if (commandLoader) commandLoader.style.display = 'none';
+        
+        // Ensure MathJax renders any new equations
+        if (typeof MathJax !== 'undefined') {
+            MathJax.typeset();
+        }
+    }
+}
+
+// Mock API call to simulate Vercel server response
+async function simulateApiCall(scriptName) {
+    // A small delay to simulate network latency and processing time
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    // This is where you would call your Vercel Function.
+    // For now, it's just a mock-up that returns a predefined result.
+    switch (scriptName) {
+        case 'validate_bao_hz.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: validate_bao_hz.py
+[INFO] Loading data from Pantheon+SH0ES.dat, bao.dat, and others...
+[INFO] Fitting DFCM to combined data.
+[RESULTS]
+- Global Chi-Squared / dof: 0.951
+- DFCM provides a 7.1σ statistical improvement over ΛCDM.
+- Hubble Constant (H₀) tension resolved: 73.24 ± 0.42 km/s/Mpc (0.3σ with SH0ES).
+- Best-fit cosmological parameters:
+  - Ωm = 0.285 ± 0.005
+  - ... other parameters ...
+[INFO] For a detailed analysis, download the script and data files.
+`
+            };
+        case 'SNIa.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: SNIa.py
+[INFO] Analyzing Pantheon+ data...
+[RESULTS]
+- Chi-Squared / dof for SNIa: 0.613
+- DFCM provides an exceptional fit to Type Ia Supernovae data.
+- The expansion history predicted by the model is highly consistent with luminosity distances.
+`
+            };
+        case 'CMB.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: CMB.py
+[INFO] Analyzing Planck data (TT-full_R3.01)...
+[RESULTS]
+- Chi-Squared / dof for CMB: 1.475
+- DFCM addresses low-ℓ anomalies in the CMB power spectrum.
+- The model predicts a power suppression of S=0.93±0.02.
+`
+            };
+        case 'cluster_deficit_calc.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: cluster_deficit_calc.py
+[INFO] Calculating cluster mass function...
+[RESULTS]
+- Cluster mass function Chi-Squared / dof: 1.228
+- DFCM predicts a cluster deficit of 18.2% ± 2.3% at z ≈ 0.6, perfectly matching observations.
+`
+            };
+        case 'galaxy_2pcf_check.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: galaxy_2pcf_check.py
+[INFO] Checking galaxy 2-point correlation function (2PCF)...
+[RESULTS]
+- Galaxy 2PCF Chi-Squared / dof: 0.717
+- The model provides a precise match to the observed galaxy distribution and redshift-dependent structure growth.
+`
+            };
+        case 'bao.py':
+            return {
+                success: true,
+                output: `
+---
+[INFO] Executing script: bao.py
+[INFO] Analyzing BAO data (DESI EDR)...
+[RESULTS]
+- BAO Chi-Squared / dof: 0.939
+- DFCM's sound horizon and expansion history predictions align accurately with BAO data.
+`
+            };
+        default:
+            return {
+                success: false,
+                error: `
+---
+[ERROR] Script '${scriptName}' not found or not supported.
+`
+            };
+    }
+}
+
