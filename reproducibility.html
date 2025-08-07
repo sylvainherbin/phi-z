@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5F2MS464');</script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFCM - Reproducibility & Live Testing</title>
+    <meta name="description" content="Test the Dynamic Fractal Cosmological Model live. Run scripts on a virtual console to reproduce the results that resolve the Hubble tension and other major cosmological problems.">
+    <meta name="keywords" content="cosmology, fractal, cosmological model, DFCM, reproducibility, live testing, scripts, Hubble tension, Lithium-7 problem, chi-squared, BBN, Planck, DESI">
+    <meta name="author" content="Sylvain Herbin">
+    <meta property="og:title" content="DFCM Reproducibility - A Transparent Approach to Cosmology">
+    <meta property="og:description" content="Use our live console to execute scripts and verify DFCM's groundbreaking results against observational data.">
+    <meta property="og:image" content="https://phi-z.space/images/dfcm-og-image.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Test DFCM Live: Reproducibility Made Easy">
+    <meta name="twitter:description" content="Execute scripts live to reproduce DFCM results, from the Hubble tension to the BBN problem, with our interactive web console.">
+    <meta name="twitter:image" content="https://phi-z.space/images/central-equation-dfcm.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5F2MS464"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <div class="stars" id="stars"></div>
+
+    <div class="container">
+        <header>
+            <a href="#" class="logo" onclick="showPage('home')">
+                <div class="math-container">
+                    <span class="phi">φ</span>
+                    <span class="redshift">(z)</span>
+                </div>
+                <span class="domain">.space</span>
+            </a>
+            <div class="hamburger" id="hamburger" role="button" aria-label="Toggle navigation menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="#" onclick="showPage('home')">Home</a></li>
+                    <li><a href="#" onclick="showPage('tensions')">Tensions Solved</a></li>
+                    <li><a href="#" onclick="showPage('predictions')">Predictions</a></li>
+                    <li><a href="#" onclick="showPage('glossary')">Glossary</a></li>
+                    <li><a href="#" onclick="showPage('ai_assistant')">AI Assistant</a></li>
+                    <li><a href="#" class="active" onclick="showPage('reproducibility')">Reproducibility</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div id="reproducibility" class="page active">
+            <section class="hero">
+                <h1>Reproducibility & Live Testing</h1>
+                <p>Execute our test scripts in a live console to verify the **Dynamic Fractal Cosmological Model (DFCM)** against real observational data. This is your chance to see the <strong>7.1σ statistical improvement</strong> over ΛCDM in action.</p>
+            </section>
+
+            <section class="reproducibility-section">
+                <div class="model-grid">
+                    <div class="script-card">
+                        <h3>Hubble Tension & Cosmological Parameters</h3>
+                        <p>Reproduce the core results of DFCM, including its resolution of the Hubble Tension and the global goodness-of-fit.</p>
+                        <div class="script-buttons">
+                            <button class="futuristic-button-small" onclick="runScript('validate_bao_hz.py')"><i class="fas fa-play"></i> Run Script</button>
+                            <a href="scripts/validate_bao_hz.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                    <div class="script-card">
+                        <h3>Supernovae & Expansion History</h3>
+                        <p>Verify DFCM's fit to Type Ia Supernovae data, a key probe for the Universe's expansion history.</p>
+                        <div class="script-buttons">
+                            <button class="futuristic-button-small" onclick="runScript('SNIa.py')"><i class="fas fa-play"></i> Run Script</button>
+                            <a href="scripts/SNIa.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                    <div class="script-card">
+                        <h3>Cosmic Microwave Background (CMB)</h3>
+                        <p>Test the model against Planck CMB data, examining its predictions for the early Universe.</p>
+                        <div class="script-buttons">
+                            <button class="futuristic-button-small" onclick="runScript('CMB.py')"><i class="fas fa-play"></i> Run Script</button>
+                            <a href="scripts/CMB.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                    <div class="script-card">
+                        <h3>Large-Scale Structure (LSS)</h3>
+                        <p>Investigate the model's predictions for galaxy clustering and the suppression of massive clusters.</p>
+                        <div class="script-buttons">
+                            <button class="futuristic-button-small" onclick="runScript('galaxy_2pcf_check.py')"><i class="fas fa-play"></i> Run Script</button>
+                            <a href="scripts/galaxy_2pcf_check.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+                        </div>
+                        <div class="script-buttons">
+                            <button class="futuristic-button-small" onclick="runScript('cluster_deficit_calc.py')"><i class="fas fa-play"></i> Run Script</button>
+                            <a href="scripts/cluster_deficit_calc.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="console-container">
+                    <div class="console-header">
+                        <div class="traffic-lights">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="console-title">DFCM Test Console</span>
+                    </div>
+                    <div class="console-output" id="console-output">
+                        <div class="console-message welcome">
+                            Welcome to the DFCM live reproducibility console. Select a script above and click "Run Script" to start a test.
+                        </div>
+                    </div>
+                    <div class="console-input">
+                        <span>></span>
+                        <span id="console-prompt">Waiting for command...</span>
+                        <div id="command-loader" style="display:none;">
+                            <div class="loader-line"></div>
+                            <div class="loader-line"></div>
+                            <div class="loader-line"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="social-links">
+                    <a href="https://phi1618.space/github" target="_blank" title="GitHub Repository"><i class="fab fa-github"></i></a>
+                    <a href="https://phi1618.space/orcid" target="_blank" title="ORCID Profile"><i class="fab fa-orcid"></i></a>
+                    <a href="https://phi1618.space/x" target="_blank" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="https://phi1618.space/zenodo" class="social-link" title="Zenodo" target="_blank"><i class="ai ai-zenodo"></i></a>
+                    <a href="mailto:herbinsylvain@protonmail.com" class="social-link" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+                    <a href="https://phi1618.space/youtube" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+               <span class="author-name">Sylvain Herbin | <em>Independant Researcher</em>
+               </span>
+               <span><a href="https://phi1618.space/zenodo"><img src="images/Zenodo.svg" alt="DOI"></a>
+                <a href="https://phi1618.space/orcid"><img src="images/ORCID.svg" alt="ORCID"></a></span>
+                 <p>The Dynamic Fractal Cosmological Model (DFCM) © 2025 - All rights reserved</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
