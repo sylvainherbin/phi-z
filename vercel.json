@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "api/run_script.py": {
+      "runtime": "python3.9",
+      "includeFiles": [
+        "scripts/*",
+        "requirements.txt"
+      ]
+    }
+  },
+  "builds": [
+    {
+      "src": "api/run_script.py",
+      "use": "@vercel/python",
+      "config": {
+        "installCommand": "pip install --target=. --no-deps -r requirements.txt"
+      }
+    }
+  ]
+}
