@@ -241,7 +241,7 @@ async function runScript(scriptName) {
     try {
         // URL de l'API pour l'exécution des scripts.
         // Utilise la même base que le chatbot, mais avec un endpoint différent.
-        const API_URL = 'https://dfcm-ai-api.vercel.app/api/execute-script'; 
+        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
 
         const response = await fetch(API_URL, {
             method: 'POST',
