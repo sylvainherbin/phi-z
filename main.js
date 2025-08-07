@@ -1,10 +1,10 @@
 // =================================================================
-// FICHIER JAVASCRIPT COMPLET POUR PHI-Z.SPACE (08/08/2025)
-// Version finale incluant l'URL de l'API pré-remplie.
-// Aucune modification nécessaire côté frontend.
+// FICHIER JAVASCRIPT COMPLET POUR PHI-Z.SPACE
+// Version finale qui lit le contenu du script côté client.
+// Cette version fonctionne avec votre chatbot.js original.
 // =================================================================
 
-// Configuration de MathJax (doit être définie avant le chargement de la librairie MathJax)
+// Configuration de MathJax
 window.MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -60,7 +60,7 @@ function showPage(pageId) {
     window.scrollTo(0, 0);
 }
 
-// --- Chatbot Functions ---
+// --- Chatbot Functions (votre code original) ---
 async function sendMessage() {
     const userInput = document.getElementById('user-input');
     const message = userInput ? userInput.value.trim() : '';
@@ -82,7 +82,6 @@ async function sendMessage() {
         const typingMessageDiv = addMessage('<div class="message-typing"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>', 'ai', true);
 
         try {
-            // URL de l'API du chatbot
             const response = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -161,17 +160,8 @@ if (hamburger && navMenu) {
     });
 }
 
-// --- Cosmic Timeline ---
-const config = {
-    epochs: [
-        { name: "BBN", z: 1e9, phi: 2.970, description: "Dense fractal primordial universe" },
-        { name: "CMB", z: 1100, phi: 2.618, description: "Cosmic Microwave Background emission" },
-        { name: "Galaxies", z: 10, phi: 2.0, description: "Formation of the first galaxies" },
-        { name: "Present", z: 0, phi: 1.618, description: "Harmonious present era" }
-    ],
-    particleCount: 300,
-    maxParticleSize: 6
-};
+// --- Cosmic Timeline (votre code original) ---
+const config = { epochs: [ { name: "BBN", z: 1e9, phi: 2.970, description: "Dense fractal primordial universe" }, { name: "CMB", z: 1100, phi: 2.618, description: "Cosmic Microwave Background emission" }, { name: "Galaxies", z: 10, phi: 2.0, description: "Formation of the first galaxies" }, { name: "Present", z: 0, phi: 1.618, description: "Harmonious present era" } ], particleCount: 300, maxParticleSize: 6 };
 const canvas = document.getElementById('cosmicCanvas');
 const ctx = canvas ? canvas.getContext('2d') : null;
 const timeSlider = document.getElementById('timeSlider');
@@ -200,9 +190,9 @@ if (pauseBtn) { pauseBtn.addEventListener('click', () => { if (animationId) { ca
 if (resetBtn) { resetBtn.addEventListener('click', () => { if (animationId) { cancelAnimationFrame(animationId); animationId = null; } currentTime = 0; if (timeSlider) timeSlider.value = currentTime; if (timelineProgress) timelineProgress.style.width = `${currentTime}%`; drawVisualization(); }); }
 
 
-// --- Reproducibility Console Functions (FINAL VERSION) ---
+// --- Reproducibility Console Functions (VERSION FINALE CORRIGÉE) ---
 
-// Ajoute un message formaté à la console web
+// Fonction pour ajouter un message à la console de reproductibilité
 function addConsoleMessage(text, type = 'default') {
     const consoleOutput = document.getElementById('console-output');
     if (!consoleOutput) {
@@ -220,7 +210,7 @@ function addConsoleMessage(text, type = 'default') {
 }
 
 /**
- * Exécute un script en appelant votre API backend, qui transmettra le script à Gemini.
+ * Exécute un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot.
  * @param {string} scriptName - Le nom du fichier script à exécuter (ex: 'validate_bao_hz.py').
  */
 async function runScript(scriptName) {
@@ -229,62 +219,64 @@ async function runScript(scriptName) {
     const commandLoader = document.getElementById('command-loader');
     const allButtons = document.querySelectorAll('.futuristic-button-small');
 
-    // === GESTION DE L'INTERFACE UTILISATEUR (NE PAS MODIFIER) ===
+    // Gère l'interface utilisateur
     allButtons.forEach(btn => btn.disabled = true);
     if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
     if (commandLoader) commandLoader.style.display = 'flex';
     if (consoleOutput) consoleOutput.innerHTML = '';
     addConsoleMessage(`> python3 ${scriptName}`, 'input');
-    addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
-    // ==========================================================
-
+    
     try {
-        // URL de l'API pour l'exécution des scripts.
-        // Utilise la même base que le chatbot, mais avec un endpoint différent.
-        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
+        // ÉTAPE 1: Lire le contenu du script depuis le dossier /scripts de votre site web
+        addConsoleMessage(`[INFO] Reading script content...`, 'info');
+        const scriptResponse = await fetch(`scripts/${scriptName}`);
+        if (!scriptResponse.ok) {
+            throw new Error(`Could not find script file: scripts/${scriptName}`);
+        }
+        const scriptContent = await scriptResponse.text();
 
-        const response = await fetch(API_URL, {
+        // ÉTAPE 2: Préparer le prompt pour Gemini, comme un copier-coller
+        const promptForGemini = `Exécute ce script Python et retourne uniquement la sortie texte brute (stdout), sans aucun commentaire additionnel de ta part:\n\n\`\`\`python\n${scriptContent}\n\`\`\``;
+        
+        // ÉTAPE 3: Envoyer ce contenu à l'API du CHATBOT (car on sait qu'elle fonctionne)
+        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
+        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
+        const apiResponse = await fetch(API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ scriptName: scriptName })
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                message: promptForGemini // On utilise le champ "message" car on sait que c'est celui qui marche
+            })
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Server Error (${response.status}): ${errorText}`);
+        if (!apiResponse.ok) {
+            const errorData = await apiResponse.json();
+            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
         }
 
-        const data = await response.json();
+        const data = await apiResponse.json();
 
-        if (data.success) {
+        // On traite la réponse de l'API, qui doit contenir une "reply"
+        if (data.reply) {
             addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
-            if (data.output) {
-                const formattedOutput = data.output.replace(/\n/g, '<br>');
-                addConsoleMessage(formattedOutput, 'default');
-            }
+            const formattedOutput = data.reply.replace(/\n/g, '<br>');
+            addConsoleMessage(formattedOutput, 'default');
         } else {
-            addConsoleMessage(`[ERROR] An error occurred during script execution.`, 'error');
-            const formattedError = (data.error || 'No error details provided.').replace(/\n/g, '<br>');
-            addConsoleMessage(formattedError, 'error');
+            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
         }
 
     } catch (error) {
-        console.error('Failed to communicate with the API:', error);
-        addConsoleMessage(`[CRITICAL ERROR] Failed to connect to the execution server.`, 'error');
+        console.error('runScript Error:', error);
+        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
         addConsoleMessage(error.message, 'error');
     } finally {
-        // === RÉINITIALISATION DE L'INTERFACE (NE PAS MODIFIER) ===
+        // Réinitialisation de l'interface
         allButtons.forEach(btn => btn.disabled = false);
         if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
         if (commandLoader) commandLoader.style.display = 'none';
-        
-        if (typeof MathJax !== 'undefined') {
-            try {
-                MathJax.typesetPromise();
-            } catch (e) { console.error("MathJax typesetting failed", e); }
-        }
         if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
-        // ========================================================
     }
 }
 
