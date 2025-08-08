@@ -363,27 +363,6 @@ function drawFractalClusters() {
     }
 }
 
-function drawFractalBranch(x, y, length, angle, depth) {
-    if (depth === 0 || !ctx) return;
-    
-    const endX = x + length * Math.cos(angle);
-    const endY = y + length * Math.sin(angle);
-    
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    ctx.lineTo(endX, endY);
-    ctx.strokeStyle = `rgba(255, 121, 198, ${0.4 - depth * 0.07})`;
-    ctx.lineWidth = depth * 0.7;
-    ctx.stroke();
-    
-    const subBranches = 2 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < subBranches; i++) {
-        const newAngle = angle - Math.PI/4 + Math.random() * Math.PI/2;
-        const newLength = length * (0.5 + Math.random() * 0.3);
-        drawFractalBranch(endX, endY, newLength, newAngle, depth - 1);
-    }
-}
-
 function drawGoldenSpiral() {
     if (!ctx) return;
     const centerX = canvas.width / 2;
@@ -577,126 +556,62 @@ function addConsoleMessage(text, type = 'default') {
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
+// Global variable to store the content of the data file
+let cmbDataContent = null;
+
+// Function to handle the CMB data loading from the server
+async function loadCMBData(fileName) {
+    const runButton = document.getElementById('run-cmb-script');
+    
+    // Disable the run button while loading
+    if (runButton) runButton.disabled = true;
+
+    addConsoleMessage(`[INFO] Loading associated data file '${fileName}'...`, 'info');
+    
+    try {
+        const dataResponse = await fetch(`scripts/${fileName}`);
+        if (!dataResponse.ok) {
+            throw new Error(`Could not find data file: scripts/${fileName}`);
+        }
+        
+        cmbDataContent = await dataResponse.text();
+        addConsoleMessage(`[SUCCESS] Data file '${fileName}' loaded successfully.`, 'success');
+        
+        // Re-enable the run button
+        if (runButton) runButton.disabled = false;
+        
+    } catch (error) {
+        console.error('loadCMBData Error:', error);
+        addConsoleMessage(`[CRITICAL ERROR] Failed to load data file. Please check the file path.`, 'error');
+        addConsoleMessage(error.message, 'error');
+        cmbDataContent = null;
+    }
+}
+
+
 // Fonction pour exécuter un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot
 async function runScript(scriptName) {
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
     const commandLoader = document.getElementById('command-loader');
     const allButtons = document.querySelectorAll('.futuristic-button-small');
-
-    // Gère l'interface utilisateur
-    allButtons.forEach(btn => btn.disabled = true);
-    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
-    if (commandLoader) commandLoader.style.display = 'flex';
-    if (consoleOutput) consoleOutput.innerHTML = '';
-    addConsoleMessage(`> python3 ${scriptName}`, 'input');
     
-    try {
-        // ÉTAPE 1: Lire le contenu du script depuis le dossier /scripts de votre site web
-        addConsoleMessage(`[INFO] Reading script content...`, 'info');
-        const scriptResponse = await fetch(`scripts/${scriptName}`);
-        if (!scriptResponse.ok) {
-            throw new Error(`Could not find script file: scripts/${scriptName}`);
-        }
-        const scriptContent = await scriptResponse.text();
-
-        // ÉTAPE 2: Préparer le prompt pour Gemini, comme un copier-coller
-        const promptForGemini = `Exécute ce script Python et retourne uniquement la sortie texte brute (stdout), sans aucun commentaire additionnel de ta part:\n\n\`\`\`python\n${scriptContent}\n\`\`\``;
-        
-        // ÉTAPE 3: Envoyer ce contenu à l'API du CHATBOT (car on sait qu'elle fonctionne)
-        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
-        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
-        const apiResponse = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                message: promptForGemini // On utilise le champ "message" car c'est celui qui marche
-            })
-        });
-
-        if (!apiResponse.ok) {
-            const errorData = await apiResponse.json();
-            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
-        }
-
-        const data = await apiResponse.json();
-
-        // On traite la réponse de l'API, qui doit contenir une "reply"
-        if (data.reply) {
-            addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
-            const formattedOutput = data.reply.replace(/\n/g, '<br>');
-            addConsoleMessage(formattedOutput, 'default');
-        } else {
-            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
-        }
-
-    } catch (error) {
-        console.error('runScript Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
-        addConsoleMessage(error.message, 'error');
-    } finally {
-        // Réinitialisation de l'interface
-        allButtons.forEach(btn => btn.disabled = false);
-        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
-        if (commandLoader) commandLoader.style.display = 'none';
-        
-        if (typeof MathJax !== 'undefined') {
-            try {
-                MathJax.typesetPromise();
-            } catch(e) { console.error("MathJax typesetting failed", e); }
-        }
-        if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    // Gère la désactivation des boutons en fonction du script
+    let buttonsToDisable = allButtons;
+    if (scriptName === 'CMB.py') {
+        buttonsToDisable = document.querySelectorAll('.script-card button'); // Désactive seulement les boutons de cette carte
     }
-}
-// Global variable to store the content of the data file
-let cmbDataContent = null;
-
-// Function to handle the CMB data loading
-function loadCMBData() {
-    // Programmatically create a file input element
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.txt'; // Only accept text files
+    buttonsToDisable.forEach(btn => btn.disabled = true);
     
-    // Add an event listener to react when a file is selected
-    fileInput.addEventListener('change', (event) => {
-        const file = event.target.files[0];
-        if (!file) {
-            addConsoleMessage(`[ERROR] No file selected.`, 'error');
-            return;
-        }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            // Store the file content in the global variable
-            cmbDataContent = e.target.result;
-            addConsoleMessage(`[SUCCESS] File "${file.name}" loaded successfully. Ready to run script.`, 'success');
-        };
-        reader.onerror = () => {
-            addConsoleMessage(`[ERROR] Failed to read the file.`, 'error');
-            cmbDataContent = null;
-        };
-        
-        // Read the file as text
-        reader.readAsText(file);
-    });
+    // Prevent execution if CMB data is required but not loaded
+    if (scriptName === 'CMB.py' && !cmbDataContent) {
+        addConsoleMessage(`[WARNING] No CMB data file has been loaded. Please click 'Load Data (CMB)' first.`, 'warning');
+        buttonsToDisable.forEach(btn => btn.disabled = false); // Réactive les boutons
+        return;
+    }
 
-    // Simulate a click to open the file selection dialog
-    fileInput.click();
-    addConsoleMessage(`[INFO] Waiting for file selection...`, 'info');
-}
 
-// Modified runScript function to include CMB data if loaded
-async function runScript(scriptName) {
-    // ... [the beginning of the function remains unchanged] ...
-    const consoleOutput = document.getElementById('console-output');
-    const consolePrompt = document.getElementById('console-prompt');
-    const commandLoader = document.getElementById('command-loader');
-    const allButtons = document.querySelectorAll('.futuristic-button-small');
-
-    allButtons.forEach(btn => btn.disabled = true);
     if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
     if (commandLoader) commandLoader.style.display = 'flex';
     if (consoleOutput) consoleOutput.innerHTML = '';
@@ -710,18 +625,15 @@ async function runScript(scriptName) {
             throw new Error(`Could not find script file: scripts/${scriptName}`);
         }
         const scriptContent = await scriptResponse.text();
-
-        // STEP 2: Prepare the prompt for Gemini
+        
+        // STEP 2: Prepare the prompt for the API
         let promptForGemini = `Execute this Python script and return only the raw text output (stdout), without any additional comments from your side:\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
         
-        // --- NEW: Add the CMB file content if cmbDataContent is not null and the script is 'CMB.py' ---
+        // Attach the data file content if it exists
         if (scriptName === 'CMB.py' && cmbDataContent) {
             promptForGemini += `\n\n--- ATTACHED DATA FILE: COM_PowerSpect_CMB-TT-full_R3.01.txt ---\n${cmbDataContent}\n`;
-            addConsoleMessage(`[INFO] CMB data file attached to the script.`, 'info');
-        } else if (scriptName === 'CMB.py' && !cmbDataContent) {
-            addConsoleMessage(`[WARNING] No CMB data file was loaded. The script may use default or placeholder data.`, 'warning');
+            addConsoleMessage(`[INFO] Data file attached to the script.`, 'success');
         }
-        // ----------------------------------------------------------------------------------------------------------------
 
         // STEP 3: Send this content to the CHATBOT API
         addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
@@ -757,8 +669,8 @@ async function runScript(scriptName) {
         addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
         addConsoleMessage(error.message, 'error');
     } finally {
-        // Reset the interface
-        allButtons.forEach(btn => btn.disabled = false);
+        // Réinitialisation de l'interface
+        buttonsToDisable.forEach(btn => btn.disabled = false);
         if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
         if (commandLoader) commandLoader.style.display = 'none';
         
