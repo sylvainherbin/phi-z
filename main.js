@@ -682,3 +682,143 @@ async function runScript(scriptName) {
         if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
 }
+
+// Global variable to store the content of the SNIa data files
+let sniaDataContent = null;
+
+// Function to handle the SNIa data loading from the server
+async function loadSNIaData() {
+    const runButton = document.getElementById('run-snia-script');
+    
+    // Disable the run button while loading
+    if (runButton) runButton.disabled = true;
+
+    addConsoleMessage(`[INFO] Loading SNIa data files...`, 'info');
+    
+    try {
+        // Fetch the first file
+        const dataFile = 'Pantheon+SH0ES.dat';
+        const dataResponse = await fetch(`scripts/${dataFile}`);
+        if (!dataResponse.ok) {
+            throw new Error(`Could not find data file: scripts/${dataFile}`);
+        }
+        const dataContent = await dataResponse.text();
+
+        // Fetch the second file (covariance matrix)
+        const covFile = 'Pantheon+SH0ES_STAT+SYS.cov';
+        const covResponse = await fetch(`scripts/${covFile}`);
+        if (!covResponse.ok) {
+            throw new Error(`Could not find covariance file: scripts/${covFile}`);
+        }
+        const covContent = await covResponse.text();
+        
+        // Store the content of both files in a single object
+        sniaDataContent = {
+            data: dataContent,
+            covariance: covContent
+        };
+
+        addConsoleMessage(`[SUCCESS] SNIa data files loaded successfully.`, 'success');
+        
+        // Re-enable the run button
+        if (runButton) runButton.disabled = false;
+        
+    } catch (error) {
+        console.error('loadSNIaData Error:', error);
+        addConsoleMessage(`[CRITICAL ERROR] Failed to load data files. Please check the file paths.`, 'error');
+        addConsoleMessage(error.message, 'error');
+        sniaDataContent = null;
+    }
+}
+
+
+// The runScript function is updated to check for SNIa data
+async function runScript(scriptName) {
+    const consoleOutput = document.getElementById('console-output');
+    const consolePrompt = document.getElementById('console-prompt');
+    const commandLoader = document.getElementById('command-loader');
+    const allButtons = document.querySelectorAll('.futuristic-button-small');
+
+    // Prevent execution if SNIa data is required but not loaded
+    if (scriptName === 'SNIa.py' && !sniaDataContent) {
+        addConsoleMessage(`[WARNING] No SNIa data files have been loaded. Please click 'Load Data (SNIa)' first.`, 'warning');
+        return;
+    }
+    
+    // Disable all buttons in the relevant card during execution
+    const buttonsToDisable = document.querySelectorAll('.script-card button');
+    buttonsToDisable.forEach(btn => btn.disabled = true);
+
+    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
+    if (commandLoader) commandLoader.style.display = 'flex';
+    if (consoleOutput) consoleOutput.innerHTML = '';
+    addConsoleMessage(`> python3 ${scriptName}`, 'input');
+    
+    try {
+        // STEP 1: Read the script content
+        addConsoleMessage(`[INFO] Reading script content...`, 'info');
+        const scriptResponse = await fetch(`scripts/${scriptName}`);
+        if (!scriptResponse.ok) {
+            throw new Error(`Could not find script file: scripts/${scriptName}`);
+        }
+        const scriptContent = await scriptResponse.text();
+        
+        // STEP 2: Prepare the prompt for the API
+        let promptForGemini = `I am providing a Python script and data files. I want you to execute the script in a sandboxed environment with the attached data. Your response should contain ONLY the raw stdout from the execution, without any comments, explanations, or additional text from your side. Do not provide placeholders; give the actual versions of the libraries and the final computed values.
+Here is the script and data:
+\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
+        
+        // Attach the data file content if it exists
+        if (scriptName === 'SNIa.py' && sniaDataContent) {
+            promptForGemini += `\n\n--- ATTACHED DATA FILE: Pantheon+SH0ES.dat ---\n${sniaDataContent.data}\n`;
+            promptForGemini += `\n\n--- ATTACHED DATA FILE: Pantheon+SH0ES_STAT+SYS.cov ---\n${sniaDataContent.covariance}\n`;
+            addConsoleMessage(`[INFO] SNIa data files attached to the script.`, 'success');
+        }
+
+        // STEP 3: Send this content to the CHATBOT API
+        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
+        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
+        const apiResponse = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                message: promptForGemini
+            })
+        });
+
+        if (!apiResponse.ok) {
+            const errorData = await apiResponse.json();
+            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
+        }
+
+        const data = await apiResponse.json();
+
+        // Process the API response
+        if (data.reply) {
+            addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
+            const formattedOutput = data.reply.replace(/\n/g, '<br>');
+            addConsoleMessage(formattedOutput, 'default');
+        } else {
+            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
+        }
+
+    } catch (error) {
+        console.error('runScript Error:', error);
+        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
+        addConsoleMessage(error.message, 'error');
+    } finally {
+        // Reset the interface
+        buttonsToDisable.forEach(btn => btn.disabled = false);
+        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
+        if (commandLoader) commandLoader.style.display = 'none';
+        
+        if (typeof MathJax !== 'undefined') {
+            try {
+                MathJax.typesetPromise();
+            } catch(e) { console.error("MathJax typesetting failed", e); }
+        }
+        if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+}
