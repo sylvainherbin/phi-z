@@ -77,13 +77,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </div>
                    </div>
                     <div class="script-card">
-    <h3>Cosmic Chronometers & Expansion History</h3>
-    <p>Use this script to test the DFCM against Cosmic Chronometer data, an independent method for measuring the Universe's expansion rate, to verify its agreement with the expansion history.</p>
+    <h3>Cosmic Microwave Background (CMB)</h3>
+    <p>Test the model against Planck CMB data, examining its predictions for the early Universe.</p>
     <div class="script-buttons">
-        <button class="futuristic-button-small" onclick="runScript('Cosmic_Chronometers.py')"><i class="fas fa-play"></i> Run Script</button>
-        <a href="scripts/Cosmic_Chronometers.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+        <button class="futuristic-button-small" onclick="loadCMBData()">
+            <i class="fas fa-upload"></i> Load Data (CMB)
+        </button>
+        <button class="futuristic-button-small" onclick="runScript('CMB.py')"><i class="fas fa-play"></i> Run Script</button>
+        <a href="scripts/CMB.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
     </div>
 </div>
+
 
                     <div class="script-card">
                         <h3>BAO (DESI EDR)</h3>
