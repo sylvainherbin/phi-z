@@ -1,6 +1,5 @@
 // =================================================================
-// FICHIER JAVASCRIPT COMPLET ET FINAL - 02:20
-// Basé sur le fichier original de 344 lignes.
+// FICHIER JAVASCRIPT COMPLET - BASÉ SUR L'ORIGINAL DE 657 LIGNES
 // =================================================================
 
 // Configuration de MathJax (doit être définie avant le chargement de la librairie MathJax)
@@ -14,7 +13,6 @@ window.MathJax = {
 // Create dynamic stars
 function createStars() {
     const starsContainer = document.getElementById('stars');
-    if (!starsContainer) return;
     const starsCount = 300;
 
     for (let i = 0; i < starsCount; i++) {
@@ -40,10 +38,7 @@ function showPage(pageId) {
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
-    const pageElement = document.getElementById(pageId);
-    if(pageElement) {
-        pageElement.classList.add('active');
-    }
+    document.getElementById(pageId).classList.add('active');
     document.querySelectorAll('nav a').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('onclick') === `showPage('${pageId}')`) {
@@ -118,7 +113,7 @@ async function sendMessage() {
                 statusDot.style.backgroundColor = 'var(--success)';
             }
             if (statusText) statusText.textContent = 'Connected & Ready';
-            if(typeof MathJax !== 'undefined') MathJax.typeset(); // Refresh MathJax for equations
+            MathJax.typeset(); // Refresh MathJax for equations
         }
     }
 }
@@ -532,7 +527,9 @@ window.onload = function() {
     // Initialize cosmic timeline
     initCanvas();
     window.addEventListener('resize', initCanvas);
-    if(typeof MathJax !== 'undefined') MathJax.typeset();
+    if(typeof MathJax !== 'undefined') {
+        MathJax.typeset();
+    }
 };
 
 // Initialize listeners that don't depend on `window.onload`
@@ -540,9 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const toggleButton = document.getElementById('toggle-all-descriptions');
     const tableContainer = document.querySelector('.futuristic-table');
 
-    if(toggleButton && tableContainer) {
-        const toggleIcon = toggleButton.querySelector('i');
+    if(toggleButton) {
         toggleButton.addEventListener('click', () => {
+            const toggleIcon = toggleButton.querySelector('i');
             tableContainer.classList.toggle('show-descriptions');
             if (tableContainer.classList.contains('show-descriptions')) {
                 toggleIcon.classList.remove('fa-eye');
@@ -558,9 +555,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// --- LA SECTION CORRIGÉE ET FINALE ---
+// =================================================================
+// --- SECTION CORRIGÉE POUR LA CONSOLE DE REPRODUCTIBILITÉ ---
+// =================================================================
 
-// Ajoute un message formaté à la console web
+// Fonction pour ajouter un message à la console de reproductibilité
 function addConsoleMessage(text, type = 'default') {
     const consoleOutput = document.getElementById('console-output');
     if (!consoleOutput) {
@@ -572,16 +571,13 @@ function addConsoleMessage(text, type = 'default') {
     if (type !== 'default') {
         messageDiv.classList.add(type);
     }
+    // Utilisez innerHTML pour les retours à la ligne générés par les scripts
     messageDiv.innerHTML = text; 
     consoleOutput.appendChild(messageDiv);
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
-
-/**
- * Exécute un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot.
- * @param {string} scriptName - Le nom du fichier script à exécuter (ex: 'validate_bao_hz.py').
- */
+// Fonction pour exécuter un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot
 async function runScript(scriptName) {
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
@@ -630,7 +626,6 @@ async function runScript(scriptName) {
         // On traite la réponse de l'API, qui doit contenir une "reply"
         if (data.reply) {
             addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
-            // Remplace les sauts de ligne par des <br> pour l'affichage HTML
             const formattedOutput = data.reply.replace(/\n/g, '<br>');
             addConsoleMessage(formattedOutput, 'default');
         } else {
