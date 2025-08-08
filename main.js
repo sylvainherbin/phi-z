@@ -696,19 +696,21 @@ async function loadSNIaData() {
     addConsoleMessage(`[INFO] Loading SNIa data files...`, 'info');
     
     try {
-        // Fetch the first file
+        // Fetch the first file (Pantheon+SH0ES.dat) from its public GitHub raw URL
         const dataFile = 'Pantheon+SH0ES.dat';
-        const dataResponse = await fetch(`scripts/${dataFile}`);
+        const dataUrl = `https://raw.githubusercontent.com/sylvainherbin/dfcm-ai-api/main/scripts/${dataFile}`;
+        const dataResponse = await fetch(dataUrl);
         if (!dataResponse.ok) {
-            throw new Error(`Could not find data file: scripts/${dataFile}`);
+            throw new Error(`Could not find data file at: ${dataUrl}`);
         }
         const dataContent = await dataResponse.text();
 
-        // Fetch the second file (covariance matrix)
+        // Fetch the second file (Pantheon+SH0ES_STAT+SYS.cov) from its public GitHub raw URL
         const covFile = 'Pantheon+SH0ES_STAT+SYS.cov';
-        const covResponse = await fetch(`scripts/${covFile}`);
+        const covUrl = `https://raw.githubusercontent.com/sylvainherbin/dfcm-ai-api/main/scripts/${covFile}`;
+        const covResponse = await fetch(covUrl);
         if (!covResponse.ok) {
-            throw new Error(`Could not find covariance file: scripts/${covFile}`);
+            throw new Error(`Could not find covariance file at: ${covUrl}`);
         }
         const covContent = await covResponse.text();
         
@@ -725,14 +727,14 @@ async function loadSNIaData() {
         
     } catch (error) {
         console.error('loadSNIaData Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] Failed to load data files. Please check the file paths.`, 'error');
+        addConsoleMessage(`[CRITICAL ERROR] Failed to load data files. Please check the URLs.`, 'error');
         addConsoleMessage(error.message, 'error');
         sniaDataContent = null;
     }
 }
 
 
-// The runScript function is updated to check for SNIa data
+// The runScript function remains the same
 async function runScript(scriptName) {
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
