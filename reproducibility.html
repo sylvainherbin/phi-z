@@ -80,13 +80,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <h3>Cosmic Microwave Background (CMB)</h3>
     <p>Test the model against Planck CMB data, examining its predictions for the early Universe.</p>
     <div class="script-buttons">
-        <button class="futuristic-button-small" onclick="loadCMBData()">
+        <button class="futuristic-button-small" onclick="loadCMBData('COM_PowerSpect_CMB-TT-full_R3.01.txt')">
             <i class="fas fa-upload"></i> Load Data (CMB)
         </button>
-        <button class="futuristic-button-small" onclick="runScript('CMB.py')"><i class="fas fa-play"></i> Run Script</button>
-        <a href="scripts/CMB.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
+        <button id="run-cmb-script" class="futuristic-button-small" onclick="runScript('CMB.py')" disabled>
+            <i class="fas fa-play"></i> Run Script
+        </button>
+        <a href="scripts/CMB.py" class="futuristic-button-small" download>
+            <i class="fas fa-download"></i> Download
+        </a>
     </div>
 </div>
+
 
 
                     <div class="script-card">
