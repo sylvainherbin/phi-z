@@ -37,7 +37,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <div class="container">
         <header>
-            <a href="#" class="logo" onclick="showPage('home')">
+            <a href="index.html" class="logo" onclick="showPage('home')">
                 <div class="math-container">
                     <span class="phi">φ</span>
                     <span class="redshift">(z)</span>
@@ -76,26 +76,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             <a href="scripts/validate_bao_hz.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
                         </div>
                    </div>
-                    <div class="script-card">
-    <h3>Cosmic Microwave Background (CMB)</h3>
-    <p>Test the model against Planck CMB data, examining its predictions for the early Universe.</p>
-
-    <div class="step-by-step">
-        <div class="step">
-            <span class="step-number">1</span>
-            <div class="step-content">
-                <h4>Load Data</h4>
-                <p>Click on "Load Data (CMB)" to load the observational data from the Planck satellite (<strong class="file-name">COM_PowerSpect_CMB-TT-full_R3.01.txt</strong>). This data represents the power spectrum of CMB anisotropies—the tiny temperature fluctuations in the light from the Universe shortly after the Big Bang. It's crucial for comparing our model with reality.</p>
-            </div>
-        </div>
-        <div class="step">
-            <span class="step-number">2</span>
-            <div class="step-content">
-                <h4>Run Script</h4>
-                <p>Once the data is loaded, the "Run Script" button will become active. Click it to launch the Python script (<strong class="file-name">CMB.py</strong>), which will use the loaded data to perform calculations and test the model's predictions.</p>
-            </div>
-        </div>
-    </div>
+                    
     
     <div class="script-buttons">
         <button class="futuristic-button-small" onclick="loadCMBData('COM_PowerSpect_CMB-TT-full_R3.01.txt')">
@@ -119,7 +100,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
 </div>
 
+<div class="script-card">
+    <h3>Cosmic Microwave Background (CMB)</h3>
+    <p>Test the model against Planck CMB data, examining its predictions for the early Universe.</p>
 
+    <div class="step-by-step">
+        <div class="step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+                <h4>Load Data</h4>
+                <p>Click on "Load Data (CMB)" to load the observational data from the Planck satellite (<strong class="file-name">COM_PowerSpect_CMB-TT-full_R3.01.txt</strong>). This data represents the power spectrum of CMB anisotropies—the tiny temperature fluctuations in the light from the Universe shortly after the Big Bang. It's crucial for comparing our model with reality.</p>
+            </div>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+                <h4>Run Script</h4>
+                <p>Once the data is loaded, the "Run Script" button will become active. Click it to launch the Python script (<strong class="file-name">CMB.py</strong>), which will use the loaded data to perform calculations and test the model's predictions.</p>
+            </div>
+        </div>
+    </div>
 
                     <div class="script-card">
                         <h3>BAO (DESI EDR)</h3>
