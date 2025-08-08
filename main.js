@@ -683,6 +683,10 @@ async function runScript(scriptName) {
     }
 }
 
+// =================================================================
+// --- PARTIE SPÉCIFIQUE AU SCRIPT SNIa ---
+// =================================================================
+
 // Global variable to store the content of the SNIa data files
 let sniaDataContent = null;
 
@@ -733,24 +737,28 @@ async function loadSNIaData() {
     }
 }
 
-
-// The runScript function remains the same
+// Fonction pour exécuter un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot
 async function runScript(scriptName) {
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
     const commandLoader = document.getElementById('command-loader');
-    const allButtons = document.querySelectorAll('.futuristic-button-small');
-
-    // Prevent execution if SNIa data is required but not loaded
+    
+    // Gère la désactivation des boutons en fonction du script
+    let buttonsToDisable;
+    if (scriptName === 'CMB.py') {
+        buttonsToDisable = document.querySelectorAll('#reproducibility .script-card:nth-child(5) button');
+    } else if (scriptName === 'SNIa.py') {
+        buttonsToDisable = document.querySelectorAll('#reproducibility .script-card:nth-child(4) button');
+    }
+    buttonsToDisable.forEach(btn => btn.disabled = true);
+    
+    // Empêche l'exécution si les données SNIa sont requises mais non chargées
     if (scriptName === 'SNIa.py' && !sniaDataContent) {
         addConsoleMessage(`[WARNING] No SNIa data files have been loaded. Please click 'Load Data (SNIa)' first.`, 'warning');
+        buttonsToDisable.forEach(btn => btn.disabled = false); // Réactive les boutons
         return;
     }
     
-    // Disable all buttons in the relevant card during execution
-    const buttonsToDisable = document.querySelectorAll('.script-card button');
-    buttonsToDisable.forEach(btn => btn.disabled = true);
-
     if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
     if (commandLoader) commandLoader.style.display = 'flex';
     if (consoleOutput) consoleOutput.innerHTML = '';
@@ -765,28 +773,47 @@ async function runScript(scriptName) {
         }
         const scriptContent = await scriptResponse.text();
         
-        // STEP 2: Prepare the prompt for the API
-        let promptForGemini = `I am providing a Python script and data files. I want you to execute the script in a sandboxed environment with the attached data. Your response should contain ONLY the raw stdout from the execution, without any comments, explanations, or additional text from your side. Do not provide placeholders; give the actual versions of the libraries and the final computed values.
-Here is the script and data:
-\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
-        
-        // Attach the data file content if it exists
-        if (scriptName === 'SNIa.py' && sniaDataContent) {
-            promptForGemini += `\n\n--- ATTACHED DATA FILE: Pantheon+SH0ES.dat ---\n${sniaDataContent.data}\n`;
-            promptForGemini += `\n\n--- ATTACHED DATA FILE: Pantheon+SH0ES_STAT+SYS.cov ---\n${sniaDataContent.covariance}\n`;
-            addConsoleMessage(`[INFO] SNIa data files attached to the script.`, 'success');
-        }
+        // --- NOUVELLE LOGIQUE EN DEUX ÉTAPES POUR SNIA ---
+        let dataPrompt = '';
+        if (scriptName === 'SNIa.py') {
+            dataPrompt = `I am providing two data files for the Pantheon+SH0ES dataset. Please read and process them. Do not execute any script yet. Await my next instruction.
+--- ATTACHED DATA FILE: Pantheon+SH0ES.dat ---
+${sniaDataContent.data}
+--- ATTACHED DATA FILE: Pantheon+SH0ES_STAT+SYS.cov ---
+${sniaDataContent.covariance}`;
 
-        // STEP 3: Send this content to the CHATBOT API
+            // STEP 1.1: Send the data first for SNIa
+            addConsoleMessage(`[INFO] Sending data files to execution engine...`, 'info');
+            const dataResponse = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: dataPrompt })
+            });
+
+            if (!dataResponse.ok) {
+                throw new Error(`Failed to send data to the API. Status: ${dataResponse.status}`);
+            }
+            const dataResult = await dataResponse.json();
+            if (dataResult.reply && dataResult.reply.includes('I have processed the data')) {
+                 addConsoleMessage(`[SUCCESS] Data successfully sent and confirmed by the API.`, 'success');
+            } else {
+                 addConsoleMessage(`[WARNING] The API did not confirm processing the data. Proceeding anyway, but this may fail.`, 'warning');
+            }
+        }
+        
+        // STEP 2: Prepare the prompt for the script execution
+        let scriptPrompt = `I am providing a Python script. Now that you have the data from my previous message in memory, execute this script and return ONLY the raw stdout. No comments, no explanations, no additional text. Do not provide placeholders; give the actual versions of the libraries and the final computed values.
+\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
+
+        // STEP 2.1: Send the script to the API
         addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
-        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
-        const apiResponse = await fetch(API_URL, {
+        const apiResponse = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 
-                message: promptForGemini
+                message: scriptPrompt
             })
         });
 
