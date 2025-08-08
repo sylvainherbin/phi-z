@@ -1,5 +1,5 @@
 // =================================================================
-// FICHIER JAVASCRIPT COMPLET - BASÉ SUR L'ORIGINAL DE 657 LIGNES
+// FICHIER JAVASCRIPT COMPLET - VERSION CORRIGÉE
 // =================================================================
 
 // Configuration de MathJax (doit être définie avant le chargement de la librairie MathJax)
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =================================================================
-// --- SECTION CORRIGÉE POUR LA CONSOLE DE REPRODUCTIBILITÉ ---
+// --- CONSOLE DE REPRODUCTIBILITÉ (VERSION SIMPLIFIÉE ET CORRIGÉE) ---
 // =================================================================
 
 // Fonction pour ajouter un message à la console de reproductibilité
@@ -550,20 +550,18 @@ function addConsoleMessage(text, type = 'default') {
     if (type !== 'default') {
         messageDiv.classList.add(type);
     }
-    // Utilisez innerHTML pour les retours à la ligne générés par les scripts
     messageDiv.innerHTML = text; 
     consoleOutput.appendChild(messageDiv);
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
-// Global variable to store the content of the data file
+// Global variable to store the content of the data file (kept for CMB script)
 let cmbDataContent = null;
 
 // Function to handle the CMB data loading from the server
 async function loadCMBData(fileName) {
     const runButton = document.getElementById('run-cmb-script');
     
-    // Disable the run button while loading
     if (runButton) runButton.disabled = true;
 
     addConsoleMessage(`[INFO] Loading associated data file '${fileName}'...`, 'info');
@@ -577,7 +575,6 @@ async function loadCMBData(fileName) {
         cmbDataContent = await dataResponse.text();
         addConsoleMessage(`[SUCCESS] Data file '${fileName}' loaded successfully.`, 'success');
         
-        // Re-enable the run button
         if (runButton) runButton.disabled = false;
         
     } catch (error) {
@@ -589,36 +586,29 @@ async function loadCMBData(fileName) {
 }
 
 
-// Fonction pour exécuter un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot
+// UNIQUE ET NOUVELLE FONCTION pour exécuter un script
 async function runScript(scriptName) {
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
     const commandLoader = document.getElementById('command-loader');
-    const allButtons = document.querySelectorAll('.futuristic-button-small');
     
-    // Gère la désactivation des boutons en fonction du script
-    let buttonsToDisable = allButtons;
-    if (scriptName === 'CMB.py') {
-        buttonsToDisable = document.querySelectorAll('.script-card button'); // Désactive seulement les boutons de cette carte
-    }
+    // Désactive les boutons de la carte concernée
+    const buttonsToDisable = document.querySelectorAll(`[onclick*="runScript('${scriptName}')"]`);
     buttonsToDisable.forEach(btn => btn.disabled = true);
     
-
-    // Prevent execution if CMB data is required but not loaded
+    // Cas du script CMB, qui nécessite un chargement préalable
     if (scriptName === 'CMB.py' && !cmbDataContent) {
         addConsoleMessage(`[WARNING] No CMB data file has been loaded. Please click 'Load Data (CMB)' first.`, 'warning');
-        buttonsToDisable.forEach(btn => btn.disabled = false); // Réactive les boutons
+        buttonsToDisable.forEach(btn => btn.disabled = false);
         return;
     }
-
-
+    
     if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
     if (commandLoader) commandLoader.style.display = 'flex';
     if (consoleOutput) consoleOutput.innerHTML = '';
     addConsoleMessage(`> python3 ${scriptName}`, 'input');
     
     try {
-        // STEP 1: Read the script content
         addConsoleMessage(`[INFO] Reading script content...`, 'info');
         const scriptResponse = await fetch(`scripts/${scriptName}`);
         if (!scriptResponse.ok) {
@@ -626,16 +616,14 @@ async function runScript(scriptName) {
         }
         const scriptContent = await scriptResponse.text();
         
-        // STEP 2: Prepare the prompt for the API
         let promptForGemini = `Execute this Python script and return only the raw text output (stdout), without any additional comments from your side:\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
         
-        // Attach the data file content if it exists
+        // Attache les données si c'est le script CMB
         if (scriptName === 'CMB.py' && cmbDataContent) {
             promptForGemini += `\n\n--- ATTACHED DATA FILE: COM_PowerSpect_CMB-TT-full_R3.01.txt ---\n${cmbDataContent}\n`;
             addConsoleMessage(`[INFO] Data file attached to the script.`, 'success');
         }
-
-        // STEP 3: Send this content to the CHATBOT API
+        
         addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
         const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
         const apiResponse = await fetch(API_URL, {
@@ -655,7 +643,6 @@ async function runScript(scriptName) {
 
         const data = await apiResponse.json();
 
-        // Process the API response
         if (data.reply) {
             addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
             const formattedOutput = data.reply.replace(/\n/g, '<br>');
@@ -669,176 +656,6 @@ async function runScript(scriptName) {
         addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
         addConsoleMessage(error.message, 'error');
     } finally {
-        // Réinitialisation de l'interface
-        buttonsToDisable.forEach(btn => btn.disabled = false);
-        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
-        if (commandLoader) commandLoader.style.display = 'none';
-        
-        if (typeof MathJax !== 'undefined') {
-            try {
-                MathJax.typesetPromise();
-            } catch(e) { console.error("MathJax typesetting failed", e); }
-        }
-        if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
-    }
-}
-
-// =================================================================
-// --- PARTIE SPÉCIFIQUE AU SCRIPT SNIa ---
-// =================================================================
-
-// Global variable to store the content of the SNIa data files
-let sniaDataContent = null;
-
-// Function to handle the SNIa data loading from the server
-async function loadSNIaData() {
-    const runButton = document.getElementById('run-snia-script');
-    
-    // Disable the run button while loading
-    if (runButton) runButton.disabled = true;
-
-    addConsoleMessage(`[INFO] Loading SNIa data files...`, 'info');
-    
-    try {
-        // Fetch the first file (Pantheon+SH0ES.dat) from its public GitHub raw URL
-        const dataFile = 'Pantheon+SH0ES.dat';
-        const dataUrl = `https://raw.githubusercontent.com/sylvainherbin/dfcm-ai-api/main/scripts/${dataFile}`;
-        const dataResponse = await fetch(dataUrl);
-        if (!dataResponse.ok) {
-            throw new Error(`Could not find data file at: ${dataUrl}`);
-        }
-        const dataContent = await dataResponse.text();
-
-        // Fetch the second file (Pantheon+SH0ES_STAT+SYS.cov) from its public GitHub raw URL
-        const covFile = 'Pantheon+SH0ES_STAT+SYS.cov';
-        const covUrl = `https://raw.githubusercontent.com/sylvainherbin/dfcm-ai-api/main/scripts/${covFile}`;
-        const covResponse = await fetch(covUrl);
-        if (!covResponse.ok) {
-            throw new Error(`Could not find covariance file at: ${covUrl}`);
-        }
-        const covContent = await covResponse.text();
-        
-        // Store the content of both files in a single object
-        sniaDataContent = {
-            data: dataContent,
-            covariance: covContent
-        };
-
-        addConsoleMessage(`[SUCCESS] SNIa data files loaded successfully.`, 'success');
-        
-        // Re-enable the run button
-        if (runButton) runButton.disabled = false;
-        
-    } catch (error) {
-        console.error('loadSNIaData Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] Failed to load data files. Please check the URLs.`, 'error');
-        addConsoleMessage(error.message, 'error');
-        sniaDataContent = null;
-    }
-}
-
-// Fonction pour exécuter un script en lisant son contenu côté client et en l'envoyant à l'API du chatbot
-async function runScript(scriptName) {
-    const consoleOutput = document.getElementById('console-output');
-    const consolePrompt = document.getElementById('console-prompt');
-    const commandLoader = document.getElementById('command-loader');
-    
-    // Gère la désactivation des boutons en fonction du script
-    let buttonsToDisable;
-    if (scriptName === 'CMB.py') {
-        buttonsToDisable = document.querySelectorAll('#reproducibility .script-card:nth-child(5) button');
-    } else if (scriptName === 'SNIa.py') {
-        buttonsToDisable = document.querySelectorAll('#reproducibility .script-card:nth-child(4) button');
-    }
-    buttonsToDisable.forEach(btn => btn.disabled = true);
-    
-    // Empêche l'exécution si les données SNIa sont requises mais non chargées
-    if (scriptName === 'SNIa.py' && !sniaDataContent) {
-        addConsoleMessage(`[WARNING] No SNIa data files have been loaded. Please click 'Load Data (SNIa)' first.`, 'warning');
-        buttonsToDisable.forEach(btn => btn.disabled = false); // Réactive les boutons
-        return;
-    }
-    
-    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
-    if (commandLoader) commandLoader.style.display = 'flex';
-    if (consoleOutput) consoleOutput.innerHTML = '';
-    addConsoleMessage(`> python3 ${scriptName}`, 'input');
-    
-    try {
-        // STEP 1: Read the script content
-        addConsoleMessage(`[INFO] Reading script content...`, 'info');
-        const scriptResponse = await fetch(`scripts/${scriptName}`);
-        if (!scriptResponse.ok) {
-            throw new Error(`Could not find script file: scripts/${scriptName}`);
-        }
-        const scriptContent = await scriptResponse.text();
-        
-        // --- NOUVELLE LOGIQUE EN DEUX ÉTAPES POUR SNIA ---
-        let dataPrompt = '';
-        if (scriptName === 'SNIa.py') {
-            dataPrompt = `I am providing two data files for the Pantheon+SH0ES dataset. Please read and process them. Do not execute any script yet. Await my next instruction.
---- ATTACHED DATA FILE: Pantheon+SH0ES.dat ---
-${sniaDataContent.data}
---- ATTACHED DATA FILE: Pantheon+SH0ES_STAT+SYS.cov ---
-${sniaDataContent.covariance}`;
-
-            // STEP 1.1: Send the data first for SNIa
-            addConsoleMessage(`[INFO] Sending data files to execution engine...`, 'info');
-            const dataResponse = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: dataPrompt })
-            });
-
-            if (!dataResponse.ok) {
-                throw new Error(`Failed to send data to the API. Status: ${dataResponse.status}`);
-            }
-            const dataResult = await dataResponse.json();
-            if (dataResult.reply && dataResult.reply.includes('I have processed the data')) {
-                 addConsoleMessage(`[SUCCESS] Data successfully sent and confirmed by the API.`, 'success');
-            } else {
-                 addConsoleMessage(`[WARNING] The API did not confirm processing the data. Proceeding anyway, but this may fail.`, 'warning');
-            }
-        }
-        
-        // STEP 2: Prepare the prompt for the script execution
-        let scriptPrompt = `I am providing a Python script. Now that you have the data from my previous message in memory, execute this script and return ONLY the raw stdout. No comments, no explanations, no additional text. Do not provide placeholders; give the actual versions of the libraries and the final computed values.
-\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
-
-        // STEP 2.1: Send the script to the API
-        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
-        const apiResponse = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                message: scriptPrompt
-            })
-        });
-
-        if (!apiResponse.ok) {
-            const errorData = await apiResponse.json();
-            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
-        }
-
-        const data = await apiResponse.json();
-
-        // Process the API response
-        if (data.reply) {
-            addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
-            const formattedOutput = data.reply.replace(/\n/g, '<br>');
-            addConsoleMessage(formattedOutput, 'default');
-        } else {
-            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
-        }
-
-    } catch (error) {
-        console.error('runScript Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
-        addConsoleMessage(error.message, 'error');
-    } finally {
-        // Reset the interface
         buttonsToDisable.forEach(btn => btn.disabled = false);
         if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
         if (commandLoader) commandLoader.style.display = 'none';
