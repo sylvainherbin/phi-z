@@ -1331,4 +1331,75 @@ footer {
         font-size: 1.3rem;
     }
 }
+/* --- STEP-BY-STEP STYLES --- */
+
+.script-card .step-by-step {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.script-card .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    position: relative;
+}
+
+.script-card .step-number {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    position: relative;
+    box-shadow: 0 0 10px rgba(106, 90, 249, 0.5);
+    z-index: 1;
+}
+
+.script-card .step-content {
+    flex-grow: 1;
+}
+
+.script-card .step-content h4 {
+    font-size: 1.2rem;
+    color: var(--accent-light);
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.script-card .step-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.script-card .file-name {
+    color: var(--success);
+    font-weight: 600;
+}
+
+.script-card .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 35px;
+    bottom: -15px;
+    width: 2px;
+    background: rgba(106, 90, 249, 0.3);
+    z-index: 0;
+}
+
+@media (max-width: 768px) {
+    .script-card .step:not(:last-child)::after {
+        bottom: -20px;
+    }
+}
 
