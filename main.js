@@ -650,3 +650,123 @@ async function runScript(scriptName) {
         if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
 }
+// Global variable to store the content of the data file
+let cmbDataContent = null;
+
+// Function to handle the CMB data loading
+function loadCMBData() {
+    // Programmatically create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = '.txt'; // Only accept text files
+    
+    // Add an event listener to react when a file is selected
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) {
+            addConsoleMessage(`[ERROR] No file selected.`, 'error');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            // Store the file content in the global variable
+            cmbDataContent = e.target.result;
+            addConsoleMessage(`[SUCCESS] File "${file.name}" loaded successfully. Ready to run script.`, 'success');
+        };
+        reader.onerror = () => {
+            addConsoleMessage(`[ERROR] Failed to read the file.`, 'error');
+            cmbDataContent = null;
+        };
+        
+        // Read the file as text
+        reader.readAsText(file);
+    });
+
+    // Simulate a click to open the file selection dialog
+    fileInput.click();
+    addConsoleMessage(`[INFO] Waiting for file selection...`, 'info');
+}
+
+// Modified runScript function to include CMB data if loaded
+async function runScript(scriptName) {
+    // ... [the beginning of the function remains unchanged] ...
+    const consoleOutput = document.getElementById('console-output');
+    const consolePrompt = document.getElementById('console-prompt');
+    const commandLoader = document.getElementById('command-loader');
+    const allButtons = document.querySelectorAll('.futuristic-button-small');
+
+    allButtons.forEach(btn => btn.disabled = true);
+    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
+    if (commandLoader) commandLoader.style.display = 'flex';
+    if (consoleOutput) consoleOutput.innerHTML = '';
+    addConsoleMessage(`> python3 ${scriptName}`, 'input');
+    
+    try {
+        // STEP 1: Read the script content
+        addConsoleMessage(`[INFO] Reading script content...`, 'info');
+        const scriptResponse = await fetch(`scripts/${scriptName}`);
+        if (!scriptResponse.ok) {
+            throw new Error(`Could not find script file: scripts/${scriptName}`);
+        }
+        const scriptContent = await scriptResponse.text();
+
+        // STEP 2: Prepare the prompt for Gemini
+        let promptForGemini = `Execute this Python script and return only the raw text output (stdout), without any additional comments from your side:\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
+        
+        // --- NEW: Add the CMB file content if cmbDataContent is not null and the script is 'CMB.py' ---
+        if (scriptName === 'CMB.py' && cmbDataContent) {
+            promptForGemini += `\n\n--- ATTACHED DATA FILE: COM_PowerSpect_CMB-TT-full_R3.01.txt ---\n${cmbDataContent}\n`;
+            addConsoleMessage(`[INFO] CMB data file attached to the script.`, 'info');
+        } else if (scriptName === 'CMB.py' && !cmbDataContent) {
+            addConsoleMessage(`[WARNING] No CMB data file was loaded. The script may use default or placeholder data.`, 'warning');
+        }
+        // ----------------------------------------------------------------------------------------------------------------
+
+        // STEP 3: Send this content to the CHATBOT API
+        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
+        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
+        const apiResponse = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                message: promptForGemini
+            })
+        });
+
+        if (!apiResponse.ok) {
+            const errorData = await apiResponse.json();
+            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
+        }
+
+        const data = await apiResponse.json();
+
+        // Process the API response
+        if (data.reply) {
+            addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
+            const formattedOutput = data.reply.replace(/\n/g, '<br>');
+            addConsoleMessage(formattedOutput, 'default');
+        } else {
+            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
+        }
+
+    } catch (error) {
+        console.error('runScript Error:', error);
+        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
+        addConsoleMessage(error.message, 'error');
+    } finally {
+        // Reset the interface
+        allButtons.forEach(btn => btn.disabled = false);
+        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
+        if (commandLoader) commandLoader.style.display = 'none';
+        
+        if (typeof MathJax !== 'undefined') {
+            try {
+                MathJax.typesetPromise();
+            } catch(e) { console.error("MathJax typesetting failed", e); }
+        }
+        if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    }
+}
