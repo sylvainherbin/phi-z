@@ -132,13 +132,39 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         
                 
                     <div class="script-card">
-                        <h3>Supernovae & Expansion History</h3>
-                        <p>Verify DFCM's fit to Type Ia Supernovae data, a key probe for the Universe's expansion history.</p>
-                        <div class="script-buttons">
-                            <button class="futuristic-button-small" onclick="runScript('SNIa.py')"><i class="fas fa-play"></i> Run Script</button>
-                            <a href="scripts/SNIa.py" class="futuristic-button-small" download><i class="fas fa-download"></i> Download</a>
-                        </div>
-                    </div>
+    <h3>Supernovae & Expansion History</h3>
+    <p>Verify DFCM's fit to Type Ia Supernovae data, a key probe for the Universe's expansion history.</p>
+
+    <div class="step-by-step">
+        <div class="step">
+            <span class="step-number">1</span>
+            <div class="step-content">
+                <h4>Load Data</h4>
+                <p>Click "Load Data (SNIa)" to load two essential data files from the Pantheon+SHOES catalog: <strong class="file-name">Pantheon+SH0ES.dat</strong>, which contains the luminosity observations, and <strong class="file-name">Pantheon+SH0ES_STAT+SYS.cov</strong>, which holds the full covariance matrix of statistical and systematic errors. Both files are critical for an accurate model fit.</p>
+            </div>
+        </div>
+        <div class="step">
+            <span class="step-number">2</span>
+            <div class="step-content">
+                <h4>Run Script</h4>
+                <p>Once both data files are loaded, the "Run Script" button will become active. Click it to execute the Python script (<strong class="file-name">SNIa.py</strong>), which will use this data to test the model's predictions.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="script-buttons">
+        <button class="futuristic-button-small" onclick="loadSNIaData()">
+            <i class="fas fa-upload"></i> Load Data (SNIa)
+        </button>
+        <button id="run-snia-script" class="futuristic-button-small" onclick="runScript('SNIa.py')" disabled>
+            <i class="fas fa-play"></i> Run Script
+        </button>
+        <a href="scripts/SNIa.py" class="futuristic-button-small" download>
+            <i class="fas fa-download"></i> Download
+        </a>
+    </div>
+</div>
+
                    
 
                     <div class="script-card">
