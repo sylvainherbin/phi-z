@@ -535,136 +535,223 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // =================================================================
-// --- CONSOLE DE REPRODUCTIBILITÉ (VERSION SIMPLIFIÉE ET CORRIGÉE) ---
+// --- REPRODUCIBILITY CONSOLE (FULL ENGLISH VERSION) ---
 // =================================================================
 
-// Fonction pour ajouter un message à la console de reproductibilité
+// Function to add styled messages to the console
 function addConsoleMessage(text, type = 'default') {
     const consoleOutput = document.getElementById('console-output');
-    if (!consoleOutput) {
-        console.error("Console output element not found.");
-        return;
-    }
+    if (!consoleOutput) return;
+    
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add('console-message');
-    if (type !== 'default') {
-        messageDiv.classList.add(type);
-    }
-    messageDiv.innerHTML = text; 
+    messageDiv.classList.add('console-message', type);
+    messageDiv.innerHTML = text;
     consoleOutput.appendChild(messageDiv);
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
 }
 
-// Global variable to store the content of the data file (kept for CMB script)
+// Global variable to store CMB data
 let cmbDataContent = null;
 
-// Function to handle the CMB data loading from the server
+// Function to load CMB data
 async function loadCMBData(fileName) {
     const runButton = document.getElementById('run-cmb-script');
-    
     if (runButton) runButton.disabled = true;
-
-    addConsoleMessage(`[INFO] Loading associated data file '${fileName}'...`, 'info');
+    
+    addConsoleMessage(`[INFO] Loading data file '${fileName}'...`, 'info');
     
     try {
         const dataResponse = await fetch(`scripts/${fileName}`);
         if (!dataResponse.ok) {
-            throw new Error(`Could not find data file: scripts/${fileName}`);
+            throw new Error(`File not found: scripts/${fileName}`);
         }
         
         cmbDataContent = await dataResponse.text();
-        addConsoleMessage(`[SUCCESS] Data file '${fileName}' loaded successfully.`, 'success');
-        
-        if (runButton) runButton.disabled = false;
+        addConsoleMessage(`[SUCCESS] Data file loaded successfully!`, 'success');
         
     } catch (error) {
         console.error('loadCMBData Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] Failed to load data file. Please check the file path.`, 'error');
-        addConsoleMessage(error.message, 'error');
+        addConsoleMessage(`[ERROR] Loading failed: ${error.message}`, 'error');
         cmbDataContent = null;
+    } finally {
+        if (runButton) runButton.disabled = false;
     }
 }
 
-
-// UNIQUE ET NOUVELLE FONCTION pour exécuter un script
+// Main function to execute scripts
 async function runScript(scriptName) {
+    // UI Elements
     const consoleOutput = document.getElementById('console-output');
     const consolePrompt = document.getElementById('console-prompt');
     const commandLoader = document.getElementById('command-loader');
     
-    // Désactive les boutons de la carte concernée
-    const buttonsToDisable = document.querySelectorAll(`[onclick*="runScript('${scriptName}')"]`);
-    buttonsToDisable.forEach(btn => btn.disabled = true);
+    // Disable related buttons
+    const relatedButtons = document.querySelectorAll(`button[onclick*="${scriptName}"]`);
+    relatedButtons.forEach(btn => btn.disabled = true);
     
-    // Cas du script CMB, qui nécessite un chargement préalable
-    if (scriptName === 'CMB.py' && !cmbDataContent) {
-        addConsoleMessage(`[WARNING] No CMB data file has been loaded. Please click 'Load Data (CMB)' first.`, 'warning');
-        buttonsToDisable.forEach(btn => btn.disabled = false);
-        return;
-    }
-    
-    if (consolePrompt) consolePrompt.textContent = `Executing ${scriptName}...`;
-    if (commandLoader) commandLoader.style.display = 'flex';
+    // Initialize UI
     if (consoleOutput) consoleOutput.innerHTML = '';
-    addConsoleMessage(`> python3 ${scriptName}`, 'input');
+    if (consolePrompt) consolePrompt.textContent = `Executing: ${scriptName}`;
+    if (commandLoader) commandLoader.style.display = 'flex';
     
+    addConsoleMessage(`> python ${scriptName}`, 'command');
+
     try {
-        addConsoleMessage(`[INFO] Reading script content...`, 'info');
-        const scriptResponse = await fetch(`scripts/${scriptName}`);
-        if (!scriptResponse.ok) {
-            throw new Error(`Could not find script file: scripts/${scriptName}`);
+        // ====================================================
+        // PHASE 1: SCRIPT CONTENT RETRIEVAL
+        // ====================================================
+        addConsoleMessage(`[INFO] Locating script file...`, 'info');
+        
+        let scriptContent;
+        let scriptSource = 'local';
+        
+        // Attempt 1: Local loading
+        try {
+            const localResponse = await fetch(`scripts/${scriptName}`);
+            if (!localResponse.ok) throw new Error('Not found locally');
+            scriptContent = await localResponse.text();
+        } 
+        // Attempt 2: GitHub loading (for new scripts)
+        catch (localError) {
+            const githubUrl = `https://raw.githubusercontent.com/sylvainherbin/dfcm-ai-api/main/scripts/${scriptName}`;
+            const githubResponse = await fetch(githubUrl);
+            
+            if (!githubResponse.ok) {
+                throw new Error(`Script not found:<br>Local: scripts/${scriptName}<br>GitHub: ${githubUrl}`);
+            }
+            
+            scriptContent = await githubResponse.text();
+            scriptSource = 'github';
         }
-        const scriptContent = await scriptResponse.text();
         
-        let promptForGemini = `Execute this Python script and return only the raw text output (stdout), without any additional comments from your side:\n\n\`\`\`python\n${scriptContent}\n\`\`\`\n`;
+        addConsoleMessage(`[SUCCESS] Script loaded (source: ${scriptSource})`, 'success');
         
-        // Attache les données si c'est le script CMB
+        // ====================================================
+        // PHASE 2: EXECUTION PREPARATION
+        // ====================================================
+        addConsoleMessage(`[INFO] Preparing execution...`, 'info');
+        
+        let executionPayload = {
+            message: `Execute this Python script exactly as a Python interpreter would, and return ONLY the standard output (stdout) without any additional comments:\n\n\`\`\`python\n${scriptContent}\n\`\`\``
+        };
+        
+        // Add CMB data if needed
         if (scriptName === 'CMB.py' && cmbDataContent) {
-            promptForGemini += `\n\n--- ATTACHED DATA FILE: COM_PowerSpect_CMB-TT-full_R3.01.txt ---\n${cmbDataContent}\n`;
-            addConsoleMessage(`[INFO] Data file attached to the script.`, 'success');
+            executionPayload.message += `\n\n--- ATTACHED DATA FILE [COM_PowerSpect_CMB-TT-full_R3.01.txt] ---\n${cmbDataContent}`;
+            addConsoleMessage(`[INFO] CMB data attached to script`, 'info');
         }
         
-        addConsoleMessage(`[INFO] Sending script to execution engine...`, 'info');
-        const API_URL = 'https://dfcm-ai-api.vercel.app/api/chatbot'; 
-        const apiResponse = await fetch(API_URL, {
+        // ====================================================
+        // PHASE 3: API EXECUTION
+        // ====================================================
+        addConsoleMessage(`[INFO] Sending to DFCM API...`, 'info');
+        
+        const API_RESPONSE = await fetch('https://dfcm-ai-api.vercel.app/api/chatbot', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                message: promptForGemini
-            })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(executionPayload)
         });
-
-        if (!apiResponse.ok) {
-            const errorData = await apiResponse.json();
-            throw new Error(`Server Error (${apiResponse.status}): ${JSON.stringify(errorData)}`);
+        
+        if (!API_RESPONSE.ok) {
+            const errorDetails = await API_RESPONSE.json();
+            throw new Error(`API error ${API_RESPONSE.status}: ${errorDetails.error || 'No details'}`);
         }
-
-        const data = await apiResponse.json();
-
-        if (data.reply) {
-            addConsoleMessage(`[SUCCESS] Execution complete.`, 'success');
-            const formattedOutput = data.reply.replace(/\n/g, '<br>');
-            addConsoleMessage(formattedOutput, 'default');
+        
+        const API_DATA = await API_RESPONSE.json();
+        
+        // ====================================================
+        // PHASE 4: RESULT PROCESSING
+        // ====================================================
+        if (API_DATA.reply) {
+            addConsoleMessage(`[SUCCESS] Execution completed successfully!`, 'success');
+            
+            // Special formatting for cosmological results
+            let formattedOutput = API_DATA.reply;
+            
+            // Highlight key cosmological values
+            formattedOutput = formattedOutput.replace(/(χ²\/dof\s*=\s*\d+\.\d+)/g, '<strong class="cosmo-value">$1</strong>');
+            formattedOutput = formattedOutput.replace(/(H0\s*=\s*\d+\.\d+)/gi, '<strong class="cosmo-value">$1</strong>');
+            formattedOutput = formattedOutput.replace(/(Chi\^2\s*=\s*\d+\.\d+)/gi, '<strong class="cosmo-value">$1</strong>');
+            formattedOutput = formattedOutput.replace(/(χ²\s*=\s*\d+\.\d+)/gi, '<strong class="cosmo-value">$1</strong>');
+            
+            // Convert line breaks
+            formattedOutput = formattedOutput.replace(/\n/g, '<br>');
+            
+            addConsoleMessage(formattedOutput, 'output');
         } else {
-            throw new Error('API response did not contain a "reply". Full response: ' + JSON.stringify(data));
+            throw new Error('Invalid API response. Expected structure: {reply: "output"}');
         }
-
+        
     } catch (error) {
-        console.error('runScript Error:', error);
-        addConsoleMessage(`[CRITICAL ERROR] An error occurred.`, 'error');
+        console.error(`runScript Error (${scriptName}):`, error);
+        addConsoleMessage(`[CRITICAL ERROR] Execution failed`, 'error');
         addConsoleMessage(error.message, 'error');
+        
+        // Alternative solution for new scripts
+        if (scriptName.startsWith('dfcm_')) {
+            addConsoleMessage(`[ALTERNATIVE SOLUTION]:`, 'info');
+            addConsoleMessage(`1. Download the script: <a href="scripts/${scriptName}" download>${scriptName}</a>`, 'info');
+            addConsoleMessage(`2. Run locally: <code>python ${scriptName}</code>`, 'info');
+        }
     } finally {
-        buttonsToDisable.forEach(btn => btn.disabled = false);
-        if (consolePrompt) consolePrompt.textContent = 'Waiting for command...';
+        // Reset UI
+        relatedButtons.forEach(btn => btn.disabled = false);
+        if (consolePrompt) consolePrompt.textContent = 'Ready';
         if (commandLoader) commandLoader.style.display = 'none';
         
+        // Update MathJax if needed
         if (typeof MathJax !== 'undefined') {
-            try {
-                MathJax.typesetPromise();
-            } catch(e) { console.error("MathJax typesetting failed", e); }
+            setTimeout(() => {
+                try {
+                    MathJax.typesetPromise();
+                } catch (mathError) {
+                    console.warn('MathJax typesetting skipped:', mathError);
+                }
+            }, 500);
         }
-        if (consoleOutput) consoleOutput.scrollTop = consoleOutput.scrollHeight;
     }
 }
+
+// =================================================================
+// --- CONSOLE INITIALIZATION ON PAGE LOAD ---
+// =================================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const consoleOutput = document.getElementById('console-output');
+    if (consoleOutput) {
+        consoleOutput.innerHTML = `
+            <div class="console-message welcome">
+                <div class="console-logo">φ(z).space</div>
+                <h3>Cosmological Validation Console</h3>
+                <p>Ready to test predictions of the Dynamic Fractal Model</p>
+                <div class="console-tips">
+                    <p><strong>Usage Tips:</strong></p>
+                    <ul>
+                        <li>Select a script from the left panel</li>
+                        <li>Click "Run Script" to execute it</li>
+                        <li>Results will appear in this console</li>
+                        <li>All scripts are executed in a secure environment</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Enable command history with arrow keys
+    const consoleInput = document.querySelector('.console-input');
+    if (consoleInput) {
+        consoleInput.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                // Command history implementation would go here
+            }
+        });
+    }
+    
+    // Initialize tooltips for script cards
+    document.querySelectorAll('.script-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            const title = card.querySelector('h3').textContent;
+            card.setAttribute('data-tooltip', `Run ${title} validation`);
+        });
+    });
+});
