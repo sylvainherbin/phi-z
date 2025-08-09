@@ -1167,7 +1167,8 @@ footer {
     margin-top: 15px;
 }
 
-.futuristic-button-small {
+.futuristic-button-small, 
+a.futuristic-button-small {
     background: var(--secondary);
     border: 1px solid var(--accent);
     color: var(--accent-light);
